@@ -24,7 +24,7 @@ public class VueMainGame {
         GridBagConstraints gbc = new GridBagConstraints();
 
         VueLeft vueLeft = new VueLeft(this.game);
-        VueRight vueRight = new VueRight();
+        VueRight vueRight = new VueRight(this.game);
         gbc.gridx = 0;
         gbc.gridy = 0;
         panel.add(vueLeft, gbc);

@@ -37,6 +37,8 @@ public class MouseListenerVueLeft implements MouseListener {
                     return;
                 }
             }
+
+            this.game.setSelected(null);
         }else if(e.getButton() == MouseEvent.BUTTON3) {
             ModelUnit helper = this.game.getSelected();
             if (helper != null) {

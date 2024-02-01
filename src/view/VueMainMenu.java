@@ -16,16 +16,16 @@ public class VueMainMenu extends JPanel {
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setPreferredSize(new Dimension(1600, 900));
 
-        this.bgImage = new ImageIcon("src/assets/MainMenu/bg.png").getImage();
+        this.bgImage = new ImageIcon("src/assets/mainmenu/bg.png").getImage();
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        ImageIcon startButtonIcon = new ImageIcon("src/assets/MainMenu/btnStart.png");
+        ImageIcon startButtonIcon = new ImageIcon("src/assets/mainmenu/btnStart.png");
         JLabel startButton = new JLabel(startButtonIcon);
         startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         startButton.addMouseListener(new StartButtonListener(this.frame));
 
-        ImageIcon quitButtonIcon = new ImageIcon("src/assets/MainMenu/btnQuit.png");
+        ImageIcon quitButtonIcon = new ImageIcon("src/assets/mainmenu/btnQuit.png");
         JLabel quitButton = new JLabel(quitButtonIcon);
         quitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         quitButton.addMouseListener(new QuitButtonListener(this.frame));

@@ -1,0 +1,9 @@
+Java Project for the course "Programmation Concurrente et Interfaces Interactives" at University Paris Saclay
+
+Description:
+
+L’objectif du projet est de réaliser un jeu vidéo librement inspiré des jeux de stratégie en temps réelle (Dune 2000, Age of Empire, Warcraft, Starcraft…). Le joueur contrôle les actions d’unités qui se déplacent sur une carte vue du dessus. Il donne des ordres aux unités afin d’atteindre un objectif, économique ou militaire. Chaque unité sur la carte a sa propre temporalité (vitesse de déplacement, vitesse de construction d’un bâtiment ou de production de nouvelles unités) ce qui rend ce type de jeux bien adapté à nos objectifs pédagogique : programmation concurrente, interface interactive… et gestion de projet !
+
+Pour ne pas avoir à gérer les problématiques réseaux ou IA de ces jeux, nous ferons une variante mono-joueur dans laquelle il s’agit d’atteindre un objectif économique en faisant face à un environnement hostile. En cela, nous nous rapprochons plus des jeux de simulation (SimCity & co), des jeux de gestion du temps (Cooking Fever). Nous garderons toutefois les mécanismes de déplacement des unités, de panneau de contrôle propre à chaque unité, de construction et de collecte de ressource, et de « temps réel » qui nécessite de suivre ce que fait chaque unité (ce qui nous éloigne un peu des jeux « Idle » devenus populaires sur plate-formes mobiles depuis quelques années).
+
+La thématique du jeu proposée est celle d’une jardinerie : le joueur contrôle des jardiniers qui plantent et récoltent des fleurs de différent type pour composer des bouquets. Les bouquets rapportent de l’argent qui permettent d’embaucher plus de jardiniers ou d’acheter de nouvelles graines pour faire plus de bouquets. Malheureusement, les lapins du voisinage raffolent des fleurs et vous devrez les empêcher de venir ruiner votre jardinerie.

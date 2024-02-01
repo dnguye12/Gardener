@@ -7,16 +7,23 @@ public class ModelGardener extends ModelUnit{
     private final int SPEED = 5;
 
     public enum Status {
-        IDLE,
-        MOVING,
-        PLANTING,
-        HARVESTING,
-        SELLING
+        IDLING("Idling"),
+        MOVING("Moving");
+
+        private final String name;
+
+        Status(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return this.name;
+        }
     }
 
     public ModelGardener(int id, Point position, Point dest) {
         super(id, position, dest);
-        this.status = Status.IDLE;
+        this.status = Status.IDLING;
     }
 
     public void setPosition(Point position) {
@@ -42,7 +49,7 @@ public class ModelGardener extends ModelUnit{
 
         if(distance <= this.SPEED) {
             this.position = new Point(this.dest);
-            this.status = Status.IDLE;
+            this.status = Status.IDLING;
         }else {
             double stepX = (dx / distance) * this.SPEED;
             double stepY = (dy / distance) * this.SPEED;
