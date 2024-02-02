@@ -21,7 +21,15 @@ public abstract class ModelUnit {
         return this.position;
     }
 
+    public void setPosition(Point position) {
+        this.position = position;
+    }
+
     public Point getDest() {
         return this.dest;
+    }
+
+    public void setDest(Point dest) {
+        this.dest = dest;
     }
 }

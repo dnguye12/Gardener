@@ -3,6 +3,7 @@ package view;
 //import control.maingame.Redessine;
 import control.maingame.Redessine;
 import control.maingame.ThreadGardener;
+import control.maingame.ThreadPlant;
 import model.ModelGame;
 
 import javax.swing.*;
@@ -36,6 +37,7 @@ public class VueMainGame {
 
         Redessine redessine = new Redessine(vueLeft);
         ThreadGardener threadGardener = new ThreadGardener(this.game.getGardeners());
+        ThreadPlant threadPlant = new ThreadPlant(this.game.getPlants());
 
         this.frame.pack();
         this.frame.setLocationRelativeTo(null);
@@ -43,5 +45,6 @@ public class VueMainGame {
 
         redessine.start();
         threadGardener.start();
+        threadPlant.start();
     }
 }

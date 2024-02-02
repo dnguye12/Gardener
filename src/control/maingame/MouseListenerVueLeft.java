@@ -2,6 +2,7 @@ package control.maingame;
 
 import model.ModelGame;
 import model.ModelGardener;
+import model.ModelPlant;
 import model.ModelUnit;
 
 import java.awt.*;
@@ -16,7 +17,6 @@ public class MouseListenerVueLeft implements MouseListener {
     }
     @Override
     public void mouseClicked(MouseEvent e) {
-
     }
 
     @Override
@@ -34,6 +34,16 @@ public class MouseListenerVueLeft implements MouseListener {
                 double dy = Math.abs(center.y - e.getPoint().y);
                 if (dx * dx + dy * dy <= 50 * 50) {
                     this.game.setSelected(gardener);
+                    return;
+                }
+            }
+            ArrayList<ModelPlant> plants = this.game.getPlants();
+            for(ModelPlant plant : plants) {
+                Point center = plant.getPosition();
+                double dx = Math.abs(center.x - e.getPoint().x);
+                double dy = Math.abs(center.y - e.getPoint().y);
+                if(dx * dx + dy * dy <= 50 * 50) {
+                    this.game.setSelected(plant);
                     return;
                 }
             }

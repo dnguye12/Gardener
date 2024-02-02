@@ -1,11 +1,13 @@
 package model;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class ModelGardener extends ModelUnit{
     private Status status;
     private final int SPEED = 5;
 
+    private ModelGame game;
     public enum Status {
         IDLING("Idling"),
         MOVING("Moving");
@@ -21,9 +23,10 @@ public class ModelGardener extends ModelUnit{
         }
     }
 
-    public ModelGardener(int id, Point position, Point dest) {
+    public ModelGardener(int id, Point position, Point dest, ModelGame game) {
         super(id, position, dest);
         this.status = Status.IDLING;
+        this.game = game;
     }
 
     public void setPosition(Point position) {
@@ -56,6 +59,13 @@ public class ModelGardener extends ModelUnit{
 
             this.position = new Point((int) (this.position.x + stepX), (int) (this.position.y + stepY));
             this.status = Status.MOVING;
+        }
+    }
+
+    public void plant() {
+        if(this.game.getMoney() >= 10) {
+            this.game.setMoney(this.game.getMoney() - 10);
+            this.game.addPlant(new ModelPlant(IdGen.generatePlantId(), this.position, ModelPlant.PlantType.WHEAT));
         }
     }
 }
