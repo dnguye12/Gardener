@@ -37,7 +37,7 @@ public class VueMainGame {
 
         Redessine redessine = new Redessine(vueLeft);
         ThreadGardener threadGardener = new ThreadGardener(this.game.getGardeners());
-        ThreadPlant threadPlant = new ThreadPlant(this.game.getPlants());
+        ThreadPlant threadPlant = new ThreadPlant(this.game);
 
         this.frame.pack();
         this.frame.setLocationRelativeTo(null);

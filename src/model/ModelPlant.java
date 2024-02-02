@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class ModelPlant extends ModelUnit{
     public enum PlantType {
-        WHEAT("wheat" ,5, 5);
+        WHEAT("wheat" ,5, 4);
         private final String name;
         private final int maxHP;
         private final int stageCount;
@@ -60,7 +60,7 @@ public class ModelPlant extends ModelUnit{
     }
 
     public boolean isAlive() {
-        return this.hp > 0 || this.stage < this.type.getStageCount();
+        return this.hp > 0 && this.stage < this.type.getStageCount();
     }
 
     public int getHP() {
@@ -69,5 +69,9 @@ public class ModelPlant extends ModelUnit{
 
     public void setHP(int hp) {
         this.hp = hp;
+    }
+
+    public int getGROWTHSPEED() {
+        return this.GROWTHSPEED;
     }
 }

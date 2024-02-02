@@ -108,6 +108,8 @@ public class VueRight extends JPanel {
 
         Image IMGButton = this.toolkit.getImage("src/assets/maingame/plant/button.png");
         x = (this.getWidth() - IMGButton.getWidth(this)) / 2;
+
+        //Plant hp
         int hp = plant.getHP();
         int maxHP = plant.getType().getMaxHP();
         Image IMGHearth0 = this.toolkit.getImage("src/assets/maingame/plant/hearth0.png");
@@ -124,10 +126,31 @@ public class VueRight extends JPanel {
             }
             xHeart += IMGHearth1.getWidth(this) + 5;
         }
+        y += IMGButton.getHeight(this) + 10;
 
+        //Growth state progress
+        int growth = plant.getCurrentStage() / (plant.getGROWTHSPEED() / 10);
+        int stage = plant.getStage();
+        int stageMax = plant.getType().getStageCount();
+        g.drawImage(IMGButton, x , y , this);
         Image IMGBar0 = this.toolkit.getImage("src/assets/maingame/plant/bar0.png");
         Image IMGBar1 = this.toolkit.getImage("src/assets/maingame/plant/bar1.png");
         Image IMGBar2 = this.toolkit.getImage("src/assets/maingame/plant/bar2.png");
+        xHeart = (this.getWidth() - IMGBar0.getWidth(this) * 10 - 2 * 10) /2;
+        yHeart = y + (IMGButton.getHeight(this) - IMGBar0.getHeight(this)) / 2;
+        for(int i = 1; i <= 10; i++) {
+            if (i <= growth) {
+                if(stage == stageMax - 1) {
+                    g.drawImage(IMGBar2, xHeart, yHeart, this);
+                }else {
+                    g.drawImage(IMGBar1, xHeart, yHeart, this);
+                }
+            }else {
+                g.drawImage(IMGBar0, xHeart, yHeart, this);
+            }
+            xHeart += IMGBar0.getWidth(this) + 2;
+            }
 
-    }
+        }
 }
+

@@ -7,6 +7,8 @@ public abstract class ModelUnit {
     protected Point position;
     protected Point dest;
 
+    protected boolean isSelected;
+
     public ModelUnit(int id, Point position, Point dest) {
         this.id = id;
         this.position = position;
@@ -31,5 +33,13 @@ public abstract class ModelUnit {
 
     public void setDest(Point dest) {
         this.dest = dest;
+    }
+
+    public boolean isSelected() {
+        return this.isSelected;
+    }
+
+    public void setSelected(boolean isSelected) {
+        this.isSelected = isSelected;
     }
 }
