@@ -21,14 +21,15 @@ public class ThreadPlant extends Thread{
             ArrayList<ModelPlant> toRemove = new ArrayList<>();
             for (ModelPlant plant : this.plants) {
                 plant.grow();
-                System.out.println(plant.getStage() + " " + plant.getCurrentStage() + " " + plant.getType().getStageCount() + " " + plant.isAlive());
                 if(!plant.isAlive()) {
-                    System.out.println("Plant is dead");
                     toRemove.add(plant);
                     if(plant.isSelected()) {
                         plant.setSelected(false);
                         this.game.setSelected(null);
                     }
+                }
+                else if(plant.canBeHarvested()) {
+                    this.game.addPlantsToHarvest(plant);
                 }
             }
             this.plants.removeAll(toRemove);

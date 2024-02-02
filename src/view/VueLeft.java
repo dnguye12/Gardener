@@ -35,12 +35,31 @@ public class VueLeft extends JPanel {
 
     public void drawGardeners(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(Color.RED);
+
 
         ArrayList<ModelGardener> gardeners = this.game.getGardeners();
         for(ModelGardener gardener : gardeners) {
             Point position = gardener.getPosition();
+            if(gardener.isSelected()) {
+                g2.setStroke(new BasicStroke(1));
+                g2.setColor(Color.BLUE);
+
+                int lineOfSightRadius = gardener.getRadius();
+
+                g2.drawOval(position.x + 25 - lineOfSightRadius, position.y + 25 - lineOfSightRadius,
+                        lineOfSightRadius * 2, lineOfSightRadius * 2);
+
+                Color transparentColor = new Color(0, 0, 0, 64); // Semi-transparent black
+                g2.setColor(transparentColor);
+
+                g2.fillOval(position.x + 25 - lineOfSightRadius, position.y + 25 - lineOfSightRadius,
+                        lineOfSightRadius * 2, lineOfSightRadius * 2);
+            }
+
+            g2.setColor(Color.BLUE);
             g2.fillOval(position.x, position.y, 50, 50);
+
+
         }
     }
 

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class ModelGardener extends ModelUnit{
     private Status status;
     private final int SPEED = 5;
-
+    private final int RADIUS = 100;
     private ModelGame game;
     public enum Status {
         IDLING("Idling"),
@@ -45,6 +45,10 @@ public class ModelGardener extends ModelUnit{
         this.status = status;
     }
 
+    public int getRadius() {
+        return this.RADIUS;
+    }
+
     public void move() {
         int dx = this.dest.x - this.position.x;
         int dy = this.dest.y - this.position.y;
@@ -67,5 +71,23 @@ public class ModelGardener extends ModelUnit{
             this.game.setMoney(this.game.getMoney() - 10);
             this.game.addPlant(new ModelPlant(IdGen.generatePlantId(), this.position, ModelPlant.PlantType.WHEAT));
         }
+    }
+
+    public void harvest() {
+        ArrayList<ModelPlant> plants = this.game.getPlantsToHarvest();
+        System.out.println(plants.size());
+        ArrayList<ModelPlant> helper = new ArrayList<ModelPlant>();
+        for(ModelPlant plant : plants) {
+            if(this.position.distance(plant.getPosition()) <= this.RADIUS) {
+                this.game.setMoney(this.game.getMoney() + 10);
+                this.game.setScore(this.game.getScore() + 10);
+                helper.add(plant);
+            }
+        }
+        for(ModelPlant plant : helper) {
+            this.game.removePlant(plant.getId());
+        }
+        plants.removeAll(helper);
+        this.game.setPlantsToHarvest(plants);
     }
 }

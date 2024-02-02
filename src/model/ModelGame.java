@@ -7,6 +7,7 @@ public class ModelGame {
     private ModelUnit selected;
     private ArrayList<ModelGardener> gardeners;
     private ArrayList<ModelPlant> plants;
+    private ArrayList<ModelPlant> plantsToHarvest;
     private int money;
     private int score;
 
@@ -16,6 +17,7 @@ public class ModelGame {
         this.gardeners.add(new ModelGardener(2, new Point(400, 400), new Point(400, 400), this));
 
         this.plants = new ArrayList<ModelPlant>();
+        this.plantsToHarvest = new ArrayList<ModelPlant>();
 
         this.selected = null;
         this.money = 10;
@@ -52,6 +54,31 @@ public class ModelGame {
 
     public ArrayList<ModelPlant> getPlants() {
         return this.plants;
+    }
+    public void removePlant(int id) {
+        for(ModelPlant p : this.plants) {
+            if(p.getId() == id) {
+                this.plants.remove(p);
+                return;
+            }
+        }
+    }
+    public ArrayList<ModelPlant> getPlantsToHarvest() {
+        return this.plantsToHarvest;
+    }
+
+    public void addPlantsToHarvest(ModelPlant plant) {
+        int id = plant.getId();
+        for(ModelPlant p : this.plantsToHarvest) {
+            if(p.getId() == id) {
+                return;
+            }
+        }
+        this.plantsToHarvest.add(plant);
+    }
+
+    public void setPlantsToHarvest(ArrayList<ModelPlant> plantsToHarvest) {
+        this.plantsToHarvest = plantsToHarvest;
     }
 
     public void addPlant(ModelPlant plant) {

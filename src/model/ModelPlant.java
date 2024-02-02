@@ -30,10 +30,10 @@ public class ModelPlant extends ModelUnit{
     private int stage;
     private int currentStage;
     private int hp;
-    private final int GROWTHSPEED = 200;
+    private final int GROWTHSPEED = 2000;
     public ModelPlant(int id, Point position, PlantType type) {
         super(id, position, position);
-        this.stage = 0;
+        this.stage = 3;
         this.currentStage = 0;
         this.type = type;
         this.hp = this.type.getMaxHP();
@@ -73,5 +73,9 @@ public class ModelPlant extends ModelUnit{
 
     public int getGROWTHSPEED() {
         return this.GROWTHSPEED;
+    }
+
+    public boolean canBeHarvested() {
+        return this.stage == this.type.getStageCount() - 1;
     }
 }

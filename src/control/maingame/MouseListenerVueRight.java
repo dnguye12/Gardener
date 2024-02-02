@@ -40,7 +40,7 @@ public class MouseListenerVueRight implements MouseListener {
                 if(e.getY() >= 307 && e.getY() <= 408) {
                     gardener.plant();
                 }else if(e.getY() >= 418 && e.getY() <= 519) {
-                    System.out.println("Recolter");
+                    gardener.harvest();
                 }else if(e.getY() >= 529 && e.getY() <= 640) {
                     System.out.println("Promouvoir");
                 }
