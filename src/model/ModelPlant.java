@@ -4,14 +4,16 @@ import java.awt.*;
 
 public class ModelPlant extends ModelUnit{
     public enum PlantType {
-        WHEAT("wheat" ,5, 4);
+        WHEAT("wheat" ,5, 4, 500);
         private final String name;
         private final int maxHP;
         private final int stageCount;
-        PlantType(String name, int maxHP , int stageCount) {
+        private final int growspeed;
+        PlantType(String name, int maxHP , int stageCount, int growspeed) {
             this.name = name;
             this.maxHP = maxHP;
             this.stageCount = stageCount;
+            this.growspeed = growspeed;
         }
         public String getName() {
             return this.name;
@@ -22,26 +24,34 @@ public class ModelPlant extends ModelUnit{
         public int getStageCount() {
             return this.stageCount;
         }
+        public int getGrowspeed() {
+            return this.growspeed;
+        }
         public String getPlantImage(int stage) {
             return "src/assets/maingame/plant/" + this.name + stage + ".png";
+        }
+
+        public String getStateIcon(int stage) {
+            return "src/assets/maingame/plant/state" + stage + ".png";
         }
     }
     private final PlantType type;
     private int stage;
     private int currentStage;
     private int hp;
-    private final int GROWTHSPEED = 2000;
+    private int growspeed;
     public ModelPlant(int id, Point position, PlantType type) {
         super(id, position, position);
-        this.stage = 3;
+        this.stage = 0;
         this.currentStage = 0;
         this.type = type;
         this.hp = this.type.getMaxHP();
+        this.growspeed = this.type.getGrowspeed();
     }
 
     public void grow() {
         this.currentStage++;
-        if(this.currentStage >= GROWTHSPEED) {
+        if(this.currentStage >= this.growspeed) {
             this.currentStage = 0;
             this.stage++;
         }
@@ -71,8 +81,8 @@ public class ModelPlant extends ModelUnit{
         this.hp = hp;
     }
 
-    public int getGROWTHSPEED() {
-        return this.GROWTHSPEED;
+    public int getGrowspeed() {
+        return this.growspeed;
     }
 
     public boolean canBeHarvested() {

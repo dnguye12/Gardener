@@ -1,13 +1,16 @@
 package model;
 
 import java.awt.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class ModelGame {
     private ModelUnit selected;
     private ArrayList<ModelGardener> gardeners;
     private ArrayList<ModelPlant> plants;
     private ArrayList<ModelPlant> plantsToHarvest;
+    private ArrayList<ModelRabbit> rabbits;
     private int money;
     private int score;
 
@@ -18,6 +21,8 @@ public class ModelGame {
 
         this.plants = new ArrayList<ModelPlant>();
         this.plantsToHarvest = new ArrayList<ModelPlant>();
+
+        this.rabbits = new ArrayList<ModelRabbit>();
 
         this.selected = null;
         this.money = 10;
@@ -83,5 +88,31 @@ public class ModelGame {
 
     public void addPlant(ModelPlant plant) {
         this.plants.add(plant);
+    }
+
+    public ArrayList<ModelRabbit> getRabbits() {
+        return this.rabbits;
+    }
+    public void addRabbit() {
+        Random rand = new Random();
+
+        // 0 = up, 1 = right, 2 = down, 3 = left
+        int dir = rand.nextInt(4);
+        int x,y;
+        if(dir == 0) {
+            x = rand.nextInt(1200);
+            y = 0;
+        }else if(dir == 1) {
+            x = 1200;
+            y = rand.nextInt(900);
+        }else if(dir == 2) {
+            x = rand.nextInt(1200);
+            y = 900;
+        }else {
+            x = 0;
+            y = rand.nextInt(900);
+        }
+        Point point = new Point(x, y);
+        this.rabbits.add(new ModelRabbit(IdGen.generateRabbitId(), point, point, this));
     }
 }

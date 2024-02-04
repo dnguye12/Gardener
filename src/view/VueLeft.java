@@ -4,9 +4,9 @@ import control.maingame.MouseListenerVueLeft;
 import model.ModelGame;
 import model.ModelGardener;
 import model.ModelPlant;
+import model.ModelRabbit;
 
 import javax.swing.*;
-import javax.tools.Tool;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -28,6 +28,7 @@ public class VueLeft extends JPanel {
 
         this.drawPlants(g);
         this.drawGardeners(g);
+        this.drawRabbit(g);
 
         this.drawCoin(g);
         this.drawScore(g);
@@ -35,7 +36,6 @@ public class VueLeft extends JPanel {
 
     public void drawGardeners(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
-
 
         ArrayList<ModelGardener> gardeners = this.game.getGardeners();
         for(ModelGardener gardener : gardeners) {
@@ -100,5 +100,18 @@ public class VueLeft extends JPanel {
         int numberX = 225;
         int numberY = y + ((IMGScoreSign.getHeight(this) - fm.getHeight()) / 2) + fm.getAscent() + 6;
         g.drawString(score, numberX, numberY);
+    }
+
+    public void drawRabbit(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g;
+
+        ArrayList<ModelRabbit> rabbits = this.game.getRabbits();
+
+        for(ModelRabbit rabbit : rabbits) {
+            Point position = rabbit.getPosition();
+            g2.setColor(Color.RED);
+            g2.fillOval(position.x, position.y, 50, 50);
+        }
+
     }
 }

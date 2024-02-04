@@ -28,15 +28,6 @@ public class ModelGardener extends ModelUnit{
         this.status = Status.IDLING;
         this.game = game;
     }
-
-    public void setPosition(Point position) {
-        this.position = position;
-    }
-
-    public void setDest(Point dest) {
-        this.dest = dest;
-    }
-
     public Status getStatus() {
         return this.status;
     }

@@ -8,7 +8,6 @@ import model.ModelUnit;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 
 public class VueRight extends JPanel {
     private final Toolkit toolkit;
@@ -129,14 +128,21 @@ public class VueRight extends JPanel {
         y += IMGButton.getHeight(this) + 10;
 
         //Growth state progress
-        int growth = plant.getCurrentStage() / (plant.getGROWTHSPEED() / 10);
+        int growth = plant.getCurrentStage() / (plant.getGrowspeed() / 10);
         int stage = plant.getStage();
         int stageMax = plant.getType().getStageCount();
         g.drawImage(IMGButton, x , y , this);
         Image IMGBar0 = this.toolkit.getImage("src/assets/maingame/plant/bar0.png");
         Image IMGBar1 = this.toolkit.getImage("src/assets/maingame/plant/bar1.png");
         Image IMGBar2 = this.toolkit.getImage("src/assets/maingame/plant/bar2.png");
-        xHeart = (this.getWidth() - IMGBar0.getWidth(this) * 10 - 2 * 10) /2;
+
+        Image IMGState0 = this.toolkit.getImage(plant.getType().getStateIcon(stage));
+        Image IMGState1 = this.toolkit.getImage(plant.getType().getStateIcon(stage + 1));
+        xHeart = (this.getWidth() - IMGBar0.getWidth(this) * 10 - 2 * 10 - IMGState0.getWidth(this) * 2) /2;
+        yHeart = y + (IMGButton.getHeight(this) - IMGState0.getHeight(this)) / 2;
+        g.drawImage(IMGState0, xHeart, yHeart, this);
+        g.drawImage(IMGState1, xHeart + IMGState0.getWidth(this) + 2 + IMGBar0.getWidth(this) * 10 + 2 * 10, yHeart, this);
+        xHeart += IMGState0.getWidth(this) + 2;
         yHeart = y + (IMGButton.getHeight(this) - IMGBar0.getHeight(this)) / 2;
         for(int i = 1; i <= 10; i++) {
             if (i <= growth) {
@@ -150,7 +156,6 @@ public class VueRight extends JPanel {
             }
             xHeart += IMGBar0.getWidth(this) + 2;
             }
-
         }
 }
 
