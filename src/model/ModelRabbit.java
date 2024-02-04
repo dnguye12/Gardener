@@ -4,7 +4,6 @@ import java.awt.*;
 import java.util.Random;
 
 public class ModelRabbit extends ModelUnit{
-    private int timeLeft;
     private final int SPEED = 5;
     private final int MEMSPAN = 1500;
     private ModelGame game;
@@ -12,11 +11,13 @@ public class ModelRabbit extends ModelUnit{
 
     private long lastStateChangeTime;
     private long lastMoveTime;
+    private int dieTime;
 
     public enum Status {
         IDLING("Idling"),
         MOVING("Moving"),
-        FLEEING("Fleeing");
+        FLEEING("Fleeing"),
+        QUITING("Quiting");
 
         private final String name;
 
@@ -31,9 +32,9 @@ public class ModelRabbit extends ModelUnit{
 
     public ModelRabbit(int id, Point position, Point dest, ModelGame game) {
         super(id, position, dest);
-        this.timeLeft = 0;
         this.game = game;
         this.status = Status.IDLING;
+        this.dieTime = 8000;
 
         this.lastMoveTime = System.currentTimeMillis();
         this.lastStateChangeTime = System.currentTimeMillis();
@@ -41,6 +42,14 @@ public class ModelRabbit extends ModelUnit{
 
     public Status getStatus() {
         return this.status;
+    }
+
+    public int getDieTime() {
+        return this.dieTime;
+    }
+
+    public void setDieTime(int dieTime) {
+        this.dieTime = dieTime;
     }
 
     private ModelPlant findNearestPlant() {
@@ -87,40 +96,54 @@ public class ModelRabbit extends ModelUnit{
 
     public void move() {
         long currentTime = System.currentTimeMillis();
-        if(isWithinLineOfSight()) {
-            this.status = Status.FLEEING;
-            this.dest= this.findNearestCorner();
-            this.lastStateChangeTime = currentTime;
-        }
-        if(this.status == Status.FLEEING) {
-            if(this.position.equals(this.dest) || currentTime - this.lastStateChangeTime > this.MEMSPAN) {
-                this.status = Status.IDLING;
+        if (this.dieTime > 0 && this.status != Status.QUITING) {
+            if (isWithinLineOfSight()) {
+                this.status = Status.FLEEING;
+                this.dest = this.findNearestCorner();
                 this.lastStateChangeTime = currentTime;
             }
-        }else if(status == Status.MOVING && currentTime - this.lastStateChangeTime > this.MEMSPAN) {
-            this.status = Status.IDLING;
-            this.lastStateChangeTime = currentTime;
-        }else if(status == Status.IDLING && currentTime - this.lastStateChangeTime > this.MEMSPAN) {
-            ModelPlant nearestPlant = this.findNearestPlant();
-            if (nearestPlant != null) {
-                this.dest = nearestPlant.getPosition();
-            } else {
-                Random rand = new Random();
-                this.dest = new Point(rand.nextInt(1150) , rand.nextInt(850));
-            }
-            this.status = Status.MOVING;
-            this.lastStateChangeTime = currentTime;
-        }
-            if (status != Status.IDLING) {
-                int dx = dest.x - position.x;
-                int dy = dest.y - position.y;
-                double dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist > SPEED) {
-                    double stepX = (dx / dist) * SPEED;
-                    double stepY = (dy / dist) * SPEED;
-                    position = new Point((int) (position.x + stepX), (int) (position.y + stepY));
+            if (this.status == Status.FLEEING) {
+                if (this.position.equals(this.dest) || currentTime - this.lastStateChangeTime > this.MEMSPAN) {
+                    this.status = Status.IDLING;
+                    this.lastStateChangeTime = currentTime;
                 }
+            } else if (status == Status.MOVING && currentTime - this.lastStateChangeTime > this.MEMSPAN) {
+                this.status = Status.IDLING;
+                this.lastStateChangeTime = currentTime;
+            } else if (status == Status.IDLING && currentTime - this.lastStateChangeTime > this.MEMSPAN) {
+                ModelPlant nearestPlant = this.findNearestPlant();
+                if (nearestPlant != null) {
+                    this.dest = nearestPlant.getPosition();
+                } else {
+                    Random rand = new Random();
+                    this.dest = new Point(rand.nextInt(1150), rand.nextInt(850));
+                }
+                this.status = Status.MOVING;
+                this.lastStateChangeTime = currentTime;
             }
-            lastMoveTime = currentTime;
+
+        } else {
+            this.status = Status.QUITING;
+            this.dest = this.findNearestCorner();
+        }
+        if (this.status != Status.IDLING) {
+            int dx = dest.x - position.x;
+            int dy = dest.y - position.y;
+            double dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist > SPEED) {
+                double stepX = (dx / dist) * SPEED;
+                double stepY = (dy / dist) * SPEED;
+                position = new Point((int) (position.x + stepX), (int) (position.y + stepY));
+            }
+        }
+        lastMoveTime = currentTime;
+    }
+
+    public boolean canBeRemoved() {
+        if(this.status == Status.QUITING) {
+            double dist = this.position.distance(this.dest);
+            return dist <= 6;
+        }
+        return false;
     }
 }

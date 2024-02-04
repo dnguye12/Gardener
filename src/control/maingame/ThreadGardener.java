@@ -2,7 +2,6 @@ package control.maingame;
 
 import model.ModelGardener;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ThreadGardener extends Thread {

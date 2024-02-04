@@ -66,8 +66,6 @@ public class MouseListenerVueLeft implements MouseListener {
                     }
                     rabbit.setSelected(true);
                     this.game.setSelected(rabbit);
-                    System.out.println(rabbit.getStatus());
-                    System.out.println(rabbit.getDest());
                     return;
                 }
             }

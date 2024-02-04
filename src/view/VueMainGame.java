@@ -37,7 +37,7 @@ public class VueMainGame {
         ThreadGardener threadGardener = new ThreadGardener(this.game.getGardeners());
         ThreadPlant threadPlant = new ThreadPlant(this.game);
         RabbitGen rabbitGen = new RabbitGen(this.game);
-        ThreadRabbit threadRabbit = new ThreadRabbit(this.game.getRabbits());
+        ThreadRabbit threadRabbit = new ThreadRabbit(this.game);
 
         this.frame.pack();
         this.frame.setLocationRelativeTo(null);

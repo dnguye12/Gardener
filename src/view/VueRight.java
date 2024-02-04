@@ -1,10 +1,7 @@
 package view;
 
 import control.maingame.MouseListenerVueRight;
-import model.ModelGame;
-import model.ModelGardener;
-import model.ModelPlant;
-import model.ModelUnit;
+import model.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,6 +34,8 @@ public class VueRight extends JPanel {
             }
             else if(selected instanceof ModelPlant) {
                 this.drawPlants(g);
+            }else if(selected instanceof ModelRabbit) {
+                this.drawRabbit(g);
             }
         }else {
             this.drawNull(g);
@@ -156,6 +155,32 @@ public class VueRight extends JPanel {
             }
             xHeart += IMGBar0.getWidth(this) + 2;
             }
+        }
+
+        public void drawRabbit(Graphics g) {
+            int x, y;
+            ModelRabbit rabbit = (ModelRabbit)this.game.getSelected();
+            Font font = FontGetter.getFont().deriveFont(28f);
+
+            Image IMGAvatar = this.toolkit.getImage("src/assets/maingame/cow/cowtalk.png");
+            x = (this.getWidth() - IMGAvatar.getWidth(this)) / 2;
+            y = 50;
+            g.drawImage(IMGAvatar, x, y, this);
+            y += IMGAvatar.getHeight(this) + 50;
+
+            Image IMGAction0 = this.toolkit.getImage("src/assets/maingame/gardeneraction0.png");
+            x = (this.getWidth() - IMGAction0.getWidth(this)) / 2;
+            g.drawImage(IMGAction0, x, y, this);
+            g.setFont(font);
+            g.setColor(new Color(107,75,91));
+            String status = rabbit.getStatus().getName().toUpperCase();
+            FontMetrics fm = g.getFontMetrics(font);
+            int numberX = x + (IMGAction0.getWidth(this) - fm.stringWidth(status)) / 2;
+            int numberY = y + ((IMGAction0.getHeight(this) - fm.getHeight()) / 2) + fm.getAscent() + 5;
+            g.drawString(status, numberX, numberY);
+            y += IMGAction0.getHeight(this) + 10;
+            y += IMGAvatar.getHeight(this) + 50;
+
         }
 }
 
