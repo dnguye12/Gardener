@@ -1,14 +1,12 @@
 package control.maingame;
 
-import model.ModelGame;
-import model.ModelGardener;
-import model.ModelPlant;
-import model.ModelUnit;
+import model.*;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MouseListenerVueLeft implements MouseListener {
     private ModelGame game;
@@ -28,8 +26,8 @@ public class MouseListenerVueLeft implements MouseListener {
     public void mouseReleased(MouseEvent e) {
         ModelUnit selected = this.game.getSelected();
         if(e.getButton() == MouseEvent.BUTTON1) {
-            ArrayList<ModelGardener> gardeners = this.game.getGardeners();
-            for (ModelGardener gardener : gardeners) {
+            HashMap<Integer, ModelGardener> gardeners = this.game.getGardeners();
+            for (ModelGardener gardener : gardeners.values()) {
                 Point center = gardener.getPosition();
                 double dx = Math.abs(center.x - e.getPoint().x);
                 double dy = Math.abs(center.y - e.getPoint().y);
@@ -42,8 +40,8 @@ public class MouseListenerVueLeft implements MouseListener {
                     return;
                 }
             }
-            ArrayList<ModelPlant> plants = this.game.getPlants();
-            for(ModelPlant plant : plants) {
+            HashMap<Integer, ModelPlant> plants = this.game.getPlants();
+            for(ModelPlant plant : plants.values()) {
                 Point center = plant.getPosition();
                 double dx = Math.abs(center.x - e.getPoint().x);
                 double dy = Math.abs(center.y - e.getPoint().y);
@@ -53,6 +51,23 @@ public class MouseListenerVueLeft implements MouseListener {
                     }
                     plant.setSelected(true);
                     this.game.setSelected(plant);
+                    return;
+                }
+            }
+
+            HashMap<Integer, ModelRabbit> rabbits = this.game.getRabbits();
+            for(ModelRabbit rabbit : rabbits.values()) {
+                Point center = rabbit.getPosition();
+                double dx = Math.abs(center.x - e.getPoint().x);
+                double dy = Math.abs(center.y - e.getPoint().y);
+                if(dx * dx + dy * dy <= 50 * 50) {
+                    if(selected != null) {
+                        selected.setSelected(false);
+                    }
+                    rabbit.setSelected(true);
+                    this.game.setSelected(rabbit);
+                    System.out.println(rabbit.getStatus());
+                    System.out.println(rabbit.getDest());
                     return;
                 }
             }

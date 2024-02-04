@@ -3,26 +3,27 @@ package model;
 import java.awt.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 public class ModelGame {
     private ModelUnit selected;
-    private ArrayList<ModelGardener> gardeners;
-    private ArrayList<ModelPlant> plants;
-    private ArrayList<ModelPlant> plantsToHarvest;
-    private ArrayList<ModelRabbit> rabbits;
+    private HashMap<Integer, ModelGardener> gardeners;
+    private HashMap<Integer, ModelPlant> plants;
+    private ArrayList<Integer> plantsToHarvest;
+    private HashMap<Integer, ModelRabbit> rabbits;
     private int money;
     private int score;
 
     public ModelGame() {
-        this.gardeners = new ArrayList<ModelGardener>();
-        this.gardeners.add(new ModelGardener(1, new Point(100, 100), new Point(100, 100), this));
-        this.gardeners.add(new ModelGardener(2, new Point(400, 400), new Point(400, 400), this));
+        this.gardeners = new HashMap<>();
+        this.gardeners.put(1, new ModelGardener(1, new Point(100, 100), new Point(100, 100), this));
+        this.gardeners.put(2, new ModelGardener(2, new Point(400, 400), new Point(400, 400), this));
 
-        this.plants = new ArrayList<ModelPlant>();
-        this.plantsToHarvest = new ArrayList<ModelPlant>();
+        this.plants = new HashMap<>();
+        this.plantsToHarvest = new ArrayList<Integer>();
 
-        this.rabbits = new ArrayList<ModelRabbit>();
+        this.rabbits = new HashMap<>();
 
         this.selected = null;
         this.money = 10;
@@ -53,44 +54,37 @@ public class ModelGame {
         this.score = score;
     }
 
-    public ArrayList<ModelGardener> getGardeners() {
+    public HashMap<Integer, ModelGardener> getGardeners() {
         return this.gardeners;
     }
 
-    public ArrayList<ModelPlant> getPlants() {
+    public HashMap<Integer, ModelPlant> getPlants() {
         return this.plants;
     }
     public void removePlant(int id) {
-        for(ModelPlant p : this.plants) {
-            if(p.getId() == id) {
-                this.plants.remove(p);
-                return;
-            }
-        }
+        this.plants.remove(id);
     }
-    public ArrayList<ModelPlant> getPlantsToHarvest() {
+    public ArrayList<Integer> getPlantsToHarvest() {
         return this.plantsToHarvest;
     }
 
     public void addPlantsToHarvest(ModelPlant plant) {
         int id = plant.getId();
-        for(ModelPlant p : this.plantsToHarvest) {
-            if(p.getId() == id) {
-                return;
-            }
+        if(this.plantsToHarvest.contains(id)) {
+            return;
         }
-        this.plantsToHarvest.add(plant);
+        this.plantsToHarvest.add(id);
     }
 
-    public void setPlantsToHarvest(ArrayList<ModelPlant> plantsToHarvest) {
+    public void setPlantsToHarvest(ArrayList<Integer> plantsToHarvest) {
         this.plantsToHarvest = plantsToHarvest;
     }
 
     public void addPlant(ModelPlant plant) {
-        this.plants.add(plant);
+        this.plants.putIfAbsent(plant.getId(), plant);
     }
 
-    public ArrayList<ModelRabbit> getRabbits() {
+    public HashMap<Integer, ModelRabbit> getRabbits() {
         return this.rabbits;
     }
     public void addRabbit() {
@@ -100,19 +94,20 @@ public class ModelGame {
         int dir = rand.nextInt(4);
         int x,y;
         if(dir == 0) {
-            x = rand.nextInt(1200);
+            x = rand.nextInt(1150);
             y = 0;
         }else if(dir == 1) {
-            x = 1200;
-            y = rand.nextInt(900);
+            x = 1150;
+            y = rand.nextInt(850);
         }else if(dir == 2) {
-            x = rand.nextInt(1200);
-            y = 900;
+            x = rand.nextInt(1150);
+            y = 850;
         }else {
             x = 0;
-            y = rand.nextInt(900);
+            y = rand.nextInt(850);
         }
         Point point = new Point(x, y);
-        this.rabbits.add(new ModelRabbit(IdGen.generateRabbitId(), point, point, this));
+        int idr = IdGen.generateRabbitId();
+        this.rabbits.put(idr, new ModelRabbit(idr, point, point, this));
     }
 }

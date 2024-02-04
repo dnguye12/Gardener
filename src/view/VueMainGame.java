@@ -1,10 +1,7 @@
 package view;
 
 //import control.maingame.Redessine;
-import control.maingame.RabbitGen;
-import control.maingame.Redessine;
-import control.maingame.ThreadGardener;
-import control.maingame.ThreadPlant;
+import control.maingame.*;
 import model.ModelGame;
 
 import javax.swing.*;
@@ -40,6 +37,7 @@ public class VueMainGame {
         ThreadGardener threadGardener = new ThreadGardener(this.game.getGardeners());
         ThreadPlant threadPlant = new ThreadPlant(this.game);
         RabbitGen rabbitGen = new RabbitGen(this.game);
+        ThreadRabbit threadRabbit = new ThreadRabbit(this.game.getRabbits());
 
         this.frame.pack();
         this.frame.setLocationRelativeTo(null);
@@ -49,5 +47,6 @@ public class VueMainGame {
         threadGardener.start();
         threadPlant.start();
         rabbitGen.start();
+        threadRabbit.start();
     }
 }

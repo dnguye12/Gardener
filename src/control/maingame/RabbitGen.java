@@ -14,7 +14,6 @@ public class RabbitGen extends Thread{
     public void run() {
         while (true) {
             this.game.addRabbit();
-            System.out.println(this.game.getRabbits().size());
             try {
                 Thread.sleep(DELAY);
             } catch (InterruptedException e) {

@@ -9,6 +9,7 @@ import model.ModelRabbit;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class VueLeft extends JPanel {
     private final Toolkit toolkit;
@@ -37,8 +38,8 @@ public class VueLeft extends JPanel {
     public void drawGardeners(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
 
-        ArrayList<ModelGardener> gardeners = this.game.getGardeners();
-        for(ModelGardener gardener : gardeners) {
+        HashMap<Integer, ModelGardener> gardeners = this.game.getGardeners();
+        for(ModelGardener gardener : gardeners.values()) {
             Point position = gardener.getPosition();
             if(gardener.isSelected()) {
                 g2.setStroke(new BasicStroke(1));
@@ -64,8 +65,8 @@ public class VueLeft extends JPanel {
     }
 
     public void drawPlants(Graphics g) {
-        ArrayList<ModelPlant> plants = this.game.getPlants();
-        for(ModelPlant plant : plants) {
+        HashMap<Integer, ModelPlant> plants = this.game.getPlants();
+        for(ModelPlant plant : plants.values()) {
             Image img = this.toolkit.getImage(plant.getType().getPlantImage(plant.getStage()));
             Point position = plant.getPosition();
             g.drawImage(img, position.x, position.y, this);
@@ -105,9 +106,9 @@ public class VueLeft extends JPanel {
     public void drawRabbit(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
 
-        ArrayList<ModelRabbit> rabbits = this.game.getRabbits();
+        HashMap<Integer, ModelRabbit> rabbits = this.game.getRabbits();
 
-        for(ModelRabbit rabbit : rabbits) {
+        for(ModelRabbit rabbit : rabbits.values()) {
             Point position = rabbit.getPosition();
             g2.setColor(Color.RED);
             g2.fillOval(position.x, position.y, 50, 50);

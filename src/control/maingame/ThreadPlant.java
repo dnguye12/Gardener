@@ -4,10 +4,11 @@ import model.ModelGame;
 import model.ModelPlant;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ThreadPlant extends Thread{
     private ModelGame game;
-    private ArrayList<ModelPlant> plants;
+    private HashMap<Integer, ModelPlant> plants;
     private static final int DELAY = 1000 / 60;
 
     public ThreadPlant(ModelGame game) {
@@ -18,11 +19,11 @@ public class ThreadPlant extends Thread{
     @Override
     public void run() {
         while (true) {
-            ArrayList<ModelPlant> toRemove = new ArrayList<>();
-            for (ModelPlant plant : this.plants) {
+            ArrayList<Integer> toRemove = new ArrayList<>();
+            for (ModelPlant plant : this.plants.values()) {
                 plant.grow();
                 if(!plant.isAlive()) {
-                    toRemove.add(plant);
+                    toRemove.add(plant.getId());
                     if(plant.isSelected()) {
                         plant.setSelected(false);
                         this.game.setSelected(null);
@@ -32,7 +33,9 @@ public class ThreadPlant extends Thread{
                     this.game.addPlantsToHarvest(plant);
                 }
             }
-            this.plants.removeAll(toRemove);
+            for (int id : toRemove) {
+                this.game.removePlant(id);
+            }
             try {
                 Thread.sleep(DELAY);
             } catch (InterruptedException e) {

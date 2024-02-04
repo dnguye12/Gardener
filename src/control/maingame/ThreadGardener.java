@@ -3,19 +3,20 @@ package control.maingame;
 import model.ModelGardener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ThreadGardener extends Thread {
-    private ArrayList<ModelGardener> gardeners;
+    private HashMap<Integer, ModelGardener> gardeners;
     private static final int DELAY = 1000 / 60;
 
-    public ThreadGardener(ArrayList<ModelGardener> gardeners) {
+    public ThreadGardener(HashMap<Integer, ModelGardener> gardeners) {
         this.gardeners = gardeners;
     }
 
     @Override
     public void run() {
         while (true) {
-            for (ModelGardener gardener : this.gardeners) {
+            for (ModelGardener gardener : this.gardeners.values()) {
                 gardener.move();
             }
             try {

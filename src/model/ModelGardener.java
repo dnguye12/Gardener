@@ -2,6 +2,7 @@ package model;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ModelGardener extends ModelUnit{
     private Status status;
@@ -65,20 +66,21 @@ public class ModelGardener extends ModelUnit{
     }
 
     public void harvest() {
-        ArrayList<ModelPlant> plants = this.game.getPlantsToHarvest();
-        System.out.println(plants.size());
-        ArrayList<ModelPlant> helper = new ArrayList<ModelPlant>();
-        for(ModelPlant plant : plants) {
+        HashMap<Integer, ModelPlant> plants = this.game.getPlants();
+        ArrayList<Integer> plantsToHarvest = this.game.getPlantsToHarvest();
+        ArrayList<Integer> helper = new ArrayList<Integer>();
+        for(int id : plantsToHarvest) {
+            ModelPlant plant = plants.get(id);
             if(this.position.distance(plant.getPosition()) <= this.RADIUS) {
                 this.game.setMoney(this.game.getMoney() + 10);
                 this.game.setScore(this.game.getScore() + 10);
-                helper.add(plant);
+                helper.add(plant.getId());
             }
         }
-        for(ModelPlant plant : helper) {
-            this.game.removePlant(plant.getId());
+        for(int id : helper) {
+            this.game.removePlant(id);
         }
-        plants.removeAll(helper);
-        this.game.setPlantsToHarvest(plants);
+        plantsToHarvest.removeAll(helper);
+        this.game.setPlantsToHarvest(plantsToHarvest);
     }
 }
