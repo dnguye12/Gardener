@@ -22,15 +22,7 @@ public class Background {
             Image tile3 = ImageIO.read(new File("src/assets/maingame/bg/tile3.png"));
             Image tile4 = ImageIO.read(new File("src/assets/maingame/bg/tile4.png"));
             Image tile5 = ImageIO.read(new File("src/assets/maingame/bg/tile5.png"));
-            /*
-            Image tile0 = this.toolkit.getImage("src/assets/maingame/bg/tile0.png");
-            Image tile1 = this.toolkit.getImage("src/assets/maingame/bg/tile1.png");
-            Image tile2 = this.toolkit.getImage("src/assets/maingame/bg/tile2.png");
-            Image tile3 = this.toolkit.getImage("src/assets/maingame/bg/tile3.png");
-            Image tile4 = this.toolkit.getImage("src/assets/maingame/bg/tile4.png");
-            Image tile5 = this.toolkit.getImage("src/assets/maingame/bg/tile5.png");
-            Image tile6 = this.toolkit.getImage("src/assets/maingame/bg/tile6.png");
-            */
+
             Random random = new Random();
 
             int helper;

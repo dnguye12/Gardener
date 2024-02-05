@@ -8,7 +8,6 @@ import model.ModelRabbit;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 public class VueLeft extends JPanel {
@@ -83,7 +82,7 @@ public class VueLeft extends JPanel {
     public void drawCoin(Graphics g) {
         int x = 50;
         int y = 0;
-        Image IMGCoinSign = this.toolkit.getImage("src/assets/maingame/coin sign.png");
+        Image IMGCoinSign = this.toolkit.getImage("src/assets/maingame/left/coin sign.png");
         g.drawImage(IMGCoinSign, x, y, this);
 
         g.setFont(FontGetter.getFont().deriveFont(24f));
@@ -98,7 +97,7 @@ public class VueLeft extends JPanel {
     public void drawScore(Graphics g) {
         int x = 175;
         int y = 0;
-        Image IMGScoreSign = this.toolkit.getImage("src/assets/maingame/score sign.png");
+        Image IMGScoreSign = this.toolkit.getImage("src/assets/maingame/left/score sign.png");
         g.drawImage(IMGScoreSign, x, y, this);
 
         g.setFont(FontGetter.getFont().deriveFont(24f));

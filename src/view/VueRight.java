@@ -14,7 +14,7 @@ public class VueRight extends JPanel {
         this.toolkit = Toolkit.getDefaultToolkit();
 
         this.setPreferredSize(new Dimension(400,900));
-        this.bgImage = new ImageIcon("src/assets/maingame/RightBG.png").getImage();
+        this.bgImage = new ImageIcon("src/assets/maingame/right/RightBG.png").getImage();
 
         this.game = game;
 
@@ -46,7 +46,7 @@ public class VueRight extends JPanel {
     public void drawNull(Graphics g) {
         int x, y;
 
-        Image IMGAvatar = this.toolkit.getImage("src/assets/maingame/rien.png");
+        Image IMGAvatar = this.toolkit.getImage("src/assets/maingame/right/rien.png");
         x = (this.getWidth() - IMGAvatar.getWidth(this)) / 2;
         y = 50;
         g.drawImage(IMGAvatar, x, y, this);
@@ -55,13 +55,13 @@ public class VueRight extends JPanel {
         int x, y;
         Font font = FontGetter.getFont();
 
-        Image IMGAvatar = this.toolkit.getImage("src/assets/maingame/gardener.png");
+        Image IMGAvatar = this.toolkit.getImage("src/assets/maingame/right/gardener.png");
         x = (this.getWidth() - IMGAvatar.getWidth(this)) / 2;
         y = 50;
         g.drawImage(IMGAvatar, x, y, this);
         y += IMGAvatar.getHeight(this) + 50;
 
-        Image IMGAction0 = this.toolkit.getImage("src/assets/maingame/gardeneraction0.png");
+        Image IMGAction0 = this.toolkit.getImage("src/assets/maingame/right/gardeneraction0.png");
         x = (this.getWidth() - IMGAction0.getWidth(this)) / 2;
         g.drawImage(IMGAction0, x, y, this);
         g.setFont(font);
@@ -73,15 +73,15 @@ public class VueRight extends JPanel {
         g.drawString(status, numberX, numberY);
         y += IMGAction0.getHeight(this) + 10;
 
-        Image IMGAction1 = this.toolkit.getImage("src/assets/maingame/gardeneraction1.png");
+        Image IMGAction1 = this.toolkit.getImage("src/assets/maingame/right/gardeneraction1.png");
         g.drawImage(IMGAction1, x, y, this);
         y += IMGAction1.getHeight(this) + 10;
 
-        Image IMGAction2 = this.toolkit.getImage("src/assets/maingame/gardeneraction2.png");
+        Image IMGAction2 = this.toolkit.getImage("src/assets/maingame/right/gardeneraction2.png");
         g.drawImage(IMGAction2, x, y, this);
         y += IMGAction2.getHeight(this) + 10;
 
-        Image IMGAction3 = this.toolkit.getImage("src/assets/maingame/gardeneraction3.png");
+        Image IMGAction3 = this.toolkit.getImage("src/assets/maingame/right/gardeneraction3.png");
         g.drawImage(IMGAction3, x, y, this);
     }
 
@@ -169,7 +169,7 @@ public class VueRight extends JPanel {
             g.drawImage(IMGAvatar, x, y, this);
             y += IMGAvatar.getHeight(this) + 50;
 
-            Image IMGAction0 = this.toolkit.getImage("src/assets/maingame/gardeneraction0.png");
+            Image IMGAction0 = this.toolkit.getImage("src/assets/maingame/right/gardeneraction0.png");
             x = (this.getWidth() - IMGAction0.getWidth(this)) / 2;
             g.drawImage(IMGAction0, x, y, this);
             g.setFont(font);
