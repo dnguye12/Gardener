@@ -22,7 +22,11 @@ public class ThreadRabbit extends Thread{
             ArrayList<Integer> toRemove = new ArrayList<>();
             for (ModelRabbit rabbit : this.rabbits.values()) {
                 rabbit.move();
-                rabbit.setDieTime(rabbit.getDieTime() - DELAY);
+                if(rabbit.getStatus() == ModelRabbit.Status.EATING) {
+                    rabbit.eat();
+                }else {
+                    rabbit.setDieTime(rabbit.getDieTime() - DELAY);
+                }
                 if(rabbit.getDieTime() <= 0 && rabbit.canBeRemoved()) {
                     toRemove.add(rabbit.getId());
                     if(rabbit.isSelected()) {

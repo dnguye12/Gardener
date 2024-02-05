@@ -108,14 +108,14 @@ public class VueRight extends JPanel {
         x = (this.getWidth() - IMGButton.getWidth(this)) / 2;
 
         //Plant hp
-        int hp = plant.getHP();
-        int maxHP = plant.getType().getMaxHP();
+        int hp = plant.getHP() / 100;
+        int maxHP = plant.getType().getMaxHP() / 100;
         Image IMGHearth0 = this.toolkit.getImage("src/assets/maingame/plant/hearth0.png");
         Image IMGHearth1 = this.toolkit.getImage("src/assets/maingame/plant/hearth1.png");
         g.drawImage(IMGButton, x , y , this);
         int xHeart = (this.getWidth() - IMGHearth0.getWidth(this) * maxHP - 5 * maxHP) /2;
         int yHeart = y + (IMGButton.getHeight(this) - IMGHearth0.getHeight(this)) / 2;
-        for(int i = 1; i <= maxHP; i++) {
+        for(int i = 0; i < maxHP; i++) {
             if(i <= hp) {
                 g.drawImage(IMGHearth1, xHeart, yHeart, this);
 

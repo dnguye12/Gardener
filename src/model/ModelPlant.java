@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class ModelPlant extends ModelUnit{
     public enum PlantType {
-        WHEAT("wheat" ,5, 4, 500);
+        WHEAT("wheat" ,500, 4, 500);
         private final String name;
         private final int maxHP;
         private final int stageCount;

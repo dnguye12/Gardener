@@ -12,12 +12,15 @@ public class ModelRabbit extends ModelUnit{
     private long lastStateChangeTime;
     private long lastMoveTime;
     private int dieTime;
+    private boolean foundPlant;
+    private ModelPlant eatingPlant;
 
     public enum Status {
         IDLING("Idling"),
         MOVING("Moving"),
         FLEEING("Fleeing"),
-        QUITING("Quiting");
+        QUITING("Quiting"),
+        EATING("Eating");
 
         private final String name;
 
@@ -34,10 +37,13 @@ public class ModelRabbit extends ModelUnit{
         super(id, position, dest);
         this.game = game;
         this.status = Status.IDLING;
-        this.dieTime = 8000;
+        this.dieTime = 15000;
 
         this.lastMoveTime = System.currentTimeMillis();
         this.lastStateChangeTime = System.currentTimeMillis();
+
+        this.foundPlant = false;
+        this.eatingPlant = null;
     }
 
     public Status getStatus() {
@@ -114,9 +120,12 @@ public class ModelRabbit extends ModelUnit{
                 ModelPlant nearestPlant = this.findNearestPlant();
                 if (nearestPlant != null) {
                     this.dest = nearestPlant.getPosition();
+                    this.foundPlant = true;
+                    this.eatingPlant = nearestPlant;
                 } else {
                     Random rand = new Random();
                     this.dest = new Point(rand.nextInt(1150), rand.nextInt(850));
+                    this.foundPlant = false;
                 }
                 this.status = Status.MOVING;
                 this.lastStateChangeTime = currentTime;
@@ -130,7 +139,11 @@ public class ModelRabbit extends ModelUnit{
             int dx = dest.x - position.x;
             int dy = dest.y - position.y;
             double dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist > SPEED) {
+            if(this.status == Status.MOVING && dist <= 50) {
+                this.status = Status.EATING;
+                this.lastStateChangeTime = currentTime;
+            }
+            else if (this.status != Status.EATING &&  dist > SPEED) {
                 double stepX = (dx / dist) * SPEED;
                 double stepY = (dy / dist) * SPEED;
                 position = new Point((int) (position.x + stepX), (int) (position.y + stepY));
@@ -145,5 +158,23 @@ public class ModelRabbit extends ModelUnit{
             return dist <= 6;
         }
         return false;
+    }
+
+    public void eat() {
+        if(this.eatingPlant == null) {
+            this.status = Status.IDLING;
+            this.lastStateChangeTime = System.currentTimeMillis();
+            this.eatingPlant = null;
+            this.foundPlant = false;
+        } else if(this.status == Status.EATING && this.eatingPlant != null) {
+            this.eatingPlant.setHP(this.eatingPlant.getHP() - 1);
+                this.dieTime += 1;
+                if(!this.eatingPlant.isAlive()) {
+                    this.status = Status.IDLING;
+                    this.lastStateChangeTime = System.currentTimeMillis();
+                    this.eatingPlant = null;
+                    this.foundPlant = false;
+                }
+        }
     }
 }
