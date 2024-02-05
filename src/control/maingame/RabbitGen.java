@@ -4,7 +4,7 @@ import model.ModelGame;
 
 public class RabbitGen extends Thread{
     private ModelGame game;
-    private static final int DELAY = 5000100;
+    private static final int DELAY = 5000;
 
     public RabbitGen(ModelGame game) {
         this.game = game;

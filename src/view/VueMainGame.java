@@ -33,7 +33,7 @@ public class VueMainGame {
 
         this.frame.add(panel);
 
-        Redessine redessine = new Redessine(vueLeft);
+        Redessine redessine = new Redessine(vueLeft, vueRight);
         ThreadGardener threadGardener = new ThreadGardener(this.game.getGardeners());
         ThreadPlant threadPlant = new ThreadPlant(this.game);
         RabbitGen rabbitGen = new RabbitGen(this.game);

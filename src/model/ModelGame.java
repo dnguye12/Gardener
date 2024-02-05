@@ -18,7 +18,7 @@ public class ModelGame {
     public ModelGame() {
         this.gardeners = new HashMap<>();
         this.gardeners.put(1, new ModelGardener(1, new Point(100, 100), new Point(100, 100), this));
-        //this.gardeners.put(2, new ModelGardener(2, new Point(400, 400), new Point(400, 400), this));
+
 
         this.plants = new HashMap<>();
         this.plantsToHarvest = new ArrayList<Integer>();

@@ -24,7 +24,8 @@ public class VueRight extends JPanel {
 
     @Override
     public void paintComponent(Graphics g) {
-        super.repaint();
+        //super.repaint();
+        super.paintComponent(g);
         g.drawImage(this.bgImage, 0, 0, this.getWidth(), this.getHeight(), this);
 
         ModelUnit selected = this.game.getSelected();
@@ -115,7 +116,7 @@ public class VueRight extends JPanel {
         g.drawImage(IMGButton, x , y , this);
         int xHeart = (this.getWidth() - IMGHearth0.getWidth(this) * maxHP - 5 * maxHP) /2;
         int yHeart = y + (IMGButton.getHeight(this) - IMGHearth0.getHeight(this)) / 2;
-        for(int i = 0; i < maxHP; i++) {
+        for(int i = 1; i <= maxHP; i++) {
             if(i <= hp) {
                 g.drawImage(IMGHearth1, xHeart, yHeart, this);
 
