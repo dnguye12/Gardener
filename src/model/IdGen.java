@@ -1,7 +1,7 @@
 package model;
 
 public class IdGen {
-    private static int gardenerId = 0;
+    private static int gardenerId = 1;
     private static int plantId = 0;
     private static int rabbitId = 0;
 

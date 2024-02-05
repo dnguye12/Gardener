@@ -8,17 +8,22 @@ import model.ModelRabbit;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 public class VueLeft extends JPanel {
     private final Toolkit toolkit;
     ModelGame game;
+    private Image bgImage;
     public VueLeft(ModelGame game) {
         this.toolkit = Toolkit.getDefaultToolkit();
         this.setPreferredSize(new Dimension(1200,900));
 
         this.game = game;
+
+        this.bgImage = new Background().drawBackground();
+        System.out.println(this.bgImage.getWidth(this) + " " + this.bgImage.getHeight(this));
+
         MouseListenerVueLeft vueLeftMouseListener = new MouseListenerVueLeft(this.game);
         this.addMouseListener(vueLeftMouseListener);
     }
@@ -26,6 +31,8 @@ public class VueLeft extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        g.drawImage(this.bgImage, 0,0, this);
 
         this.drawPlants(g);
         this.drawGardeners(g);

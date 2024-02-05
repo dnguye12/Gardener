@@ -139,7 +139,7 @@ public class ModelRabbit extends ModelUnit{
             int dx = dest.x - position.x;
             int dy = dest.y - position.y;
             double dist = Math.sqrt(dx * dx + dy * dy);
-            if(this.status == Status.MOVING && dist <= 50) {
+            if(this.status == Status.MOVING && dist <= 25) {
                 this.status = Status.EATING;
                 this.lastStateChangeTime = currentTime;
             }
