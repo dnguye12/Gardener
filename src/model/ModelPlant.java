@@ -88,4 +88,8 @@ public class ModelPlant extends ModelUnit{
     public boolean canBeHarvested() {
         return this.stage == this.type.getStageCount() - 1;
     }
+
+    public int getMoney() {
+        return this.type.getStageCount() * 10;
+    }
 }

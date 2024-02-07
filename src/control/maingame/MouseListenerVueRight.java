@@ -34,15 +34,23 @@ public class MouseListenerVueRight implements MouseListener {
     @Override
     public void mouseReleased(MouseEvent e) {
         ModelUnit selected = this.game.getSelected();
-        if(selected instanceof ModelGardener) {
-            ModelGardener gardener = (ModelGardener) selected;
+        if(selected != null) {
+            if (selected instanceof ModelGardener) {
+                ModelGardener gardener = (ModelGardener) selected;
+                if (e.getX() >= 55 && e.getX() <= 345) {
+                    if (e.getY() >= 307 && e.getY() <= 408) {
+                        gardener.plant();
+                    } else if (e.getY() >= 418 && e.getY() <= 519) {
+                        gardener.harvest();
+                    } else if (e.getY() >= 529 && e.getY() <= 640) {
+                        System.out.println("Promouvoir");
+                    }
+                }
+            }
+        }else {
             if(e.getX() >= 55 && e.getX() <= 345) {
-                if(e.getY() >= 307 && e.getY() <= 408) {
-                    gardener.plant();
-                }else if(e.getY() >= 418 && e.getY() <= 519) {
-                    gardener.harvest();
-                }else if(e.getY() >= 529 && e.getY() <= 640) {
-                    System.out.println("Promouvoir");
+                if(e.getY() >= 225 && e.getY() <= 315) {
+                    this.game.setIsBuying("Gardener");
                 }
             }
         }

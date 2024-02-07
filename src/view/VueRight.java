@@ -39,7 +39,7 @@ public class VueRight extends JPanel {
                 this.drawRabbit(g);
             }
         }else {
-            this.drawNull(g);
+            this.drawShop(g);
         }
     }
 
@@ -50,6 +50,25 @@ public class VueRight extends JPanel {
         x = (this.getWidth() - IMGAvatar.getWidth(this)) / 2;
         y = 50;
         g.drawImage(IMGAvatar, x, y, this);
+    }
+
+    public void drawShop(Graphics g) {
+        int x, y;
+        Image IMGAvatar = this.toolkit.getImage("src/assets/maingame/shop/talk.png");
+        x = (this.getWidth() - IMGAvatar.getWidth(this)) / 2;
+        y = 50;
+        g.drawImage(IMGAvatar, x, y, this);
+        y += IMGAvatar.getHeight(this) + 50;
+
+        int money = this.game.getMoney();
+        Image IMGGardener;
+        if(money >= 100) {
+            IMGGardener = this.toolkit.getImage("src/assets/maingame/shop/shop1.png");
+        }else {
+            IMGGardener = this.toolkit.getImage("src/assets/maingame/shop/shopoff1.png");
+        }
+        g.drawImage(IMGGardener, x, y, this);
+        y += IMGGardener.getHeight(this) + 10;
     }
     public void drawGardener(Graphics g) {
         int x, y;
@@ -73,15 +92,31 @@ public class VueRight extends JPanel {
         g.drawString(status, numberX, numberY);
         y += IMGAction0.getHeight(this) + 10;
 
-        Image IMGAction1 = this.toolkit.getImage("src/assets/maingame/right/gardeneraction1.png");
+        Image IMGAction1;
+        if(this.game.getMoney() >= 10) {
+            IMGAction1 = this.toolkit.getImage("src/assets/maingame/right/gardeneraction1.png");
+        }else {
+            IMGAction1 = this.toolkit.getImage("src/assets/maingame/right/gardeneroff1.png");
+        }
+
         g.drawImage(IMGAction1, x, y, this);
         y += IMGAction1.getHeight(this) + 10;
 
-        Image IMGAction2 = this.toolkit.getImage("src/assets/maingame/right/gardeneraction2.png");
+        Image IMGAction2;
+        if(((ModelGardener) this.game.getSelected()).plantsNear().size() > 0) {
+            IMGAction2 = this.toolkit.getImage("src/assets/maingame/right/gardeneraction2.png");
+        } else {
+            IMGAction2 = this.toolkit.getImage("src/assets/maingame/right/gardeneroff2.png");
+        }
         g.drawImage(IMGAction2, x, y, this);
         y += IMGAction2.getHeight(this) + 10;
 
-        Image IMGAction3 = this.toolkit.getImage("src/assets/maingame/right/gardeneraction3.png");
+        Image IMGAction3;
+        if(this.game.getMoney() >= 25) {
+            IMGAction3 = this.toolkit.getImage("src/assets/maingame/right/gardeneraction3.png");
+        }else {
+            IMGAction3 = this.toolkit.getImage("src/assets/maingame/right/gardeneroff3.png");
+        }
         g.drawImage(IMGAction3, x, y, this);
     }
 

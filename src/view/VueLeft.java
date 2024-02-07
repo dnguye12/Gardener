@@ -1,6 +1,7 @@
 package view;
 
 import control.maingame.MouseListenerVueLeft;
+import control.maingame.MouseMotionVueLeft;
 import model.ModelGame;
 import model.ModelGardener;
 import model.ModelPlant;
@@ -14,6 +15,7 @@ public class VueLeft extends JPanel {
     private final Toolkit toolkit;
     ModelGame game;
     private Image bgImage;
+    private MouseMotionVueLeft vueLeftMouseMotion;
     public VueLeft(ModelGame game) {
         this.toolkit = Toolkit.getDefaultToolkit();
         this.setPreferredSize(new Dimension(1200,900));
@@ -24,7 +26,9 @@ public class VueLeft extends JPanel {
         System.out.println(this.bgImage.getWidth(this) + " " + this.bgImage.getHeight(this));
 
         MouseListenerVueLeft vueLeftMouseListener = new MouseListenerVueLeft(this.game);
+        this.vueLeftMouseMotion = new MouseMotionVueLeft();
         this.addMouseListener(vueLeftMouseListener);
+        this.addMouseMotionListener(this.vueLeftMouseMotion);
     }
 
     @Override
@@ -36,6 +40,10 @@ public class VueLeft extends JPanel {
         this.drawPlants(g);
         this.drawGardeners(g);
         this.drawRabbit(g);
+
+        if(this.game.getIsBuying().length() > 0) {
+            this.drawHover(g);
+        }
 
         this.drawCoin(g);
         this.drawScore(g);
@@ -119,6 +127,13 @@ public class VueLeft extends JPanel {
             g2.setColor(Color.RED);
             g2.fillOval(position.x, position.y, 50, 50);
         }
-
     }
+
+    public void drawHover(Graphics g) {
+        int x = this.vueLeftMouseMotion.getX();
+        int y = this.vueLeftMouseMotion.getY();
+        Image i1 = this.toolkit.getImage("src/assets/maingame/shop/talk.png");
+        g.drawImage(i1, x, y, this);
+    }
+
 }

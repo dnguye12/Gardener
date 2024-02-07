@@ -9,7 +9,7 @@ import java.util.HashMap;
 public class ThreadPlant extends Thread{
     private ModelGame game;
     private HashMap<Integer, ModelPlant> plants;
-    private static final int DELAY = 1000 / 60;
+    private static final int DELAY = 1000 / 30;
 
     public ThreadPlant(ModelGame game) {
         this.game = game;

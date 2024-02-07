@@ -8,6 +8,7 @@ import java.util.Random;
 
 public class ModelGame {
     private ModelUnit selected;
+    private String isBuying;
     private HashMap<Integer, ModelGardener> gardeners;
     private HashMap<Integer, ModelPlant> plants;
     private ArrayList<Integer> plantsToHarvest;
@@ -17,7 +18,7 @@ public class ModelGame {
 
     public ModelGame() {
         this.gardeners = new HashMap<>();
-        this.gardeners.put(1, new ModelGardener(1, new Point(575, 425), new Point(575, 425), this));
+        this.gardeners.put(0, new ModelGardener(0, new Point(575, 425), new Point(575, 425), this));
 
 
         this.plants = new HashMap<>();
@@ -26,6 +27,8 @@ public class ModelGame {
         this.rabbits = new HashMap<>();
 
         this.selected = null;
+        this.isBuying = "";
+
         this.money = 10;
         this.score = 0;
     }
@@ -36,6 +39,18 @@ public class ModelGame {
 
     public ModelUnit getSelected() {
         return this.selected;
+    }
+
+    public String getIsBuying() {
+        return this.isBuying;
+    }
+
+    public void setIsBuying(String isBuying) {
+        if(isBuying.equals("")) {
+            this.isBuying = "";
+        }else if(isBuying.equals("Gardener") &&  this.money >= 100)  {
+            this.isBuying = isBuying;
+        }
     }
 
     public int getMoney() {
@@ -56,6 +71,10 @@ public class ModelGame {
 
     public HashMap<Integer, ModelGardener> getGardeners() {
         return this.gardeners;
+    }
+
+    public void addGardener(ModelGardener g) {
+        this.gardeners.put(g.getId(), g);
     }
 
     public HashMap<Integer, ModelPlant> getPlants() {

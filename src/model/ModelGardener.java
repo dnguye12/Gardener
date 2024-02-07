@@ -65,21 +65,30 @@ public class ModelGardener extends ModelUnit{
         }
     }
 
-    public void harvest() {
+    public ArrayList<Integer> plantsNear() {
         HashMap<Integer, ModelPlant> plants = this.game.getPlants();
         ArrayList<Integer> plantsToHarvest = this.game.getPlantsToHarvest();
         ArrayList<Integer> helper = new ArrayList<Integer>();
+
         for(int id : plantsToHarvest) {
             ModelPlant plant = plants.get(id);
-            if(this.position.distance(plant.getPosition()) <= this.RADIUS) {
-                this.game.setMoney(this.game.getMoney() + 10);
-                this.game.setScore(this.game.getScore() + 10);
+            if (this.position.distance(plant.getPosition()) <= this.RADIUS) {
                 helper.add(plant.getId());
             }
         }
+        return helper;
+    }
+
+    public void harvest() {
+        ArrayList<Integer> helper = this.plantsNear();
         for(int id : helper) {
+            ModelPlant plant = this.game.getPlants().get(id);
+            int money = plant.getMoney();
+            this.game.setMoney(this.game.getMoney() + money);
+            this.game.setScore(this.game.getScore() + money);
             this.game.removePlant(id);
         }
+        ArrayList<Integer> plantsToHarvest = this.game.getPlantsToHarvest();
         plantsToHarvest.removeAll(helper);
         this.game.setPlantsToHarvest(plantsToHarvest);
     }
