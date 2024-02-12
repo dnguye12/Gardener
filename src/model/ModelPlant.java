@@ -4,7 +4,9 @@ import java.awt.*;
 
 public class ModelPlant extends ModelUnit{
     public enum PlantType {
-        WHEAT("wheat" ,500, 4, 500);
+        WHEAT("wheat" ,500, 4, 500),
+        SUNFLOWER("soliel", 300, 4, 300),
+        TOMATO("tomato", 300, 4, 300);
         private final String name;
         private final int maxHP;
         private final int stageCount;
@@ -32,7 +34,11 @@ public class ModelPlant extends ModelUnit{
         }
 
         public String getStateIcon(int stage) {
-            return "src/assets/maingame/plant/state" + stage + ".png";
+            return "src/assets/maingame/plant/state" + (4 - stageCount + stage) + ".png";
+        }
+
+        public static PlantType randomType() {
+            return PlantType.values()[(int) (Math.random() * PlantType.values().length)];
         }
     }
     private final PlantType type;

@@ -61,7 +61,7 @@ public class ModelGardener extends ModelUnit{
     public void plant() {
         if(this.game.getMoney() >= 10) {
             this.game.setMoney(this.game.getMoney() - 10);
-            this.game.addPlant(new ModelPlant(IdGen.generatePlantId(), this.position, ModelPlant.PlantType.WHEAT));
+            this.game.addPlant(new ModelPlant(IdGen.generatePlantId(), this.position, ModelPlant.PlantType.randomType()));
         }
     }
 
