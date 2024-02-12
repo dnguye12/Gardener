@@ -111,6 +111,7 @@ public class ModelGame {
 
         // 0 = up, 1 = right, 2 = down, 3 = left
         int dir = rand.nextInt(4);
+
         int x,y;
         if(dir == 0) {
             x = rand.nextInt(1150);
@@ -126,7 +127,8 @@ public class ModelGame {
             y = rand.nextInt(850);
         }
         Point point = new Point(x, y);
+        int helper =  x <= 600 ? -1 : 1;
         int idr = IdGen.generateRabbitId();
-        this.rabbits.put(idr, new ModelRabbit(idr, point, point, this));
+        this.rabbits.put(idr, new ModelRabbit(idr, point, point, this, helper));
     }
 }

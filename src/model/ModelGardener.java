@@ -8,6 +8,8 @@ public class ModelGardener extends ModelUnit{
     private Status status;
     private final int SPEED = 5;
     private final int RADIUS = 100;
+    private Direction direction;
+    private int animationState;
     private ModelGame game;
     public enum Status {
         IDLING("Idling"),
@@ -27,6 +29,8 @@ public class ModelGardener extends ModelUnit{
     public ModelGardener(int id, Point position, Point dest, ModelGame game) {
         super(id, position, dest);
         this.status = Status.IDLING;
+        this.direction = new Direction();
+        this.animationState = 0;
         this.game = game;
     }
     public Status getStatus() {
@@ -41,6 +45,31 @@ public class ModelGardener extends ModelUnit{
         return this.RADIUS;
     }
 
+    public int getDirection() {
+        return this.direction.getDirection();
+    }
+
+    public int getAnimationState() {
+        return this.animationState;
+    }
+
+    public void setAnimationState(int animationState) {
+        this.animationState = animationState;
+    }
+
+    public void nextAnimationState() {
+        this.animationState = 1 - this.animationState;
+    }
+
+    public String getAnimation() {
+        String helper = this.direction.getDirection() == 1 ? "right" : "left";
+        if(this.status == Status.MOVING) {
+            return "src/assets/maingame/animation/gardener/move" + helper + this.animationState + ".png";
+        }else {
+            return "src/assets/maingame/animation/gardener/idle" + this.animationState + ".png";
+        }
+    }
+
     public void move() {
         int dx = this.dest.x - this.position.x;
         int dy = this.dest.y - this.position.y;
@@ -52,6 +81,7 @@ public class ModelGardener extends ModelUnit{
         }else {
             double stepX = (dx / distance) * this.SPEED;
             double stepY = (dy / distance) * this.SPEED;
+            this.direction.setDirection(this.position, this.dest);
 
             this.position = new Point((int) (this.position.x + stepX), (int) (this.position.y + stepY));
             this.status = Status.MOVING;

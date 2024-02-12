@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class ModelRabbit extends ModelUnit{
     private final int SPEED = 5;
-    private final int MEMSPAN = 1500;
+    private final int MEMSPAN = 1250;
     private ModelGame game;
     private Status status;
 
@@ -14,7 +14,8 @@ public class ModelRabbit extends ModelUnit{
     private int dieTime;
     private boolean foundPlant;
     private ModelPlant eatingPlant;
-
+    private Direction direction;
+    private int animationState;
     public enum Status {
         IDLING("Idling"),
         MOVING("Moving"),
@@ -44,6 +45,15 @@ public class ModelRabbit extends ModelUnit{
 
         this.foundPlant = false;
         this.eatingPlant = null;
+
+        this.direction = new Direction();
+        this.animationState = 0;
+    }
+
+    public ModelRabbit(int id, Point position, Point dest, ModelGame game, int direction) {
+        this(id, position, dest, game);
+        this.direction = new Direction(direction);
+        this.animationState = 0;
     }
 
     public Status getStatus() {
@@ -56,6 +66,31 @@ public class ModelRabbit extends ModelUnit{
 
     public void setDieTime(int dieTime) {
         this.dieTime = dieTime;
+    }
+
+    public int getDirection() {
+        return this.direction.getDirection();
+    }
+
+    public int getAnimationState() {
+        return this.animationState;
+    }
+
+    public void setAnimationState(int animationState) {
+        this.animationState = animationState;
+    }
+
+    public void nextAnimationState() {
+        this.animationState = 1 - this.animationState;
+    }
+
+    public String getAnimation() {
+        String helper = this.direction.getDirection() == 1 ? "right" : "left";
+        if(this.status == Status.MOVING || this.status == Status.FLEEING) {
+            return "src/assets/maingame/animation/rabbit/move" + helper + this.animationState + ".png";
+        }else {
+            return "src/assets/maingame/animation/rabbit/idle" + helper + this.animationState + ".png";
+        }
     }
 
     private ModelPlant findNearestPlant() {
@@ -146,6 +181,7 @@ public class ModelRabbit extends ModelUnit{
             else if (this.status != Status.EATING &&  dist > SPEED) {
                 double stepX = (dx / dist) * SPEED;
                 double stepY = (dy / dist) * SPEED;
+                this.direction.setDirection(this.position, this.dest);
                 position = new Point((int) (position.x + stepX), (int) (position.y + stepY));
             }
         }

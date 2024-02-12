@@ -1,6 +1,8 @@
 package view;
 
 //import control.maingame.Redessine;
+import control.animation.AnimationGardener;
+import control.animation.AnimationRabbit;
 import control.maingame.*;
 import model.ModelGame;
 
@@ -35,18 +37,26 @@ public class VueMainGame {
 
         Redessine redessine = new Redessine(vueLeft, vueRight);
         ThreadGardener threadGardener = new ThreadGardener(this.game.getGardeners());
+        AnimationGardener animationGardener = new AnimationGardener(this.game);
+
         ThreadPlant threadPlant = new ThreadPlant(this.game);
+
         RabbitGen rabbitGen = new RabbitGen(this.game);
         ThreadRabbit threadRabbit = new ThreadRabbit(this.game);
+        AnimationRabbit animationRabbit = new AnimationRabbit(this.game);
 
         this.frame.pack();
         this.frame.setLocationRelativeTo(null);
         this.frame.setVisible(true);
 
         redessine.start();
+        animationGardener.start();
         threadGardener.start();
+
         threadPlant.start();
         rabbitGen.start();
+        animationRabbit.start();
         threadRabbit.start();
+
     }
 }

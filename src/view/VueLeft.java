@@ -23,7 +23,6 @@ public class VueLeft extends JPanel {
         this.game = game;
 
         this.bgImage = new Background().drawBackground();
-        System.out.println(this.bgImage.getWidth(this) + " " + this.bgImage.getHeight(this));
 
         MouseListenerVueLeft vueLeftMouseListener = new MouseListenerVueLeft(this.game);
         this.vueLeftMouseMotion = new MouseMotionVueLeft();
@@ -50,6 +49,7 @@ public class VueLeft extends JPanel {
     }
 
     public void drawGardeners(Graphics g) {
+        Image helper;
         Graphics2D g2 = (Graphics2D) g;
 
         HashMap<Integer, ModelGardener> gardeners = this.game.getGardeners();
@@ -70,9 +70,8 @@ public class VueLeft extends JPanel {
                 g2.fillOval(position.x + 25 - lineOfSightRadius, position.y + 25 - lineOfSightRadius,
                         lineOfSightRadius * 2, lineOfSightRadius * 2);
             }
-
-            g2.setColor(Color.BLUE);
-            g2.fillOval(position.x, position.y, 50, 50);
+            helper = this.toolkit.getImage(gardener.getAnimation());
+            g2.drawImage(helper, position.x, position.y, this);
 
 
         }
@@ -118,14 +117,13 @@ public class VueLeft extends JPanel {
     }
 
     public void drawRabbit(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g;
-
+        Image helper;
         HashMap<Integer, ModelRabbit> rabbits = this.game.getRabbits();
 
         for(ModelRabbit rabbit : rabbits.values()) {
+            helper = this.toolkit.getImage(rabbit.getAnimation());
             Point position = rabbit.getPosition();
-            g2.setColor(Color.RED);
-            g2.fillOval(position.x, position.y, 50, 50);
+            g.drawImage(helper, position.x, position.y, this);
         }
     }
 
