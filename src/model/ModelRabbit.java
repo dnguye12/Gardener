@@ -1,5 +1,7 @@
 package model;
 
+import view.VueMainGame;
+
 import java.awt.*;
 import java.util.Random;
 
@@ -107,11 +109,13 @@ public class ModelRabbit extends ModelUnit{
     }
 
     private Point findNearestCorner() {
+        int helperx = VueMainGame.LEFT_WIDTH - 50;
+        int helpery = VueMainGame.SCREEN_HEIGHT - 50;
         Point[] corners = {
                 new Point(0, 0),
-                new Point(0, 850),
-                new Point(1150, 0),
-                new Point(1150, 850)
+                new Point(0, helpery),
+                new Point(helperx, 0),
+                new Point(helperx, helpery)
         };
 
         Point res = corners[0];

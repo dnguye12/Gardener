@@ -2,10 +2,7 @@ package view;
 
 import control.maingame.MouseListenerVueLeft;
 import control.maingame.MouseMotionVueLeft;
-import model.ModelGame;
-import model.ModelGardener;
-import model.ModelPlant;
-import model.ModelRabbit;
+import model.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +15,7 @@ public class VueLeft extends JPanel {
     private MouseMotionVueLeft vueLeftMouseMotion;
     public VueLeft(ModelGame game) {
         this.toolkit = Toolkit.getDefaultToolkit();
-        this.setPreferredSize(new Dimension(1200,900));
+        this.setPreferredSize(new Dimension(VueMainGame.LEFT_WIDTH,VueMainGame.SCREEN_HEIGHT));
 
         this.game = game;
 
@@ -130,7 +127,7 @@ public class VueLeft extends JPanel {
     public void drawHover(Graphics g) {
         int x = this.vueLeftMouseMotion.getX();
         int y = this.vueLeftMouseMotion.getY();
-        Image i1 = this.toolkit.getImage("src/assets/maingame/shop/talk.png");
+        Image i1 = this.toolkit.getImage("src/assets/maingame/shop/gardener.png");
         g.drawImage(i1, x, y, this);
     }
 

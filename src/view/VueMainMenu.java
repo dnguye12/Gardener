@@ -14,7 +14,7 @@ public class VueMainMenu extends JPanel {
     public VueMainMenu() {
         this.frame = new JFrame("Gardener");
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setPreferredSize(new Dimension(1600, 900));
+        this.setPreferredSize(new Dimension(Math.min((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), 1600), VueMainGame.SCREEN_HEIGHT));
 
         this.bgImage = new ImageIcon("src/assets/mainmenu/bg.png").getImage();
 

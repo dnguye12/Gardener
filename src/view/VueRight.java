@@ -13,7 +13,7 @@ public class VueRight extends JPanel {
     public VueRight(ModelGame game) {
         this.toolkit = Toolkit.getDefaultToolkit();
 
-        this.setPreferredSize(new Dimension(400,900));
+        this.setPreferredSize(new Dimension(VueMainGame.RIGHT_WIDTH,VueMainGame.SCREEN_HEIGHT));
         this.bgImage = new ImageIcon("src/assets/maingame/right/RightBG.png").getImage();
 
         this.game = game;

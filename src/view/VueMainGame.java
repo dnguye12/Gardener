@@ -1,6 +1,5 @@
 package view;
 
-//import control.maingame.Redessine;
 import control.animation.AnimationGardener;
 import control.animation.AnimationRabbit;
 import control.maingame.*;
@@ -10,6 +9,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class VueMainGame {
+    public static final int LEFT_WIDTH = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() > 1600 ? 1200 : (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() - 400;
+    public static final int RIGHT_WIDTH = 400;
+    public static final int SCREEN_HEIGHT = Math.min((int) Toolkit.getDefaultToolkit().getScreenSize().getHeight(), 900);
     private final JFrame frame;
     private final ModelGame game;
     public VueMainGame(ModelGame game) {

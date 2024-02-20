@@ -1,5 +1,7 @@
 package model;
 
+import view.VueMainGame;
+
 import java.awt.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -18,7 +20,9 @@ public class ModelGame {
 
     public ModelGame() {
         this.gardeners = new HashMap<>();
-        this.gardeners.put(0, new ModelGardener(0, new Point(575, 425), new Point(575, 425), this));
+        int helperx = (VueMainGame.LEFT_WIDTH - 50) / 2;
+        int helpery = (VueMainGame.SCREEN_HEIGHT - 50) / 2;
+        this.gardeners.put(0, new ModelGardener(0, new Point(helperx, helpery), new Point(helperx, helpery), this));
 
 
         this.plants = new HashMap<>();
@@ -108,23 +112,25 @@ public class ModelGame {
     }
     public void addRabbit() {
         Random rand = new Random();
+        int helperx = VueMainGame.LEFT_WIDTH - 50;
+        int helpery = VueMainGame.SCREEN_HEIGHT - 50;
 
         // 0 = up, 1 = right, 2 = down, 3 = left
         int dir = rand.nextInt(4);
 
         int x,y;
         if(dir == 0) {
-            x = rand.nextInt(1150);
+            x = rand.nextInt(helperx);
             y = 0;
         }else if(dir == 1) {
-            x = 1150;
-            y = rand.nextInt(850);
+            x = helperx;
+            y = rand.nextInt(helpery);
         }else if(dir == 2) {
-            x = rand.nextInt(1150);
-            y = 850;
+            x = rand.nextInt(helperx);
+            y = helpery;
         }else {
             x = 0;
-            y = rand.nextInt(850);
+            y = rand.nextInt(helpery);
         }
         Point point = new Point(x, y);
         int helper =  x <= 600 ? -1 : 1;
