@@ -144,4 +144,21 @@ public class ModelGame {
         int idr = IdGen.generateRabbitId();
         this.rabbits.put(idr, new ModelRabbit(idr, point, point, this, helper));
     }
+
+    public void reset() {
+        this.gardeners.clear();
+        this.plants.clear();
+        this.plantsToHarvest.clear();
+        this.rabbits.clear();
+
+        this.selected = null;
+        this.isBuying = "";
+
+        this.money = 10;
+        this.score = 0;
+        this.timeLeft = 300;
+        int helperx = (VueMainGame.LEFT_WIDTH - 50) / 2;
+        int helpery = (VueMainGame.SCREEN_HEIGHT - 50) / 2;
+        this.gardeners.put(0, new ModelGardener(0, new Point(helperx, helpery), new Point(helperx, helpery), this));
+    }
 }

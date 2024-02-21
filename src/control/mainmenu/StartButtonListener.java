@@ -26,10 +26,10 @@ public class StartButtonListener implements MouseListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        this.frame.setVisible(false);
+        this.frame.dispose();
         ModelGame game = new ModelGame();
         new VueMainGame(game);
-        this.frame.dispose();
+
     }
 
     @Override

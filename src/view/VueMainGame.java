@@ -14,6 +14,7 @@ public class VueMainGame {
     public static final int SCREEN_HEIGHT = Math.min((int) Toolkit.getDefaultToolkit().getScreenSize().getHeight(), 900);
     private final JFrame frame;
     private final ModelGame game;
+    private Timer checkTimer;
     public VueMainGame(ModelGame game) {
         this.game = game;
 
@@ -48,6 +49,7 @@ public class VueMainGame {
         AnimationRabbit animationRabbit = new AnimationRabbit(this.game);
 
         ThreadTime threadTime = new ThreadTime(this.game);
+        this.initTimer();
 
         this.frame.pack();
         this.frame.setLocationRelativeTo(null);
@@ -62,5 +64,19 @@ public class VueMainGame {
         animationRabbit.start();
         threadRabbit.start();
         threadTime.start();
+    }
+
+    private void initTimer() {
+        int checkInterval = 1000;
+        checkTimer = new Timer(checkInterval, e -> checkTimeLeft());
+        checkTimer.start();
+    }
+
+    private void checkTimeLeft() {
+        if(this.game.getTimeLeft() <= 0) {
+         checkTimer.stop();
+         this.frame.dispose();
+            new VueEnd(this.game);
+        }
     }
 }
