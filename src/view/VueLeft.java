@@ -43,6 +43,7 @@ public class VueLeft extends JPanel {
 
         this.drawCoin(g);
         this.drawScore(g);
+        this.drawTimeLeft(g);
     }
 
     public void drawGardeners(Graphics g) {
@@ -111,6 +112,21 @@ public class VueLeft extends JPanel {
         int numberX = 225;
         int numberY = y + ((IMGScoreSign.getHeight(this) - fm.getHeight()) / 2) + fm.getAscent() + 6;
         g.drawString(score, numberX, numberY);
+    }
+
+    public void drawTimeLeft(Graphics g) {
+        int x = 300;
+        int y = 0;
+        Image IMGTimeSign = this.toolkit.getImage("src/assets/maingame/left/time sign.png");
+        g.drawImage(IMGTimeSign, x, y, this);
+
+        g.setFont(FontGetter.getFont().deriveFont(24f));
+        g.setColor(new Color(107,75,91));
+        String time = Integer.toString(this.game.getTimeLeft());
+        FontMetrics fm = g.getFontMetrics();
+        int numberX = 355;
+        int numberY = y + ((IMGTimeSign.getHeight(this) - fm.getHeight()) / 2) + fm.getAscent() + 6;
+        g.drawString(time, numberX, numberY);
     }
 
     public void drawRabbit(Graphics g) {

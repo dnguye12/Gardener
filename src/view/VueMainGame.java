@@ -47,6 +47,8 @@ public class VueMainGame {
         ThreadRabbit threadRabbit = new ThreadRabbit(this.game);
         AnimationRabbit animationRabbit = new AnimationRabbit(this.game);
 
+        ThreadTime threadTime = new ThreadTime(this.game);
+
         this.frame.pack();
         this.frame.setLocationRelativeTo(null);
         this.frame.setVisible(true);
@@ -59,6 +61,6 @@ public class VueMainGame {
         rabbitGen.start();
         animationRabbit.start();
         threadRabbit.start();
-
+        threadTime.start();
     }
 }

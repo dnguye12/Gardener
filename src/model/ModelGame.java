@@ -3,7 +3,6 @@ package model;
 import view.VueMainGame;
 
 import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -17,6 +16,7 @@ public class ModelGame {
     private HashMap<Integer, ModelRabbit> rabbits;
     private int money;
     private int score;
+    private int timeLeft;
 
     public ModelGame() {
         this.gardeners = new HashMap<>();
@@ -35,6 +35,7 @@ public class ModelGame {
 
         this.money = 10;
         this.score = 0;
+        this.timeLeft = 300;
     }
 
     public void setSelected(ModelUnit selected) {
@@ -71,6 +72,12 @@ public class ModelGame {
 
     public void setScore(int score) {
         this.score = score;
+    }
+    public int getTimeLeft() {
+        return this.timeLeft;
+    }
+    public void setTimeLeft(int timeLeft) {
+        this.timeLeft = timeLeft;
     }
 
     public HashMap<Integer, ModelGardener> getGardeners() {
