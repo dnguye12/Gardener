@@ -11,6 +11,7 @@ public class ModelGardener extends ModelUnit{
     private Direction direction;
     private int animationState;
     private ModelGame game;
+    private int promoteState;
     public enum Status {
         IDLING("Idling"),
         MOVING("Moving");
@@ -32,6 +33,7 @@ public class ModelGardener extends ModelUnit{
         this.direction = new Direction();
         this.animationState = 0;
         this.game = game;
+        this.promoteState = 0;
     }
     public Status getStatus() {
         return this.status;
@@ -42,7 +44,16 @@ public class ModelGardener extends ModelUnit{
     }
 
     public int getRadius() {
-        return this.RADIUS;
+        return this.RADIUS + this.promoteState * 25;
+    }
+    public int getSpeed() {
+        return this.SPEED + this.promoteState;
+    }
+    public void setPromoteState(int n)  {
+        this.promoteState = n;
+    }
+    public int getPromoteState() {
+        return this.promoteState;
     }
 
     public int getDirection() {
@@ -74,13 +85,14 @@ public class ModelGardener extends ModelUnit{
         int dx = this.dest.x - this.position.x;
         int dy = this.dest.y - this.position.y;
         double distance = Math.sqrt(dx * dx + dy * dy);
+        int speed = this.getSpeed();
 
-        if(distance <= this.SPEED) {
+        if(distance <= speed) {
             this.position = new Point(this.dest);
             this.status = Status.IDLING;
         }else {
-            double stepX = (dx / distance) * this.SPEED;
-            double stepY = (dy / distance) * this.SPEED;
+            double stepX = (dx / distance) * speed;
+            double stepY = (dy / distance) * speed;
             this.direction.setDirection(this.position, this.dest);
 
             this.position = new Point((int) (this.position.x + stepX), (int) (this.position.y + stepY));
@@ -102,7 +114,7 @@ public class ModelGardener extends ModelUnit{
 
         for(int id : plantsToHarvest) {
             ModelPlant plant = plants.get(id);
-            if (this.position.distance(plant.getPosition()) <= this.RADIUS) {
+            if (this.position.distance(plant.getPosition()) <= this.getRadius()) {
                 helper.add(plant.getId());
             }
         }
@@ -121,5 +133,12 @@ public class ModelGardener extends ModelUnit{
         ArrayList<Integer> plantsToHarvest = this.game.getPlantsToHarvest();
         plantsToHarvest.removeAll(helper);
         this.game.setPlantsToHarvest(plantsToHarvest);
+    }
+
+    public void upgrade() {
+        if(this.game.getMoney() >= 25) {
+            this.game.setMoney(this.game.getMoney() - 25);
+            this.setPromoteState(this.getPromoteState() + 1);
+        }
     }
 }

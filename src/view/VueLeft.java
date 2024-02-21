@@ -61,7 +61,7 @@ public class VueLeft extends JPanel {
                 g2.drawOval(position.x + 25 - lineOfSightRadius, position.y + 25 - lineOfSightRadius,
                         lineOfSightRadius * 2, lineOfSightRadius * 2);
 
-                Color transparentColor = new Color(0, 0, 0, 64); // Semi-transparent black
+                Color transparentColor = new Color(0, 0, 0, 33); // Semi-transparent black
                 g2.setColor(transparentColor);
 
                 g2.fillOval(position.x + 25 - lineOfSightRadius, position.y + 25 - lineOfSightRadius,
