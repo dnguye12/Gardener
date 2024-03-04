@@ -13,6 +13,10 @@ public class VueLeft extends JPanel {
     ModelGame game;
     private Image bgImage;
     private MouseMotionVueLeft vueLeftMouseMotion;
+    private Image IMGCoinSign;
+    private Image IMGScoreSign;
+    private Image IMGTimeSign;
+    private Image i1;
     public VueLeft(ModelGame game) {
         this.toolkit = Toolkit.getDefaultToolkit();
         this.setPreferredSize(new Dimension(VueMainGame.LEFT_WIDTH,VueMainGame.SCREEN_HEIGHT));
@@ -20,6 +24,7 @@ public class VueLeft extends JPanel {
         this.game = game;
 
         this.bgImage = new Background().drawBackground();
+        this.initImage();
 
         MouseListenerVueLeft vueLeftMouseListener = new MouseListenerVueLeft(this.game);
         this.vueLeftMouseMotion = new MouseMotionVueLeft();
@@ -28,7 +33,10 @@ public class VueLeft extends JPanel {
     }
 
     public void initImage() {
-
+        this.IMGCoinSign = this.toolkit.getImage("src/assets/maingame/left/coin sign.png");
+        this.IMGScoreSign = this.toolkit.getImage("src/assets/maingame/left/score sign.png");
+        this.IMGTimeSign = this.toolkit.getImage("src/assets/maingame/left/time sign.png");
+        this.i1 = this.toolkit.getImage("src/assets/maingame/shop/gardener.png");
     }
 
     @Override
@@ -91,22 +99,20 @@ public class VueLeft extends JPanel {
     public void drawCoin(Graphics g) {
         int x = 50;
         int y = 0;
-        Image IMGCoinSign = this.toolkit.getImage("src/assets/maingame/left/coin sign.png");
-        g.drawImage(IMGCoinSign, x, y, this);
+        g.drawImage(this.IMGCoinSign, x, y, this);
 
         g.setFont(FontGetter.getFont().deriveFont(24f));
         g.setColor(new Color(107,75,91));
         String coin = Integer.toString(this.game.getMoney());
         FontMetrics fm = g.getFontMetrics();
         int numberX = 95;
-        int numberY = y + ((IMGCoinSign.getHeight(this) - fm.getHeight()) / 2) + fm.getAscent() + 6;
+        int numberY = y + ((this.IMGCoinSign.getHeight(this) - fm.getHeight()) / 2) + fm.getAscent() + 6;
         g.drawString(coin, numberX, numberY);
     }
 
     public void drawScore(Graphics g) {
         int x = 175;
         int y = 0;
-        Image IMGScoreSign = this.toolkit.getImage("src/assets/maingame/left/score sign.png");
         g.drawImage(IMGScoreSign, x, y, this);
 
         g.setFont(FontGetter.getFont().deriveFont(24f));
@@ -121,7 +127,6 @@ public class VueLeft extends JPanel {
     public void drawTimeLeft(Graphics g) {
         int x = 300;
         int y = 0;
-        Image IMGTimeSign = this.toolkit.getImage("src/assets/maingame/left/time sign.png");
         g.drawImage(IMGTimeSign, x, y, this);
 
         g.setFont(FontGetter.getFont().deriveFont(24f));
@@ -147,8 +152,7 @@ public class VueLeft extends JPanel {
     public void drawHover(Graphics g) {
         int x = this.vueLeftMouseMotion.getX();
         int y = this.vueLeftMouseMotion.getY();
-        Image i1 = this.toolkit.getImage("src/assets/maingame/shop/gardener.png");
-        g.drawImage(i1, x, y, this);
+        g.drawImage(this.i1, x, y, this);
     }
 
 }
