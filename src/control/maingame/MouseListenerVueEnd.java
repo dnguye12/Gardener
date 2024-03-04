@@ -28,7 +28,6 @@ public class MouseListenerVueEnd implements MouseListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        System.out.println(e.getX() + " " + e.getY());
         int x = e.getX();
         int y = e.getY();
         if(x >= 668 && x <= 932) {

@@ -17,7 +17,7 @@ public class ThreadPlant extends Thread{
     }
 
     @Override
-    public void run() {
+    public synchronized void run() {
         while (true) {
             ArrayList<Integer> toRemove = new ArrayList<>();
             for (ModelPlant plant : this.plants.values()) {

@@ -27,6 +27,10 @@ public class VueLeft extends JPanel {
         this.addMouseMotionListener(this.vueLeftMouseMotion);
     }
 
+    public void initImage() {
+
+    }
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

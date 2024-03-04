@@ -114,7 +114,7 @@ public class ModelGardener extends ModelUnit{
 
         for(int id : plantsToHarvest) {
             ModelPlant plant = plants.get(id);
-            if (this.position.distance(plant.getPosition()) <= this.getRadius()) {
+            if (plant != null && this.position.distance(plant.getPosition()) <= this.getRadius()) {
                 helper.add(plant.getId());
             }
         }
@@ -136,7 +136,7 @@ public class ModelGardener extends ModelUnit{
     }
 
     public void upgrade() {
-        if(this.game.getMoney() >= 25) {
+        if(this.game.getMoney() >= 25 && this.getPromoteState() < 5) {
             this.game.setMoney(this.game.getMoney() - 25);
             this.setPromoteState(this.getPromoteState() + 1);
         }

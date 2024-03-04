@@ -17,7 +17,7 @@ public class ThreadRabbit extends Thread{
     }
 
     @Override
-    public void run() {
+    public synchronized void run() {
         while (true) {
             ArrayList<Integer> toRemove = new ArrayList<>();
             for (ModelRabbit rabbit : this.rabbits.values()) {

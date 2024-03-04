@@ -14,6 +14,9 @@ public class ModelGame {
     private HashMap<Integer, ModelPlant> plants;
     private ArrayList<Integer> plantsToHarvest;
     private HashMap<Integer, ModelRabbit> rabbits;
+    private HashMap<Integer, Point> posGardeneers;
+    private HashMap<Integer, Point> posPlants;
+    private HashMap<Integer, Point> posRabbit;
     private int money;
     private int score;
     private int timeLeft;
