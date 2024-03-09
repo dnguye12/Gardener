@@ -1,17 +1,22 @@
 package model;
 
+import control.algo.AStarPathfinder;
+import control.algo.GridSystem;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ModelGardener extends ModelUnit{
     private Status status;
-    private final int SPEED = 5;
+    public static final int SPEED = 5;
     private final int RADIUS = 100;
     private Direction direction;
     private int animationState;
     private ModelGame game;
     private int promoteState;
+    private AStarPathfinder pathfinder;
+    private ArrayList<Point> currentPath;
     public enum Status {
         IDLING("Idling"),
         MOVING("Moving");
@@ -34,6 +39,8 @@ public class ModelGardener extends ModelUnit{
         this.animationState = 0;
         this.game = game;
         this.promoteState = 0;
+        this.pathfinder = game.getPathfinder();
+        this.currentPath = new ArrayList<>();
     }
     public Status getStatus() {
         return this.status;
@@ -72,6 +79,12 @@ public class ModelGardener extends ModelUnit{
         this.animationState = 1 - this.animationState;
     }
 
+    @Override
+    public void setDest(Point dest) {
+        this.dest = dest;
+        this.currentPath = this.pathfinder.findPath(this.position, this.dest);
+    }
+
     public String getAnimation() {
         String helper = this.direction.getDirection() == 1 ? "right" : "left";
         if(this.status == Status.MOVING) {
@@ -85,17 +98,27 @@ public class ModelGardener extends ModelUnit{
         int dx = this.dest.x - this.position.x;
         int dy = this.dest.y - this.position.y;
         double distance = Math.sqrt(dx * dx + dy * dy);
-        int speed = this.getSpeed();
-
-        if(distance <= speed) {
+        if(distance <= SPEED) {
             this.position = new Point(this.dest);
             this.status = Status.IDLING;
-        }else {
-            double stepX = (dx / distance) * speed;
-            double stepY = (dy / distance) * speed;
-            this.direction.setDirection(this.position, this.dest);
+            this.currentPath.clear();
+        }else if(this.currentPath != null && this.currentPath.size() > 0){
+            Point helper = this.currentPath.get(0);
+            helper = new Point(helper.x * GridSystem.CELL_SIZE, helper.y * GridSystem.CELL_SIZE);
 
-            this.position = new Point((int) (this.position.x + stepX), (int) (this.position.y + stepY));
+            dx = helper.x - this.position.x;
+            dy = helper.y - this.position.y;
+            distance = Math.sqrt(dx * dx + dy * dy);
+            if(distance <= SPEED) {
+                this.position = new Point(helper);
+                this.currentPath.remove(0);
+            }else {
+                double stepX = (dx / distance) * SPEED;
+                double stepY = (dy / distance) * SPEED;
+                this.direction.setDirection(this.position, helper);
+
+                this.position = new Point((int) (this.position.x + stepX), (int) (this.position.y + stepY));
+            }
             this.status = Status.MOVING;
         }
     }

@@ -1,9 +1,12 @@
 package model;
 
+import control.algo.AStarPathfinder;
+import control.algo.GridSystem;
 import view.VueMainGame;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -19,13 +22,10 @@ public class ModelGame {
     private int money;
     private int score;
     private int timeLeft;
+    private AStarPathfinder pathfinder;
 
     public ModelGame() {
         this.gardeners = new HashMap<>();
-        int helperx = (VueMainGame.LEFT_WIDTH - 50) / 2;
-        int helpery = (VueMainGame.SCREEN_HEIGHT - 50) / 2;
-        this.gardeners.put(0, new ModelGardener(0, new Point(helperx, helpery), new Point(helperx, helpery), this));
-
 
         this.plants = new HashMap<>();
         this.plantsToHarvest = new ArrayList<Integer>();
@@ -33,7 +33,7 @@ public class ModelGame {
         this.rabbits = new HashMap<>();
 
         this.obstacles = new HashMap<>();
-        this.initObstacles();
+        this.initObstacles2();
 
         this.selected = null;
         this.isBuying = "";
@@ -41,6 +41,13 @@ public class ModelGame {
         this.money = 20;
         this.score = 0;
         this.timeLeft = 300;
+
+        GridSystem grid = new GridSystem(this);
+        this.pathfinder = new AStarPathfinder(grid.getWidth(), grid.getHeight(), grid.getWalkable());
+
+        int helperx = (VueMainGame.LEFT_WIDTH - 50) / 2;
+        int helpery = (VueMainGame.SCREEN_HEIGHT - 50) / 2;
+        this.gardeners.put(0, new ModelGardener(0, new Point(helperx, helpery), new Point(helperx, helpery), this));
     }
 
     private void initObstacles() {
@@ -52,6 +59,15 @@ public class ModelGame {
             x = rand.nextInt(helperx) + 48;
             y = rand.nextInt(helpery) + 48;
             this.obstacles.put(i, new ModelObstacle(i, new Point(x, y)));
+        }
+    }
+
+    private void initObstacles2() {
+        int helperx = (VueMainGame.LEFT_WIDTH - 50) / 2;
+        int helpery = (VueMainGame.SCREEN_HEIGHT - 50) / 2 - 150;
+
+        for(int i = 1; i <= 10; i++) {
+            this.obstacles.put(i, new ModelObstacle(i, new Point(helperx + 50, helpery + i * 30)));
         }
     }
 
@@ -95,6 +111,10 @@ public class ModelGame {
     }
     public void setTimeLeft(int timeLeft) {
         this.timeLeft = timeLeft;
+    }
+
+    public AStarPathfinder getPathfinder() {
+        return pathfinder;
     }
 
     public HashMap<Integer, ModelGardener> getGardeners() {
