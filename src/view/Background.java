@@ -1,15 +1,21 @@
 package view;
 
+import model.ModelGame;
+import model.ModelObstacle;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Random;
 
 public class Background {
+    private ModelGame game;
 
-    public Background() {
+    public Background(ModelGame game) {
+        this.game = game;
     }
 
     public Image drawBackground() {
@@ -52,6 +58,15 @@ public class Background {
                     }
                     g2d.drawImage(tile, i, j, 32, 32, null);
                 }
+            }
+            HashMap<Integer, ModelObstacle> obstacles = this.game.getObstacles();
+            Image helper2;
+            int x,y;
+            for (ModelObstacle obstacle : obstacles.values()) {
+                helper2 = ImageIO.read(new File(obstacle.getImgLink()));
+                x = obstacle.getPosition().x;
+                y = obstacle.getPosition().y;
+                g2d.drawImage(helper2, x, y, 48, 48, null);
             }
         }catch (IOException e) {
             e.printStackTrace();

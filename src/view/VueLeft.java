@@ -12,6 +12,7 @@ public class VueLeft extends JPanel {
     private final Toolkit toolkit;
     ModelGame game;
     private Image bgImage;
+    private Image obstacleImage;
     private MouseMotionVueLeft vueLeftMouseMotion;
     private Image IMGCoinSign;
     private Image IMGScoreSign;
@@ -22,8 +23,6 @@ public class VueLeft extends JPanel {
         this.setPreferredSize(new Dimension(VueMainGame.LEFT_WIDTH,VueMainGame.SCREEN_HEIGHT));
 
         this.game = game;
-
-        this.bgImage = new Background().drawBackground();
         this.initImage();
 
         MouseListenerVueLeft vueLeftMouseListener = new MouseListenerVueLeft(this.game);
@@ -33,6 +32,7 @@ public class VueLeft extends JPanel {
     }
 
     public void initImage() {
+        this.bgImage = new Background(this.game).drawBackground();
         this.IMGCoinSign = this.toolkit.getImage("src/assets/maingame/left/coin sign.png");
         this.IMGScoreSign = this.toolkit.getImage("src/assets/maingame/left/score sign.png");
         this.IMGTimeSign = this.toolkit.getImage("src/assets/maingame/left/time sign.png");
@@ -82,8 +82,6 @@ public class VueLeft extends JPanel {
             }
             helper = this.toolkit.getImage(gardener.getAnimation());
             g2.drawImage(helper, position.x, position.y, this);
-
-
         }
     }
 
@@ -154,5 +152,4 @@ public class VueLeft extends JPanel {
         int y = this.vueLeftMouseMotion.getY();
         g.drawImage(this.i1, x, y, this);
     }
-
 }

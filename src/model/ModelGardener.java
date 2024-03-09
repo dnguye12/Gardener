@@ -103,7 +103,7 @@ public class ModelGardener extends ModelUnit{
     public void plant() {
         if(this.game.getMoney() >= 10) {
             this.game.setMoney(this.game.getMoney() - 10);
-            this.game.addPlant(new ModelPlant(IdGen.generatePlantId(), this.position, ModelPlant.PlantType.randomType()));
+            this.game.addPlant(new ModelPlant(IdGen.generatePlantId(), this.position, ModelPlant.PlantType.randomType(), this.game));
         }
     }
 
@@ -125,10 +125,12 @@ public class ModelGardener extends ModelUnit{
         ArrayList<Integer> helper = this.plantsNear();
         for(int id : helper) {
             ModelPlant plant = this.game.getPlants().get(id);
+            if(plant != null) {
             int money = plant.getMoney();
             this.game.setMoney(this.game.getMoney() + money);
             this.game.setScore(this.game.getScore() + money);
             this.game.removePlant(id);
+            }
         }
         ArrayList<Integer> plantsToHarvest = this.game.getPlantsToHarvest();
         plantsToHarvest.removeAll(helper);

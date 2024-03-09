@@ -14,9 +14,8 @@ public class ModelGame {
     private HashMap<Integer, ModelPlant> plants;
     private ArrayList<Integer> plantsToHarvest;
     private HashMap<Integer, ModelRabbit> rabbits;
-    private HashMap<Integer, Point> posGardeners;
-    private HashMap<Integer, Point> posPlants;
-    private HashMap<Integer, Point> posRabbit;
+    private HashMap<Integer, ModelObstacle> obstacles;
+
     private int money;
     private int score;
     private int timeLeft;
@@ -33,12 +32,27 @@ public class ModelGame {
 
         this.rabbits = new HashMap<>();
 
+        this.obstacles = new HashMap<>();
+        this.initObstacles();
+
         this.selected = null;
         this.isBuying = "";
 
-        this.money = 10;
+        this.money = 20;
         this.score = 0;
         this.timeLeft = 300;
+    }
+
+    private void initObstacles() {
+        Random rand = new Random();
+        int helperx = VueMainGame.LEFT_WIDTH - 50 - 48;
+        int helpery = VueMainGame.SCREEN_HEIGHT - 50 - 48;
+        int x,y;
+        for(int i = 1; i <= 10; i++) {
+            x = rand.nextInt(helperx) + 48;
+            y = rand.nextInt(helpery) + 48;
+            this.obstacles.put(i, new ModelObstacle(i, new Point(x, y)));
+        }
     }
 
     public void setSelected(ModelUnit selected) {
@@ -146,6 +160,10 @@ public class ModelGame {
         int helper =  x <= 600 ? -1 : 1;
         int idr = IdGen.generateRabbitId();
         this.rabbits.put(idr, new ModelRabbit(idr, point, point, this, helper));
+    }
+
+    public HashMap<Integer, ModelObstacle> getObstacles() {
+        return this.obstacles;
     }
 
     public void reset() {

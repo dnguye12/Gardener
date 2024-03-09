@@ -99,6 +99,9 @@ public class ModelRabbit extends ModelUnit{
         ModelPlant res = null;
         double minDistance = Double.MAX_VALUE;
         for(ModelPlant plant : this.game.getPlants().values()) {
+            if(plant.isWithinLineOfSight()) {
+                continue;
+            }
             double dist = this.position.distance(plant.getPosition());
             if(dist < minDistance) {
                 minDistance = dist;

@@ -46,13 +46,15 @@ public class ModelPlant extends ModelUnit{
     private int currentStage;
     private int hp;
     private int growspeed;
-    public ModelPlant(int id, Point position, PlantType type) {
+    private ModelGame game;
+    public ModelPlant(int id, Point position, PlantType type, ModelGame game) {
         super(id, position, position);
         this.stage = 0;
         this.currentStage = 0;
         this.type = type;
         this.hp = this.type.getMaxHP();
         this.growspeed = this.type.getGrowspeed();
+        this.game = game;
     }
 
     public void grow() {
@@ -97,5 +99,13 @@ public class ModelPlant extends ModelUnit{
 
     public int getMoney() {
         return this.type.getStageCount() * 10;
+    }
+    public boolean isWithinLineOfSight() {
+        for(ModelGardener gardener : this.game.getGardeners().values()) {
+            if(this.position.distance(gardener.getPosition()) <= gardener.getRadius()) {
+                return true;
+            }
+        }
+        return false;
     }
 }
