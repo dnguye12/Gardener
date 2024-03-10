@@ -10,6 +10,7 @@ import java.util.HashMap;
 
 public class GridSystem {
     public static final int CELL_SIZE = 30;
+    private final int OBSTACLE_SIZE = 30;
     private int width;
     private int height;
     private boolean[][] walkable;
@@ -23,22 +24,26 @@ public class GridSystem {
         }
 
         HashMap<Integer, ModelObstacle> obstacles = game.getObstacles();
-        int x,y, x2, y2;
+        int x,y, left, right, top, bottom, leftCell, rightCell, topCell, bottomCell;
         for(ModelObstacle obstacle : obstacles.values()) {
             x = obstacle.getPosition().x;
             y = obstacle.getPosition().y;
-            x2 = (int) (x / CELL_SIZE);
-            y2 = (int) (y / CELL_SIZE);
-            walkable[x2][y2] = false;
-            if(x % CELL_SIZE != 0 && y%CELL_SIZE != 0) {
-                walkable[x2 + 1][y2] = false;
-                walkable[x2][y2 + 1] = false;
-                walkable[x2 + 1][y2 + 1] = false;
-            }else if(x % CELL_SIZE != 0) {
-                walkable[x2 + 1][y2] = false;
-            }else if(y % CELL_SIZE != 0) {
-                walkable[x2][y2 + 1] = false;
-            }
+
+            left = x - OBSTACLE_SIZE / 2;
+            right = x + OBSTACLE_SIZE / 2;
+            top = y - OBSTACLE_SIZE / 2;
+            bottom = y + OBSTACLE_SIZE / 2;
+
+            leftCell = left / CELL_SIZE;
+            rightCell = (right + CELL_SIZE - 1) / CELL_SIZE;
+            topCell = top / CELL_SIZE;
+            bottomCell = (bottom + CELL_SIZE - 1) / CELL_SIZE;
+
+            for(int i = Math.max(0, leftCell); i <= Math.min(width - 1, rightCell); i++) {
+                    for(int j = Math.max(0, topCell); j <= Math.min(height - 1, bottomCell); j++) {
+                            walkable[i][j] = false;
+                        }
+                    }
         }
     }
 
