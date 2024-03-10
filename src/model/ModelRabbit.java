@@ -1,8 +1,11 @@
 package model;
 
+import control.algo.AStarPathfinder;
+import control.algo.GridSystem;
 import view.VueMainGame;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class ModelRabbit extends ModelUnit{
@@ -18,6 +21,8 @@ public class ModelRabbit extends ModelUnit{
     private ModelPlant eatingPlant;
     private Direction direction;
     private int animationState;
+    private AStarPathfinder pathfinder;
+    private ArrayList<Point> currentPath;
     public enum Status {
         IDLING("Idling"),
         MOVING("Moving"),
@@ -50,6 +55,9 @@ public class ModelRabbit extends ModelUnit{
 
         this.direction = new Direction();
         this.animationState = 0;
+
+        this.pathfinder = game.getPathfinder();
+        this.currentPath = new ArrayList<>();
     }
 
     public ModelRabbit(int id, Point position, Point dest, ModelGame game, int direction) {
@@ -84,6 +92,12 @@ public class ModelRabbit extends ModelUnit{
 
     public void nextAnimationState() {
         this.animationState = 1 - this.animationState;
+    }
+
+    @Override
+    public void setDest(Point dest) {
+        this.dest = dest;
+        this.currentPath = this.pathfinder.findPath(this.position, dest);
     }
 
     public String getAnimation() {
@@ -145,9 +159,9 @@ public class ModelRabbit extends ModelUnit{
     public void move() {
         long currentTime = System.currentTimeMillis();
         if (this.dieTime > 0 && this.status != Status.QUITING) {
-            if (isWithinLineOfSight()) {
+            if (isWithinLineOfSight() && this.status != Status.FLEEING) {
                 this.status = Status.FLEEING;
-                this.dest = this.findNearestCorner();
+                this.setDest(this.findNearestCorner());
                 this.lastStateChangeTime = currentTime;
             }
             if (this.status == Status.FLEEING) {
@@ -161,35 +175,56 @@ public class ModelRabbit extends ModelUnit{
             } else if (status == Status.IDLING && currentTime - this.lastStateChangeTime > this.MEMSPAN) {
                 ModelPlant nearestPlant = this.findNearestPlant();
                 if (nearestPlant != null) {
-                    this.dest = nearestPlant.getPosition();
+                    this.setDest(nearestPlant.getPosition());
                     this.foundPlant = true;
                     this.eatingPlant = nearestPlant;
                 } else {
                     Random rand = new Random();
-                    this.dest = new Point(rand.nextInt(1150), rand.nextInt(850));
+                    this.setDest(new Point(rand.nextInt(1150), rand.nextInt(850)));
                     this.foundPlant = false;
                 }
                 this.status = Status.MOVING;
                 this.lastStateChangeTime = currentTime;
             }
 
-        } else {
+        } else if (this.status != Status.QUITING) {
             this.status = Status.QUITING;
-            this.dest = this.findNearestCorner();
+            this.setDest(this.findNearestCorner());
         }
         if (this.status != Status.IDLING) {
             int dx = dest.x - position.x;
             int dy = dest.y - position.y;
             double dist = Math.sqrt(dx * dx + dy * dy);
             if(this.status == Status.MOVING && dist <= 25) {
+                this.currentPath.clear();
                 this.status = Status.EATING;
                 this.lastStateChangeTime = currentTime;
             }
-            else if (this.status != Status.EATING &&  dist > SPEED) {
-                double stepX = (dx / dist) * SPEED;
-                double stepY = (dy / dist) * SPEED;
-                this.direction.setDirection(this.position, this.dest);
-                position = new Point((int) (position.x + stepX), (int) (position.y + stepY));
+            else if (this.status != Status.EATING ) {
+                Point helper = null;
+                if(this.currentPath.size() > 0) {
+                    helper = this.currentPath.get(0);
+                    helper = new Point(helper.x * GridSystem.CELL_SIZE, helper.y * GridSystem.CELL_SIZE);
+                    dx = helper.x - this.position.x;
+                    dy = helper.y - this.position.y;
+                }else {
+                    dx = dest.x - position.x;
+                    dy = dest.y - position.y;
+                }
+                dist = Math.sqrt(dx * dx + dy * dy);
+                if(dist <= SPEED) {
+                    if(helper != null) {
+                        this.position = new Point(helper);
+                        this.currentPath.remove(0);
+                    }else {
+                        this.position = new Point(this.dest);
+                    }
+                }else {
+                    double stepX = (dx / dist) * SPEED;
+                    double stepY = (dy / dist) * SPEED;
+                    this.direction.setDirection(this.position, this.dest);
+                    position = new Point((int) (position.x + stepX), (int) (position.y + stepY));
+                }
             }
         }
         lastMoveTime = currentTime;
@@ -209,7 +244,7 @@ public class ModelRabbit extends ModelUnit{
             this.lastStateChangeTime = System.currentTimeMillis();
             this.eatingPlant = null;
             this.foundPlant = false;
-        } else if(this.status == Status.EATING && this.eatingPlant != null) {
+        } else if(this.status == Status.EATING) {
             this.eatingPlant.setHP(this.eatingPlant.getHP() - 1);
                 this.dieTime += 1;
                 if(!this.eatingPlant.isAlive()) {
