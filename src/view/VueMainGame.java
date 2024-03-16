@@ -15,6 +15,7 @@ public class VueMainGame {
     private final JFrame frame;
     private final ModelGame game;
     private Timer checkTimer;
+    private Toolkit toolkit;
     public VueMainGame(ModelGame game) {
         this.game = game;
 

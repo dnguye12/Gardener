@@ -7,14 +7,16 @@ import javax.swing.*;
 import java.awt.*;
 
 public class VueMainMenu extends JPanel {
+    private Toolkit toolkit;
     private final JFrame frame;
-
     private Image bgImage;
+    private Image cursor;
 
     public VueMainMenu() {
         this.frame = new JFrame("Gardener");
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setPreferredSize(new Dimension(Math.min((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), 1600), VueMainGame.SCREEN_HEIGHT));
+        this.toolkit = Toolkit.getDefaultToolkit();
+        this.setPreferredSize(new Dimension(Math.min((int) this.toolkit.getScreenSize().getWidth(), 1600), VueMainGame.SCREEN_HEIGHT));
 
         this.bgImage = new ImageIcon("src/assets/mainmenu/bg.png").getImage();
 
@@ -29,6 +31,10 @@ public class VueMainMenu extends JPanel {
         JLabel quitButton = new JLabel(quitButtonIcon);
         quitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         quitButton.addMouseListener(new QuitButtonListener(this.frame));
+
+        this.cursor = this.toolkit.getImage("src/assets/cursor/normal.png");
+        Cursor c = this.toolkit.createCustomCursor(cursor , new Point(this.getX(), this.getY()), "cursor");
+        this.setCursor(c);
 
         this.add(Box.createVerticalGlue());
         this.add(startButton);

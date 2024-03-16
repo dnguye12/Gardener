@@ -18,6 +18,9 @@ public class VueLeft extends JPanel {
     private Image IMGScoreSign;
     private Image IMGTimeSign;
     private Image i1;
+    private Image cursorNormal;
+    private Image cursorHover;
+    private Cursor c;
     public VueLeft(ModelGame game) {
         this.toolkit = Toolkit.getDefaultToolkit();
         this.setPreferredSize(new Dimension(VueMainGame.LEFT_WIDTH,VueMainGame.SCREEN_HEIGHT));
@@ -37,6 +40,8 @@ public class VueLeft extends JPanel {
         this.IMGScoreSign = this.toolkit.getImage("src/assets/maingame/left/score sign.png");
         this.IMGTimeSign = this.toolkit.getImage("src/assets/maingame/left/time sign.png");
         this.i1 = this.toolkit.getImage("src/assets/maingame/shop/gardener.png");
+        this.cursorNormal = this.toolkit.getImage("src/assets/cursor/normal.png");
+        this.cursorHover = this.toolkit.getImage("src/assets/cursor/hover.png");
     }
 
     @Override
@@ -56,6 +61,7 @@ public class VueLeft extends JPanel {
         this.drawCoin(g);
         this.drawScore(g);
         this.drawTimeLeft(g);
+        this.drawCursor();
     }
 
     public void drawGardeners(Graphics g) {
@@ -152,4 +158,14 @@ public class VueLeft extends JPanel {
         int y = this.vueLeftMouseMotion.getY();
         g.drawImage(this.i1, x, y, this);
     }
-}
+
+    public void drawCursor() {
+        if(this.game.getIsBuying().length() > 0) {
+            this.c = this.toolkit.createCustomCursor(this.cursorHover , new Point(this.getX(), this.getY()), "cursorHover");
+        }else {
+            this.c = this.toolkit.createCustomCursor(this.cursorNormal , new Point(this.getX(), this.getY()), "cursorNormal");
+        }
+        this.setCursor(this.c);
+        }
+
+    }

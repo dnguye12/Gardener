@@ -29,6 +29,7 @@ public class VueRight extends JPanel {
     private Image IMGBar0;
     private Image IMGBar1;
     private Image IMGBar2;
+    private Image cursorNormal;
     public VueRight(ModelGame game) {
         this.toolkit = Toolkit.getDefaultToolkit();
 
@@ -36,6 +37,9 @@ public class VueRight extends JPanel {
         this.initImage();
 
         this.game = game;
+
+        Cursor c =  this.toolkit.createCustomCursor(this.cursorNormal, new Point(this.getX(), this.getY()), "cursor");
+        this.setCursor(c);
 
         MouseListenerVueRight vueRightMouseListener = new MouseListenerVueRight(this.game);
         this.addMouseListener(vueRightMouseListener);
@@ -68,6 +72,7 @@ public class VueRight extends JPanel {
         this.IMGBar0 = this.toolkit.getImage("src/assets/maingame/plant/bar0.png");
         this.IMGBar1 = this.toolkit.getImage("src/assets/maingame/plant/bar1.png");
         this.IMGBar2 = this.toolkit.getImage("src/assets/maingame/plant/bar2.png");
+        this.cursorNormal = this.toolkit.getImage("src/assets/cursor/normal.png");
     }
 
     @Override

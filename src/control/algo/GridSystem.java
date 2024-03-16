@@ -1,7 +1,6 @@
 package control.algo;
 
 import model.ModelGame;
-import model.ModelGardener;
 import model.ModelObstacle;
 import view.VueMainGame;
 

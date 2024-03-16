@@ -26,6 +26,10 @@ public class VueEnd extends JPanel {
         this.bgImage = new ImageIcon("src/assets/end/bg.png").getImage();
         this.endImage = new ImageIcon("src/assets/end/end.png").getImage();
 
+        Image cursorNormal = this.toolkit.getImage("src/assets/cursor/normal.png");
+        Cursor c =  this.toolkit.createCustomCursor(cursorNormal, new Point(this.getX(), this.getY()), "cursor");
+        this.setCursor(c);
+
         MouseListenerVueEnd vueEndMouseListener = new MouseListenerVueEnd(this.frame, this.game);
         this.addMouseListener(vueEndMouseListener);
         this.frame.getContentPane().add(this);
