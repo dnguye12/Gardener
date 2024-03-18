@@ -1,6 +1,7 @@
 package control.mainmenu;
 
 import model.ModelGame;
+import model.MusicPlayer;
 import view.VueMainGame;
 
 import javax.swing.*;
@@ -26,6 +27,7 @@ public class StartButtonListener implements MouseListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        MusicPlayer.playClick();
         this.frame.dispose();
         ModelGame game = new ModelGame();
         new VueMainGame(game);

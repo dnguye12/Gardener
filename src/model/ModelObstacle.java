@@ -11,7 +11,7 @@ public class ModelObstacle extends ModelUnit {
 
         Random rand = new Random();
         int n = rand.nextInt(4) + 1;
-        imgLink = "src/assets/maingame/obstacle/" + 0 + ".png";
+        imgLink = "src/assets/maingame/obstacle/" + n + ".png";
     }
 
     public String getImgLink() {

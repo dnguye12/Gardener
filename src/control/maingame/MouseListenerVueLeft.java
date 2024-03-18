@@ -72,6 +72,7 @@ public class MouseListenerVueLeft implements MouseListener {
                 }
 
                 if (selected != null) {
+                    MusicPlayer.playClick();
                     selected.setSelected(false);
                 }
                 this.game.setSelected(null);
@@ -79,6 +80,7 @@ public class MouseListenerVueLeft implements MouseListener {
                 if(isBuying.equals("Gardener")) {
                     int money = this.game.getMoney();
                     if(money >= 100) {
+                        MusicPlayer.playClick();
                         this.game.setMoney(money - 100);
                         this.game.setIsBuying("");
                         this.game.addGardener(new ModelGardener(IdGen.generateGardenerId(), e.getPoint(), e.getPoint(), this.game));
@@ -92,6 +94,7 @@ public class MouseListenerVueLeft implements MouseListener {
                 ModelUnit helper = this.game.getSelected();
                 if (helper != null) {
                     if (helper instanceof ModelGardener) {
+                        MusicPlayer.playMove();
                         helper.setDest(e.getPoint());
                         return;
                     }

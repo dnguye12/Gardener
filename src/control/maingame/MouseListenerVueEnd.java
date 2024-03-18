@@ -1,6 +1,7 @@
 package control.maingame;
 
 import model.ModelGame;
+import model.MusicPlayer;
 import view.VueMainGame;
 import view.VueMainMenu;
 
@@ -32,10 +33,12 @@ public class MouseListenerVueEnd implements MouseListener {
         int y = e.getY();
         if(x >= 668 && x <= 932) {
             if(y >= 498 && y <= 569) {
+                MusicPlayer.playClick();
                 this.endFrame.dispose();
                 this.game.reset();
                 new VueMainGame(game);
             }else if(y >= 595 && y <= 671) {
+                MusicPlayer.playClick();
                 this.endFrame.dispose();
                 VueMainMenu mainMenu = new VueMainMenu();
             }

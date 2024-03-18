@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class GridSystem {
-    public static final int CELL_SIZE = 30;
+    public static final int CELL_SIZE = 10;
     private final int OBSTACLE_SIZE = 30;
     private int width;
     private int height;

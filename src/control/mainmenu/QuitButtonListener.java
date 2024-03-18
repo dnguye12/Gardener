@@ -1,5 +1,7 @@
 package control.mainmenu;
 
+import model.MusicPlayer;
+
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -23,6 +25,7 @@ public class QuitButtonListener implements MouseListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        MusicPlayer.playClick();
         this.frame.dispatchEvent(new WindowEvent(this.frame, WindowEvent.WINDOW_CLOSING));
     }
 

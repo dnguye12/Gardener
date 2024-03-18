@@ -98,11 +98,11 @@ public class ModelGardener extends ModelUnit{
         int dx = this.dest.x - this.position.x;
         int dy = this.dest.y - this.position.y;
         double distance = Math.sqrt(dx * dx + dy * dy);
-        if(distance <= SPEED) {
+        if(distance <= SPEED || this.currentPath.size() == 0) {
             this.position = new Point(this.dest);
             this.status = Status.IDLING;
             this.currentPath.clear();
-        }else if(this.currentPath != null && this.currentPath.size() > 0){
+        }else {
             Point helper = this.currentPath.get(0);
             helper = new Point(helper.x * GridSystem.CELL_SIZE, helper.y * GridSystem.CELL_SIZE);
 

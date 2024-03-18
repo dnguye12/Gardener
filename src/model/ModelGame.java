@@ -32,7 +32,7 @@ public class ModelGame {
         this.rabbits = new HashMap<>();
 
         this.obstacles = new HashMap<>();
-        this.initObstacles2();
+        this.initObstacles();
 
         this.selected = null;
         this.isBuying = "";
@@ -54,9 +54,14 @@ public class ModelGame {
         int helperx = VueMainGame.LEFT_WIDTH - 50 - 48;
         int helpery = VueMainGame.SCREEN_HEIGHT - 50 - 48;
         int x,y;
-        for(int i = 1; i <= 10; i++) {
-            x = rand.nextInt(helperx) + 48;
-            y = rand.nextInt(helpery) + 48;
+        for(int i = 1; i <= 20; i++) {
+            while(true) {
+                x = rand.nextInt(helperx) + 48;
+                y = rand.nextInt(helpery) + 48;
+                if(Math.abs(x - (VueMainGame.LEFT_WIDTH - 50) / 2) >= 5 && Math.abs(y - (VueMainGame.SCREEN_HEIGHT - 50) / 2) >= 5) {
+                    break;
+                }
+            }
             this.obstacles.put(i, new ModelObstacle(i, new Point(x, y)));
         }
     }

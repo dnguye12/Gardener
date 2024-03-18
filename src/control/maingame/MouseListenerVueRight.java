@@ -3,6 +3,7 @@ package control.maingame;
 import model.ModelGame;
 import model.ModelGardener;
 import model.ModelUnit;
+import model.MusicPlayer;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -39,10 +40,13 @@ public class MouseListenerVueRight implements MouseListener {
                 ModelGardener gardener = (ModelGardener) selected;
                 if (e.getX() >= 55 && e.getX() <= 345) {
                     if (e.getY() >= 307 && e.getY() <= 408) {
+                        MusicPlayer.playPlant();
                         gardener.plant();
                     } else if (e.getY() >= 418 && e.getY() <= 519) {
+                        MusicPlayer.playClick();
                         gardener.harvest();
                     } else if (e.getY() >= 529 && e.getY() <= 640) {
+                        MusicPlayer.playUpgrade();
                         gardener.upgrade();
                     }
                 }
@@ -50,6 +54,7 @@ public class MouseListenerVueRight implements MouseListener {
         }else {
             if(e.getX() >= 55 && e.getX() <= 345) {
                 if(e.getY() >= 225 && e.getY() <= 315) {
+                    MusicPlayer.playClick();
                     this.game.setIsBuying("Gardener");
                 }
             }
