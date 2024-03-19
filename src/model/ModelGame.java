@@ -51,18 +51,18 @@ public class ModelGame {
 
     private void initObstacles() {
         Random rand = new Random();
-        int helperx = VueMainGame.LEFT_WIDTH - 50 - 48;
-        int helpery = VueMainGame.SCREEN_HEIGHT - 50 - 48;
+        int helperx = VueMainGame.LEFT_WIDTH / GridSystem.OBSTACLE_SIZE - 2;
+        int helpery = VueMainGame.SCREEN_HEIGHT / GridSystem.OBSTACLE_SIZE - 2;
         int x,y;
         for(int i = 1; i <= 20; i++) {
             while(true) {
-                x = rand.nextInt(helperx) + 48;
-                y = rand.nextInt(helpery) + 48;
-                if(Math.abs(x - (VueMainGame.LEFT_WIDTH - 50) / 2) >= 5 && Math.abs(y - (VueMainGame.SCREEN_HEIGHT - 50) / 2) >= 5) {
+                x = rand.nextInt(helperx) + 1;
+                y = rand.nextInt(helpery) + 1;
+                if(Math.abs(x - (VueMainGame.LEFT_WIDTH / GridSystem.OBSTACLE_SIZE) / 2) >= 5 && Math.abs(y - (VueMainGame.LEFT_WIDTH / GridSystem.OBSTACLE_SIZE) / 2) >= 5) {
                     break;
                 }
             }
-            this.obstacles.put(i, new ModelObstacle(i, new Point(x, y)));
+            this.obstacles.put(i, new ModelObstacle(i, new Point(x * GridSystem.OBSTACLE_SIZE, y * GridSystem.OBSTACLE_SIZE)));
         }
     }
 

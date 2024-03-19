@@ -62,6 +62,8 @@ public class VueLeft extends JPanel {
         this.drawScore(g);
         this.drawTimeLeft(g);
         this.drawCursor();
+
+        g.setColor(Color.BLUE);
     }
 
     public void drawGardeners(Graphics g) {

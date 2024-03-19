@@ -8,8 +8,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class GridSystem {
-    public static final int CELL_SIZE = 10;
-    private final int OBSTACLE_SIZE = 30;
+    public static final int CELL_SIZE = 30;
+    public static final int OBSTACLE_SIZE = 30;
     private int width;
     private int height;
     private boolean[][] walkable;
@@ -25,25 +25,11 @@ public class GridSystem {
         HashMap<Integer, ModelObstacle> obstacles = game.getObstacles();
         int x,y, left, right, top, bottom, leftCell, rightCell, topCell, bottomCell;
         for(ModelObstacle obstacle : obstacles.values()) {
-            x = obstacle.getPosition().x;
-            y = obstacle.getPosition().y;
-
-            left = x - OBSTACLE_SIZE / 2;
-            right = x + OBSTACLE_SIZE / 2;
-            top = y - OBSTACLE_SIZE / 2;
-            bottom = y + OBSTACLE_SIZE / 2;
-
-            leftCell = left / CELL_SIZE;
-            rightCell = (right + CELL_SIZE - 1) / CELL_SIZE;
-            topCell = top / CELL_SIZE;
-            bottomCell = (bottom + CELL_SIZE - 1) / CELL_SIZE;
-
-            for(int i = Math.max(0, leftCell); i <= Math.min(width - 1, rightCell); i++) {
-                    for(int j = Math.max(0, topCell); j <= Math.min(height - 1, bottomCell); j++) {
-                            walkable[i][j] = false;
-                        }
-                    }
-        }
+            x = obstacle.getPosition().x / CELL_SIZE;
+            y = obstacle.getPosition().y / CELL_SIZE;
+                        walkable[x][y] = false;
+            }
+        
     }
 
     public boolean[][] getWalkable() {

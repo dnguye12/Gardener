@@ -94,7 +94,6 @@ public class MouseListenerVueLeft implements MouseListener {
                 ModelUnit helper = this.game.getSelected();
                 if (helper != null) {
                     if (helper instanceof ModelGardener) {
-                        MusicPlayer.playMove();
                         helper.setDest(e.getPoint());
                         return;
                     }

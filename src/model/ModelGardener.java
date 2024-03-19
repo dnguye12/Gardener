@@ -81,8 +81,15 @@ public class ModelGardener extends ModelUnit{
 
     @Override
     public void setDest(Point dest) {
+        HashMap<Integer, ModelObstacle> obs = this.game.getObstacles();
+        for(ModelObstacle ob : obs.values()) {
+            if(ob.getPosition().distance(dest) <= GridSystem.OBSTACLE_SIZE) {
+                return;
+            }
+        }
         this.dest = dest;
         this.currentPath = this.pathfinder.findPath(this.position, this.dest);
+        MusicPlayer.playMove();
     }
 
     public String getAnimation() {
