@@ -23,21 +23,17 @@ public class GridSystem {
         }
 
         HashMap<Integer, ModelObstacle> obstacles = game.getObstacles();
-        int x,y, left, right, top, bottom, leftCell, rightCell, topCell, bottomCell;
+        int x,y;
         for(ModelObstacle obstacle : obstacles.values()) {
             x = obstacle.getPosition().x / CELL_SIZE;
             y = obstacle.getPosition().y / CELL_SIZE;
                         walkable[x][y] = false;
             }
-        
+
     }
 
     public boolean[][] getWalkable() {
         return walkable;
-    }
-
-    public int getCELL_SIZE() {
-        return CELL_SIZE;
     }
 
     public int getWidth() {

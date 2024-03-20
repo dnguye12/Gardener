@@ -95,7 +95,6 @@ public class MouseListenerVueLeft implements MouseListener {
                 if (helper != null) {
                     if (helper instanceof ModelGardener) {
                         helper.setDest(e.getPoint());
-                        return;
                     }
                 }
             }

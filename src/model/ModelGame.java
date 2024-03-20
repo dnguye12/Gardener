@@ -37,7 +37,7 @@ public class ModelGame {
         this.selected = null;
         this.isBuying = "";
 
-        this.money = 20;
+        this.money = 200;
         this.score = 0;
         this.timeLeft = 300;
 

@@ -6,11 +6,12 @@ import view.VueMainGame;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 public class ModelRabbit extends ModelUnit{
     private final int SPEED = 5;
-    private final int MEMSPAN = 1250;
+    private final int MEMSPAN = 1500;
     private ModelGame game;
     private Status status;
 
@@ -96,6 +97,12 @@ public class ModelRabbit extends ModelUnit{
 
     @Override
     public void setDest(Point dest) {
+        HashMap<Integer, ModelObstacle> obs = this.game.getObstacles();
+        for(ModelObstacle ob : obs.values()) {
+            if(ob.getPosition().distance(dest) <= GridSystem.OBSTACLE_SIZE) {
+                return;
+            }
+        }
         this.dest = dest;
         this.currentPath = this.pathfinder.findPath(this.position, dest);
     }
