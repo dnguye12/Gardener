@@ -35,6 +35,7 @@ public class MouseListenerVueLeft implements MouseListener {
                     if (dx * dx + dy * dy <= 50 * 50) {
                         if (selected != null) {
                             selected.setSelected(false);
+                            MusicPlayer.playUpgrade();
                         }
                         gardener.setSelected(true);
                         this.game.setSelected(gardener);
@@ -49,6 +50,7 @@ public class MouseListenerVueLeft implements MouseListener {
                     if (dx * dx + dy * dy <= 50 * 50) {
                         if (selected != null) {
                             selected.setSelected(false);
+                            MusicPlayer.playPlant();
                         }
                         plant.setSelected(true);
                         this.game.setSelected(plant);
@@ -64,6 +66,7 @@ public class MouseListenerVueLeft implements MouseListener {
                     if (dx * dx + dy * dy <= 50 * 50) {
                         if (selected != null) {
                             selected.setSelected(false);
+                            MusicPlayer.playCow();
                         }
                         rabbit.setSelected(true);
                         this.game.setSelected(rabbit);

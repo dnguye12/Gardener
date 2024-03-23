@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.PriorityQueue;
+import java.util.concurrent.CompletableFuture;
 
 public class AStarPathfinder {
     private final int width, height;
@@ -52,6 +53,10 @@ public class AStarPathfinder {
             }
         }
         return new ArrayList<>();
+    }
+
+    public CompletableFuture<ArrayList<Point>> findPathAsync(Point start, Point end) {
+        return CompletableFuture.supplyAsync(() -> findPath(start, end));
     }
 
     private ArrayList<Point> reconstructPath(Node current) {

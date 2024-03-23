@@ -184,6 +184,7 @@ public class ModelGame {
         int helper =  x <= 600 ? -1 : 1;
         int idr = IdGen.generateRabbitId();
         this.rabbits.put(idr, new ModelRabbit(idr, point, point, this, helper));
+        MusicPlayer.playCow();
     }
 
     public HashMap<Integer, ModelObstacle> getObstacles() {

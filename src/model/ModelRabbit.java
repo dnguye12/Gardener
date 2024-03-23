@@ -11,7 +11,7 @@ import java.util.Random;
 
 public class ModelRabbit extends ModelUnit{
     private final int SPEED = 5;
-    private final int MEMSPAN = 1500;
+    private final int MEMSPAN = 3000;
     private ModelGame game;
     private Status status;
 
@@ -103,8 +103,12 @@ public class ModelRabbit extends ModelUnit{
                 return;
             }
         }
+
         this.dest = dest;
-        this.currentPath = this.pathfinder.findPath(this.position, dest);
+        this.pathfinder.findPathAsync(this.position, dest).thenAccept(path -> {
+            this.currentPath = path;
+        });
+        //this.currentPath = this.pathfinder.findPath(this.position, dest);
     }
 
     public String getAnimation() {

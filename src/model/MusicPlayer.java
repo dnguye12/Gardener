@@ -66,4 +66,9 @@ public class MusicPlayer {
         helper = rand.nextInt(4);
         playEffect("src/assets/sound/move" + helper + ".wav");
     }
+
+    public static void playCow() {
+        helper = rand.nextInt(2);
+        playEffect("src/assets/sound/cow" + helper + ".wav");
+    }
 }
