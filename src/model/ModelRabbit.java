@@ -108,7 +108,6 @@ public class ModelRabbit extends ModelUnit{
         this.pathfinder.findPathAsync(this.position, dest).thenAccept(path -> {
             this.currentPath = path;
         });
-        //this.currentPath = this.pathfinder.findPath(this.position, dest);
     }
 
     public String getAnimation() {
