@@ -8,18 +8,20 @@ import javax.swing.*;
 import java.awt.*;
 
 public class VueEnd extends JPanel {
+    private VueMainGame vueMainGame;
     private final JFrame frame;
     private final Toolkit toolkit;
     private ModelGame game;
     private Image bgImage;
     private Image endImage;
 
-    public VueEnd(ModelGame game) {
+    public VueEnd(VueMainGame vueMainGame ,ModelGame game) {
+        this.vueMainGame = vueMainGame;
         this.toolkit = Toolkit.getDefaultToolkit();
 
         this.frame = new JFrame("Gardener");
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setPreferredSize(new Dimension(Math.min((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), 1600), VueMainGame.SCREEN_HEIGHT));
+        this.setPreferredSize(new Dimension(Math.min((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), 1600), this.vueMainGame.getScreen_height()));
         this.frame.setResizable(false);
         this.game = game;
 

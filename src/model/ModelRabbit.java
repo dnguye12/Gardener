@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 public class ModelRabbit extends ModelUnit{
+    private VueMainGame vueMainGame;
     private final int SPEED = 5;
     private final int MEMSPAN = 3000;
     private ModelGame game;
@@ -42,8 +43,9 @@ public class ModelRabbit extends ModelUnit{
         }
     }
 
-    public ModelRabbit(int id, Point position, Point dest, ModelGame game) {
+    public ModelRabbit(int id, Point position, Point dest, ModelGame game, VueMainGame vueMainGame) {
         super(id, position, dest);
+        this.vueMainGame = vueMainGame;
         this.game = game;
         this.status = Status.IDLING;
         this.dieTime = 15000;
@@ -61,8 +63,8 @@ public class ModelRabbit extends ModelUnit{
         this.currentPath = new ArrayList<>();
     }
 
-    public ModelRabbit(int id, Point position, Point dest, ModelGame game, int direction) {
-        this(id, position, dest, game);
+    public ModelRabbit(int id, Point position, Point dest, ModelGame game, int direction, VueMainGame vueMainGame) {
+        this(id, position, dest, game, vueMainGame);
         this.direction = new Direction(direction);
         this.animationState = 0;
     }
@@ -136,8 +138,8 @@ public class ModelRabbit extends ModelUnit{
     }
 
     private Point findNearestCorner() {
-        int helperx = VueMainGame.LEFT_WIDTH - 50;
-        int helpery = VueMainGame.SCREEN_HEIGHT - 50;
+        int helperx = this.vueMainGame.getLeft_width() - 50;
+        int helpery = this.vueMainGame.getScreen_height() - 50;
         Point[] corners = {
                 new Point(0, 0),
                 new Point(0, helpery),

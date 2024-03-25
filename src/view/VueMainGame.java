@@ -9,15 +9,18 @@ import javax.swing.*;
 import java.awt.*;
 
 public class VueMainGame {
-    public static final int LEFT_WIDTH = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() > 1600 ? 1200 : (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() - 400;
-    public static final int RIGHT_WIDTH = 400;
-    public static final int SCREEN_HEIGHT = Math.min((int) Toolkit.getDefaultToolkit().getScreenSize().getHeight(), 900);
+    private final int left_width;
+    private final int right_width;
+    private final int screen_height;
     private final JFrame frame;
-    private final ModelGame game;
+    private ModelGame game;
     private Timer checkTimer;
-    private Toolkit toolkit;
-    public VueMainGame(ModelGame game) {
-        this.game = game;
+    public VueMainGame() {
+        this.left_width = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() > 1600 ? 1200 : (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() - 400;
+        this.right_width = 400;
+        this.screen_height = Math.min((int) Toolkit.getDefaultToolkit().getScreenSize().getHeight(), 900);
+
+        this.game = new ModelGame(this);
 
         this.frame = new JFrame();
         this.frame.setTitle("Gardener");
@@ -28,8 +31,8 @@ public class VueMainGame {
         panel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
-        VueLeft vueLeft = new VueLeft(this.game);
-        VueRight vueRight = new VueRight(this.game);
+        VueLeft vueLeft = new VueLeft(this, this.game);
+        VueRight vueRight = new VueRight(this, this.game);
         gbc.gridx = 0;
         gbc.gridy = 0;
         panel.add(vueLeft, gbc);
@@ -77,7 +80,19 @@ public class VueMainGame {
         if(this.game.getTimeLeft() <= 0) {
          checkTimer.stop();
          this.frame.dispose();
-            new VueEnd(this.game);
+            new VueEnd(this ,this.game);
         }
+    }
+
+    public int getLeft_width() {
+        return left_width;
+    }
+
+    public int getRight_width() {
+        return right_width;
+    }
+
+    public int getScreen_height() {
+        return screen_height;
     }
 }

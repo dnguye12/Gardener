@@ -8,15 +8,17 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class GridSystem {
+    private VueMainGame vueMainGame;
     public static final int CELL_SIZE = 30;
     public static final int OBSTACLE_SIZE = 30;
     private int width;
     private int height;
     private boolean[][] walkable;
 
-    public GridSystem(ModelGame game) {
-        this.width = VueMainGame.LEFT_WIDTH / CELL_SIZE;
-        this.height = VueMainGame.SCREEN_HEIGHT / CELL_SIZE;
+    public GridSystem(ModelGame game, VueMainGame vueMainGame) {
+        this.vueMainGame = vueMainGame;
+        this.width = this.vueMainGame.getLeft_width() / CELL_SIZE;
+        this.height = this.vueMainGame.getScreen_height() / CELL_SIZE;
         this.walkable = new boolean[width][height];
         for (boolean[] row : walkable) {
             Arrays.fill(row, true);

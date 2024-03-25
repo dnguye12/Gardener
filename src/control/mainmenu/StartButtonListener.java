@@ -29,8 +29,8 @@ public class StartButtonListener implements MouseListener {
     public void mouseReleased(MouseEvent e) {
         MusicPlayer.playClick();
         this.frame.dispose();
-        ModelGame game = new ModelGame();
-        new VueMainGame(game);
+        //ModelGame game = new ModelGame();
+        new VueMainGame();
 
     }
 

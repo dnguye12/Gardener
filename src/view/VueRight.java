@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class VueRight extends JPanel {
+    private VueMainGame vueMainGame;
     private final Toolkit toolkit;
     private ModelGame game;
     private Image IMGbg;
@@ -30,10 +31,11 @@ public class VueRight extends JPanel {
     private Image IMGBar1;
     private Image IMGBar2;
     private Image cursorNormal;
-    public VueRight(ModelGame game) {
+    public VueRight(VueMainGame vueMainGame ,ModelGame game) {
+        this.vueMainGame = vueMainGame;
         this.toolkit = Toolkit.getDefaultToolkit();
 
-        this.setPreferredSize(new Dimension(VueMainGame.RIGHT_WIDTH,VueMainGame.SCREEN_HEIGHT));
+        this.setPreferredSize(new Dimension(this.vueMainGame.getRight_width(), this.vueMainGame.getScreen_height()));
         this.initImage();
 
         this.game = game;

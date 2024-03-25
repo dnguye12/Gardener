@@ -12,14 +12,16 @@ import java.util.HashMap;
 import java.util.Random;
 
 public class Background {
+    private VueMainGame vueMainGame;
     private ModelGame game;
 
-    public Background(ModelGame game) {
+    public Background(VueMainGame vueMainGame ,ModelGame game) {
+        this.vueMainGame = vueMainGame;
         this.game = game;
     }
 
     public Image drawBackground() {
-        BufferedImage bg = new BufferedImage(VueMainGame.LEFT_WIDTH, VueMainGame.SCREEN_HEIGHT, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage bg = new BufferedImage(this.vueMainGame.getLeft_width(), this.vueMainGame.getScreen_height(), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = bg.createGraphics();
         try {
             Image tile0 = ImageIO.read(new File("src/assets/maingame/bg/tile0.png"));
@@ -32,8 +34,8 @@ public class Background {
             Random random = new Random();
 
             int helper;
-            for (int i = 0; i < VueMainGame.LEFT_WIDTH; i += 32) {
-                for (int j = 0; j < VueMainGame.SCREEN_HEIGHT; j += 32) {
+            for (int i = 0; i < this.vueMainGame.getLeft_width(); i += 32) {
+                for (int j = 0; j < this.vueMainGame.getScreen_height(); j += 32) {
                     helper = random.nextInt(30) + 1;
                     Image tile;
                     switch (helper) {

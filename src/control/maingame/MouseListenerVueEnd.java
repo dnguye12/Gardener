@@ -36,7 +36,7 @@ public class MouseListenerVueEnd implements MouseListener {
                 MusicPlayer.playClick();
                 this.endFrame.dispose();
                 this.game.reset();
-                new VueMainGame(game);
+                new VueMainGame();
             }else if(y >= 595 && y <= 671) {
                 MusicPlayer.playClick();
                 this.endFrame.dispose();

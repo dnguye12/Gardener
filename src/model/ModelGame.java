@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 public class ModelGame {
+    private VueMainGame vueMainGame;
     private ModelUnit selected;
     private String isBuying;
     private HashMap<Integer, ModelGardener> gardeners;
@@ -23,7 +24,8 @@ public class ModelGame {
     private int timeLeft;
     private AStarPathfinder pathfinder;
 
-    public ModelGame() {
+    public ModelGame(VueMainGame vueMainGame) {
+        this.vueMainGame = vueMainGame;
         this.gardeners = new HashMap<>();
 
         this.plants = new HashMap<>();
@@ -41,24 +43,24 @@ public class ModelGame {
         this.score = 0;
         this.timeLeft = 300;
 
-        GridSystem grid = new GridSystem(this);
+        GridSystem grid = new GridSystem(this, this.vueMainGame);
         this.pathfinder = new AStarPathfinder(grid.getWidth(), grid.getHeight(), grid.getWalkable());
 
-        int helperx = (VueMainGame.LEFT_WIDTH - 50) / 2;
-        int helpery = (VueMainGame.SCREEN_HEIGHT - 50) / 2;
+        int helperx = (this.vueMainGame.getLeft_width() - 50) / 2;
+        int helpery = (this.vueMainGame.getScreen_height() - 50) / 2;
         this.gardeners.put(0, new ModelGardener(0, new Point(helperx, helpery), new Point(helperx, helpery), this));
     }
 
     private void initObstacles() {
         Random rand = new Random();
-        int helperx = VueMainGame.LEFT_WIDTH / GridSystem.OBSTACLE_SIZE - 2;
-        int helpery = VueMainGame.SCREEN_HEIGHT / GridSystem.OBSTACLE_SIZE - 2;
+        int helperx = this.vueMainGame.getLeft_width() / GridSystem.OBSTACLE_SIZE - 2;
+        int helpery = this.vueMainGame.getScreen_height() / GridSystem.OBSTACLE_SIZE - 2;
         int x,y;
         for(int i = 1; i <= 20; i++) {
             while(true) {
                 x = rand.nextInt(helperx) + 1;
                 y = rand.nextInt(helpery) + 1;
-                if(Math.abs(x - (VueMainGame.LEFT_WIDTH / GridSystem.OBSTACLE_SIZE) / 2) >= 5 && Math.abs(y - (VueMainGame.LEFT_WIDTH / GridSystem.OBSTACLE_SIZE) / 2) >= 5) {
+                if(Math.abs(x - (this.vueMainGame.getLeft_width() / GridSystem.OBSTACLE_SIZE) / 2) >= 5 && Math.abs(y - (this.vueMainGame.getLeft_width() / GridSystem.OBSTACLE_SIZE) / 2) >= 5) {
                     break;
                 }
             }
@@ -67,8 +69,8 @@ public class ModelGame {
     }
 
     private void initObstacles2() {
-        int helperx = (VueMainGame.LEFT_WIDTH - 50) / 2;
-        int helpery = (VueMainGame.SCREEN_HEIGHT - 50) / 2 - 150;
+        int helperx = (this.vueMainGame.getLeft_width() - 50) / 2;
+        int helpery = (this.vueMainGame.getScreen_height() - 50) / 2 - 150;
 
         for(int i = 1; i <= 10; i++) {
             this.obstacles.put(i, new ModelObstacle(i, new Point(helperx + 50, helpery + i * 30)));
@@ -160,8 +162,8 @@ public class ModelGame {
     }
     public void addRabbit() {
         Random rand = new Random();
-        int helperx = VueMainGame.LEFT_WIDTH - 50;
-        int helpery = VueMainGame.SCREEN_HEIGHT - 50;
+        int helperx = this.vueMainGame.getLeft_width() - 50;
+        int helpery = this.vueMainGame.getScreen_height() - 50;
 
         // 0 = up, 1 = right, 2 = down, 3 = left
         int dir = rand.nextInt(4);
@@ -183,7 +185,7 @@ public class ModelGame {
         Point point = new Point(x, y);
         int helper =  x <= 600 ? -1 : 1;
         int idr = IdGen.generateRabbitId();
-        this.rabbits.put(idr, new ModelRabbit(idr, point, point, this, helper));
+        this.rabbits.put(idr, new ModelRabbit(idr, point, point, this, helper, this.vueMainGame));
         MusicPlayer.playCow();
     }
 
@@ -203,8 +205,8 @@ public class ModelGame {
         this.money = 10;
         this.score = 0;
         this.timeLeft = 300;
-        int helperx = (VueMainGame.LEFT_WIDTH - 50) / 2;
-        int helpery = (VueMainGame.SCREEN_HEIGHT - 50) / 2;
+        int helperx = (this.vueMainGame.getLeft_width() - 50) / 2;
+        int helpery = (this.vueMainGame.getScreen_height() - 50) / 2;
         this.gardeners.put(0, new ModelGardener(0, new Point(helperx, helpery), new Point(helperx, helpery), this));
     }
 }

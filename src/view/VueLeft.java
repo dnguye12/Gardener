@@ -9,6 +9,7 @@ import java.awt.*;
 import java.util.HashMap;
 
 public class VueLeft extends JPanel {
+    private final VueMainGame vueMainGame;
     private final Toolkit toolkit;
     ModelGame game;
     private Image bgImage;
@@ -21,9 +22,10 @@ public class VueLeft extends JPanel {
     private Image cursorNormal;
     private Image cursorHover;
     private Cursor c;
-    public VueLeft(ModelGame game) {
+    public VueLeft(VueMainGame vueMainGame, ModelGame game) {
+        this.vueMainGame = vueMainGame;
         this.toolkit = Toolkit.getDefaultToolkit();
-        this.setPreferredSize(new Dimension(VueMainGame.LEFT_WIDTH,VueMainGame.SCREEN_HEIGHT));
+        this.setPreferredSize(new Dimension(this.vueMainGame.getLeft_width(), this.vueMainGame.getScreen_height()));
 
         this.game = game;
         this.initImage();
@@ -35,7 +37,7 @@ public class VueLeft extends JPanel {
     }
 
     public void initImage() {
-        this.bgImage = new Background(this.game).drawBackground();
+        this.bgImage = new Background(this.vueMainGame ,this.game).drawBackground();
         this.IMGCoinSign = this.toolkit.getImage("src/assets/maingame/left/coin sign.png");
         this.IMGScoreSign = this.toolkit.getImage("src/assets/maingame/left/score sign.png");
         this.IMGTimeSign = this.toolkit.getImage("src/assets/maingame/left/time sign.png");
