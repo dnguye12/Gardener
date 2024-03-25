@@ -55,6 +55,8 @@ public class VueMainGame {
         ThreadTime threadTime = new ThreadTime(this.game);
         this.initTimer();
 
+        ThreadDrop threadDrop = new ThreadDrop(this.game.getDrops());
+
         this.frame.pack();
         this.frame.setLocationRelativeTo(null);
         this.frame.setVisible(true);
@@ -68,6 +70,8 @@ public class VueMainGame {
         animationRabbit.start();
         threadRabbit.start();
         threadTime.start();
+
+        threadDrop.start();
     }
 
     private void initTimer() {

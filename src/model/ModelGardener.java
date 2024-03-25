@@ -158,10 +158,12 @@ public class ModelGardener extends ModelUnit{
         for(int id : helper) {
             ModelPlant plant = this.game.getPlants().get(id);
             if(plant != null) {
-            int money = plant.getMoney();
-            this.game.setMoney(this.game.getMoney() + money);
-            this.game.setScore(this.game.getScore() + money);
-            this.game.removePlant(id);
+            //int money = plant.getMoney();
+            //this.game.setMoney(this.game.getMoney() + money);
+            //this.game.setScore(this.game.getScore() + money);
+                ModelDrop drop = new ModelPlantDrop(IdGen.generateDropId(), plant.getPosition(), plant);
+                this.game.addDrop(drop);
+                this.game.removePlant(id);
             }
         }
         ArrayList<Integer> plantsToHarvest = this.game.getPlantsToHarvest();

@@ -22,6 +22,9 @@ public class VueLeft extends JPanel {
     private Image cursorNormal;
     private Image cursorHover;
     private Cursor c;
+    private Image dropWheat;
+    private Image dropTomato;
+    private Image dropSoleil;
     public VueLeft(VueMainGame vueMainGame, ModelGame game) {
         this.vueMainGame = vueMainGame;
         this.toolkit = Toolkit.getDefaultToolkit();
@@ -38,12 +41,18 @@ public class VueLeft extends JPanel {
 
     public void initImage() {
         this.bgImage = new Background(this.vueMainGame ,this.game).drawBackground();
+
         this.IMGCoinSign = this.toolkit.getImage("src/assets/maingame/left/coin sign.png");
         this.IMGScoreSign = this.toolkit.getImage("src/assets/maingame/left/score sign.png");
         this.IMGTimeSign = this.toolkit.getImage("src/assets/maingame/left/time sign.png");
         this.i1 = this.toolkit.getImage("src/assets/maingame/shop/gardener.png");
+
         this.cursorNormal = this.toolkit.getImage("src/assets/cursor/normal.png");
         this.cursorHover = this.toolkit.getImage("src/assets/cursor/hover.png");
+
+        this.dropWheat = this.toolkit.getImage("src/assets/maingame/drop/wheat.png");
+        this.dropTomato = this.toolkit.getImage("src/assets/maingame/drop/tomato.png");
+        this.dropSoleil = this.toolkit.getImage("src/assets/maingame/drop/soleil.png");
     }
 
     @Override
@@ -53,6 +62,7 @@ public class VueLeft extends JPanel {
         g.drawImage(this.bgImage, 0,0, this);
 
         this.drawPlants(g);
+        this.drawDrop(g);
         this.drawGardeners(g);
         this.drawRabbit(g);
 
@@ -168,6 +178,28 @@ public class VueLeft extends JPanel {
             this.c = this.toolkit.createCustomCursor(this.cursorNormal , new Point(this.getX(), this.getY()), "cursorNormal");
         }
         this.setCursor(this.c);
-        }
-
     }
+
+    public void drawDrop(Graphics g) {
+        HashMap<Integer, ModelDrop> drops = this.game.getDrops();
+        for(ModelDrop drop : drops.values()) {
+            Point position = drop.getPosition();
+            Point height = drop.getHeight();
+            if(drop instanceof ModelPlantDrop) {
+                ModelPlantDrop helper = (ModelPlantDrop) drop;
+                switch (helper.getType()) {
+                    case WHEAT:
+                        g.drawImage(this.dropWheat, position.x, height.y, this);
+                        break;
+                    case TOMATO:
+                        g.drawImage(this.dropTomato, position.x, height.y, this);
+                        break;
+                    case SUNFLOWER:
+                        g.drawImage(this.dropSoleil, position.x, height.y, this);
+                        break;
+
+                }
+            }
+        }
+    }
+}

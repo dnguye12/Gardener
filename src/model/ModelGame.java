@@ -18,7 +18,7 @@ public class ModelGame {
     private ArrayList<Integer> plantsToHarvest;
     private HashMap<Integer, ModelRabbit> rabbits;
     private HashMap<Integer, ModelObstacle> obstacles;
-
+    private HashMap<Integer, ModelDrop> drops;
     private int money;
     private int score;
     private int timeLeft;
@@ -35,6 +35,8 @@ public class ModelGame {
 
         this.obstacles = new HashMap<>();
         this.initObstacles();
+
+        this.drops = new HashMap<>();
 
         this.selected = null;
         this.isBuying = "";
@@ -193,11 +195,21 @@ public class ModelGame {
         return this.obstacles;
     }
 
+    public HashMap<Integer, ModelDrop> getDrops() {
+        return this.drops;
+    }
+
+    public void addDrop(ModelDrop drop) {
+        this.drops.put(drop.getId(), drop);
+    }
+
     public void reset() {
         this.gardeners.clear();
         this.plants.clear();
         this.plantsToHarvest.clear();
         this.rabbits.clear();
+        this.obstacles.clear();
+        this.drops.clear();
 
         this.selected = null;
         this.isBuying = "";
