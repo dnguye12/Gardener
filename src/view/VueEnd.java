@@ -7,6 +7,9 @@ import model.ModelGame;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * La classe VueEnd représente l'écran de fin du jeu, affichant le score final et permettant au joueur de quitter.
+ */
 public class VueEnd extends JPanel {
     private VueMainGame vueMainGame;
     private final JFrame frame;

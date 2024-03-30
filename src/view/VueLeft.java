@@ -8,6 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 
+/**
+ * Classe représentant la vue gauche du jeu, affichant les éléments de jeu tels que les plantes, les jardiniers, et les objets collectables.
+ */
 public class VueLeft extends JPanel {
     private final VueMainGame vueMainGame;
     private final Toolkit toolkit;
@@ -39,6 +42,9 @@ public class VueLeft extends JPanel {
         this.addMouseMotionListener(this.vueLeftMouseMotion);
     }
 
+    /**
+     * Initialise toutes les images utilisées dans la vue gauche.
+     */
     public void initImage() {
         this.bgImage = new Background(this.vueMainGame ,this.game).drawBackground();
 
@@ -76,6 +82,10 @@ public class VueLeft extends JPanel {
         this.drawCursor();
     }
 
+    /**
+     * Dessine les jardiniers et aussi leur rayon de récolter sur le panel.
+     * @param g L'objet Graphics utilisé pour le dessin.
+     */
     public void drawGardeners(Graphics g) {
         Image helper;
         Graphics2D g2 = (Graphics2D) g;
@@ -103,6 +113,10 @@ public class VueLeft extends JPanel {
         }
     }
 
+    /**
+     * Dessine les plantes sur le panel.
+     * @param g L'objet Graphics utilisé pour le dessin.
+     */
     public void drawPlants(Graphics g) {
         HashMap<Integer, ModelPlant> plants = this.game.getPlants();
         for(ModelPlant plant : plants.values()) {
@@ -112,6 +126,10 @@ public class VueLeft extends JPanel {
         }
     }
 
+    /**
+     * Dessine l'indicateur de pièces sur le panel.
+     * @param g L'objet Graphics utilisé pour le dessin.
+     */
     public void drawCoin(Graphics g) {
         int x = 50;
         int y = 0;
@@ -126,6 +144,10 @@ public class VueLeft extends JPanel {
         g.drawString(coin, numberX, numberY);
     }
 
+    /**
+     * Dessine l'indicateur de score sur le panel.
+     * @param g L'objet Graphics utilisé pour le dessin.
+     */
     public void drawScore(Graphics g) {
         int x = 175;
         int y = 0;
@@ -140,6 +162,10 @@ public class VueLeft extends JPanel {
         g.drawString(score, numberX, numberY);
     }
 
+    /**
+     * Dessine l'indicateur de temps restant sur le panel.
+     * @param g L'objet Graphics utilisé pour le dessin.
+     */
     public void drawTimeLeft(Graphics g) {
         int x = 300;
         int y = 0;
@@ -154,6 +180,10 @@ public class VueLeft extends JPanel {
         g.drawString(time, numberX, numberY);
     }
 
+    /**
+     * Dessine les lapins sur le panel.
+     * @param g L'objet Graphics utilisé pour le dessin.
+     */
     public void drawRabbit(Graphics g) {
         Image helper;
         HashMap<Integer, ModelRabbit> rabbits = this.game.getRabbits();
@@ -165,12 +195,19 @@ public class VueLeft extends JPanel {
         }
     }
 
+    /**
+     * Dessine l'indicateur de survol lorsque l'utilisateur se trouve en mode achat ou autre.
+     * @param g L'objet Graphics utilisé pour le dessin.
+     */
     public void drawHover(Graphics g) {
         int x = this.vueLeftMouseMotion.getX();
         int y = this.vueLeftMouseMotion.getY();
         g.drawImage(this.i1, x, y, this);
     }
 
+    /**
+     * Change le curseur en fonction du contexte (normal ou survol).
+     */
     public void drawCursor() {
         if(this.game.getIsBuying().length() > 0) {
             this.c = this.toolkit.createCustomCursor(this.cursorHover , new Point(this.getX(), this.getY()), "cursorHover");
@@ -180,6 +217,10 @@ public class VueLeft extends JPanel {
         this.setCursor(this.c);
     }
 
+    /**
+     * Dessine les objets collectables sur le panel.
+     * @param g L'objet Graphics utilisé pour le dessin.
+     */
     public void drawDrop(Graphics g) {
         HashMap<Integer, ModelDrop> drops = this.game.getDrops();
         for(ModelDrop drop : drops.values()) {
@@ -197,7 +238,6 @@ public class VueLeft extends JPanel {
                     case SUNFLOWER:
                         g.drawImage(this.dropSoleil, position.x, height.y, this);
                         break;
-
                 }
             }
         }

@@ -6,6 +6,10 @@ import model.*;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Classe VueRight représentant le panneau droit de l'interface utilisateur du jeu.
+ * Affiche des informations détaillées et permet des interactions spécifiques en fonction de l'entité sélectionnée dans le jeu.
+ */
 public class VueRight extends JPanel {
     private VueMainGame vueMainGame;
     private final Toolkit toolkit;
@@ -47,6 +51,9 @@ public class VueRight extends JPanel {
         this.addMouseListener(vueRightMouseListener);
     }
 
+    /**
+     * Initialisation des images utilisées dans cette vue.
+     */
     public void initImage() {
         this.IMGbg = new ImageIcon("src/assets/maingame/right/RightBG.png").getImage();
 
@@ -97,6 +104,10 @@ public class VueRight extends JPanel {
         }
     }
 
+    /**
+     * Dessine l'interface du magasin lorsque aucun élément n'est sélectionné.
+     * @param g L'objet Graphics pour le dessin.
+     */
     public void drawShop(Graphics g) {
         int x, y;
         x = (this.getWidth() - this.IMGshopTalk.getWidth(this)) / 2;
@@ -112,6 +123,11 @@ public class VueRight extends JPanel {
         }
         y += this.IMGshop1.getHeight(this) + 10;
     }
+
+    /**
+     * Dessine les informations et actions disponibles pour un jardinier sélectionné.
+     * @param g L'objet Graphics pour le dessin.
+     */
     public void drawGardener(Graphics g) {
         int x, y;
         Font font = FontGetter.getFont();
@@ -155,6 +171,10 @@ public class VueRight extends JPanel {
         }
     }
 
+    /**
+     * Dessine les informations pour une plante sélectionnée.
+     * @param g L'objet Graphics pour le dessin.
+     */
     public void drawPlants(Graphics g) {
         int x, y;
         ModelPlant plant = (ModelPlant)this.game.getSelected();
@@ -221,6 +241,10 @@ public class VueRight extends JPanel {
             }
         }
 
+    /**
+     * Dessine les informations pour un lapin sélectionné.
+     * @param g L'objet Graphics pour le dessin.
+     */
         public void drawRabbit(Graphics g) {
             int x, y;
             ModelRabbit rabbit = (ModelRabbit)this.game.getSelected();

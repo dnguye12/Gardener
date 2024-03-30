@@ -11,6 +11,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Random;
 
+/**
+ * La classe Background est responsable de la création de l'image de fond pour le jeu.
+ * Elle génère un fond aléatoire en utilisant des tuiles et place des obstacles sur le fond.
+ */
 public class Background {
     private VueMainGame vueMainGame;
     private ModelGame game;
@@ -20,6 +24,12 @@ public class Background {
         this.game = game;
     }
 
+    /**
+     * Crée et retourne une image de fond pour le jeu.
+     * Cette méthode charge différentes tuiles d'images, les dispose aléatoirement pour former le fond,
+     * et place les obstacles par-dessus.
+     * @return Une image BufferedImage représentant le fond généré.
+     */
     public Image drawBackground() {
         BufferedImage bg = new BufferedImage(this.vueMainGame.getLeft_width(), this.vueMainGame.getScreen_height(), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = bg.createGraphics();

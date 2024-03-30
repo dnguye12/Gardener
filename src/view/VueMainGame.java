@@ -8,6 +8,10 @@ import model.ModelGame;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Classe représentant la vue principale du jeu. Elle initialise l'interface utilisateur du jeu principal
+ * et gère la synchronisation du temps de jeu.
+ */
 public class VueMainGame {
     private final int left_width;
     private final int right_width;
@@ -16,6 +20,7 @@ public class VueMainGame {
     private ModelGame game;
     private Timer checkTimer;
     public VueMainGame() {
+        // Détermine les dimensions de la vue basées sur la taille de l'écran
         this.left_width = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() > 1600 ? 1200 : (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() - 400;
         this.right_width = 400;
         this.screen_height = Math.min((int) Toolkit.getDefaultToolkit().getScreenSize().getHeight(), 900);
@@ -42,6 +47,7 @@ public class VueMainGame {
 
         this.frame.add(panel);
 
+        // Initialisation et démarrage des threads pour animations et logique du jeu
         Redessine redessine = new Redessine(vueLeft, vueRight);
         ThreadGardener threadGardener = new ThreadGardener(this.game.getGardeners());
         AnimationGardener animationGardener = new AnimationGardener(this.game);
@@ -74,6 +80,9 @@ public class VueMainGame {
         threadDrop.start();
     }
 
+    /**
+     * Initialise le timer pour vérifier le temps restant dans le jeu.
+     */
     private void initTimer() {
         int checkInterval = 1000;
         checkTimer = new Timer(checkInterval, e -> checkTimeLeft());
@@ -88,6 +97,7 @@ public class VueMainGame {
         }
     }
 
+    // Getters pour les dimensions de la vue
     public int getLeft_width() {
         return left_width;
     }

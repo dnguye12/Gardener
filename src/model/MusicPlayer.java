@@ -7,10 +7,16 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Random;
 
+/**
+* Classe permettant de gérer la musique et les effets sonores dans le jeu.
+*/
     public class MusicPlayer {
         private static final HashMap<String, Clip> soundClips = new HashMap<>();
         private static final Random rand = new Random();
 
+    /**
+     * Initialise les sons utilisés dans le jeu.
+     */
         public static void initSound() {
             loadSound("music", "src/assets/sound/music.wav");
             loadSound("click", "src/assets/sound/click.wav");
@@ -25,6 +31,12 @@ import java.util.Random;
             loadSound("pickup", "src/assets/sound/pickup.wav");
         }
 
+    /**
+     * Charge un son spécifique à partir d'un chemin donné.
+     *
+     * @param key  La clé associée au son.
+     * @param path Le chemin d'accès au fichier son.
+     */
         private static void loadSound(String key, String path) {
             try {
                 File soundPath = new File(path);
