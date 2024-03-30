@@ -3,7 +3,6 @@ package model;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineEvent;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Random;
@@ -23,6 +22,7 @@ import java.util.Random;
             for (int i = 0; i <= 3; i++) {
                 loadSound("move" + i, "src/assets/sound/move" + i + ".wav");
             }
+            loadSound("pickup", "src/assets/sound/pickup.wav");
         }
 
         private static void loadSound(String key, String path) {
@@ -47,10 +47,10 @@ import java.util.Random;
             Clip clip = soundClips.get(key);
             if (clip != null) {
                 if (clip.isRunning()) {
-                    clip.stop(); // Stop the clip if it's currently running
+                    clip.stop();
                 }
-                clip.setFramePosition(0); // Rewind to the beginning
-                clip.start(); // Start playing
+                clip.setFramePosition(0);
+                clip.start();
             }
         }
 
@@ -72,5 +72,8 @@ import java.util.Random;
 
         public static void playCow() {
             playSound("cow" + rand.nextInt(2));
+        }
+        public static void playPickup() {
+            playSound("pickup");
         }
     }

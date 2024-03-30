@@ -202,6 +202,9 @@ public class ModelGame {
     public void addDrop(ModelDrop drop) {
         this.drops.put(drop.getId(), drop);
     }
+    public void removeDrop(int id) {
+        this.drops.remove(id);
+    }
 
     public void reset() {
         this.gardeners.clear();

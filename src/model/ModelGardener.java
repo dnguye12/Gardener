@@ -17,6 +17,7 @@ public class ModelGardener extends ModelUnit{
     private int promoteState;
     private AStarPathfinder pathfinder;
     private ArrayList<Point> currentPath;
+    private boolean initPath;
     public enum Status {
         IDLING("Idling"),
         MOVING("Moving");
@@ -41,6 +42,7 @@ public class ModelGardener extends ModelUnit{
         this.promoteState = 0;
         this.pathfinder = game.getPathfinder();
         this.currentPath = new ArrayList<>();
+        this.initPath = false;
     }
     public Status getStatus() {
         return this.status;
@@ -108,11 +110,16 @@ public class ModelGardener extends ModelUnit{
         int dy = this.dest.y - this.position.y;
         double distance = Math.sqrt(dx * dx + dy * dy);
         if(distance <= SPEED || this.currentPath.size() == 0) {
-            this.position = new Point(this.dest);
+            if(this.initPath) {
+                this.position = new Point(this.dest);
+            }
             this.status = Status.IDLING;
             this.currentPath.clear();
         }else {
             Point helper = this.currentPath.get(0);
+            if(!this.initPath) {
+                this.initPath = true;
+            }
             helper = new Point(helper.x * GridSystem.CELL_SIZE, helper.y * GridSystem.CELL_SIZE);
 
             dx = helper.x - this.position.x;
@@ -130,6 +137,7 @@ public class ModelGardener extends ModelUnit{
             }
             this.status = Status.MOVING;
         }
+        pickUpDrop();
     }
 
     public void plant() {
@@ -153,6 +161,20 @@ public class ModelGardener extends ModelUnit{
         return helper;
     }
 
+    public ArrayList<Integer> dropsNear() {
+        HashMap<Integer, ModelDrop> drops = this.game.getDrops();
+        ArrayList<Integer> helper = new ArrayList<Integer>();
+
+        for(ModelDrop drop : drops.values()) {
+            if(drop instanceof ModelPlantDrop plantDrop) {
+                if(this.position.distance(plantDrop.getPosition()) <= 10) {
+                    helper.add(plantDrop.getId());
+                }
+            }
+        }
+        return helper;
+    }
+
     public void harvest() {
         ArrayList<Integer> helper = this.plantsNear();
         for(int id : helper) {
@@ -169,6 +191,22 @@ public class ModelGardener extends ModelUnit{
         ArrayList<Integer> plantsToHarvest = this.game.getPlantsToHarvest();
         plantsToHarvest.removeAll(helper);
         this.game.setPlantsToHarvest(plantsToHarvest);
+    }
+
+    public void pickUpDrop() {
+        ArrayList<Integer> helper = this.dropsNear();
+        for(int id : helper) {
+            ModelDrop drop = this.game.getDrops().get(id);
+            if(drop != null) {
+                if(drop instanceof ModelPlantDrop plantDrop) {
+                    int money = plantDrop.getType().getMoney();
+                    this.game.setMoney(this.game.getMoney() + money);
+                    this.game.setScore(this.game.getScore() + money);
+                    this.game.removeDrop(id);
+                    MusicPlayer.playPickup();
+                }
+            }
+        }
     }
 
     public void upgrade() {

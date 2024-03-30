@@ -37,6 +37,10 @@ public class ModelPlant extends ModelUnit{
             return "src/assets/maingame/plant/state" + (4 - stageCount + stage) + ".png";
         }
 
+        public int getMoney() {
+            return this.stageCount * 10;
+        }
+
         public static PlantType randomType() {
             return PlantType.values()[(int) (Math.random() * PlantType.values().length)];
         }
@@ -95,10 +99,6 @@ public class ModelPlant extends ModelUnit{
 
     public boolean canBeHarvested() {
         return this.stage == this.type.getStageCount() - 1;
-    }
-
-    public int getMoney() {
-        return this.type.getStageCount() * 10;
     }
     public boolean isWithinLineOfSight() {
         for(ModelGardener gardener : this.game.getGardeners().values()) {
