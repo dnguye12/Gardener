@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * IdGen classe pour générer des identifiants uniques pour les objets du jeu.
+ */
 public class IdGen {
     private static int gardenerId = 1;
     private static int plantId = 0;

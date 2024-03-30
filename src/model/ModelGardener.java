@@ -7,17 +7,21 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Modèle représentant un jardinier dans le jeu.
+ * Hérite de ModelUnit pour sa position, sa destination, et son identifiant.
+ */
 public class ModelGardener extends ModelUnit{
-    private Status status;
-    public static final int SPEED = 5;
-    private final int RADIUS = 100;
-    private Direction direction;
+    private Status status; // Statut actuel du jardinier (Idle, Moving).
+    public static final int SPEED = 5; // Vitesse de base du jardinier.
+    private final int RADIUS = 100; // Rayon d'action du jardinier.
+    private Direction direction; // Direction du jardinier.
     private int animationState;
     private ModelGame game;
-    private int promoteState;
-    private AStarPathfinder pathfinder;
-    private ArrayList<Point> currentPath;
-    private boolean initPath;
+    private int promoteState; // Niveau de promotion du jardinier.
+    private AStarPathfinder pathfinder; // Calculateur de chemin A*.
+    private ArrayList<Point> currentPath; // Chemin actuel calculé par A*
+    private boolean initPath; // Indique si le chemin initial a été défini.
     public enum Status {
         IDLING("Idling"),
         MOVING("Moving");
@@ -81,12 +85,17 @@ public class ModelGardener extends ModelUnit{
         this.animationState = 1 - this.animationState;
     }
 
+    /**
+     * Définit la destination du jardinier et initie le calcul du chemin.
+     * Si la destination est un obstacle, la méthode retourne sans effectuer d'action.
+     * @param dest La destination cible en Point.
+     */
     @Override
     public void setDest(Point dest) {
         HashMap<Integer, ModelObstacle> obs = this.game.getObstacles();
         for(ModelObstacle ob : obs.values()) {
             if(ob.getPosition().distance(dest) <= GridSystem.OBSTACLE_SIZE) {
-                return;
+                return; // Vérifie si la destination est un obstacle, faire rien.
             }
         }
         this.dest = dest;
@@ -105,6 +114,10 @@ public class ModelGardener extends ModelUnit{
         }
     }
 
+    /**
+     * Déplace le jardinier vers sa destination en suivant le chemin calculé avec A*.
+     * Gère également l'initialisation du chemin et son nettoyage une fois atteint.
+     */
     public void move() {
         int dx = this.dest.x - this.position.x;
         int dy = this.dest.y - this.position.y;
@@ -147,6 +160,10 @@ public class ModelGardener extends ModelUnit{
         }
     }
 
+    /**
+     * Identifie les plantes prêtes à être récoltées à proximité du jardinier.
+     * @return Liste des ID des plantes prêtes à être récoltées.
+     */
     public ArrayList<Integer> plantsNear() {
         HashMap<Integer, ModelPlant> plants = this.game.getPlants();
         ArrayList<Integer> plantsToHarvest = this.game.getPlantsToHarvest();
@@ -161,6 +178,10 @@ public class ModelGardener extends ModelUnit{
         return helper;
     }
 
+    /**
+     * Identifie les drops à proximité du jardinier.
+     * @return Liste des ID des gouttes à proximité.
+     */
     public ArrayList<Integer> dropsNear() {
         HashMap<Integer, ModelDrop> drops = this.game.getDrops();
         ArrayList<Integer> helper = new ArrayList<Integer>();
@@ -175,6 +196,9 @@ public class ModelGardener extends ModelUnit{
         return helper;
     }
 
+    /**
+     * Récolte les plantes prêtes à proximité, génère des drops en conséquence.
+     */
     public void harvest() {
         ArrayList<Integer> helper = this.plantsNear();
         for(int id : helper) {
@@ -190,6 +214,9 @@ public class ModelGardener extends ModelUnit{
         this.game.setPlantsToHarvest(plantsToHarvest);
     }
 
+    /**
+     * Ramasse les drops à proximité du jardinier, augmentant le score et l'argent.
+     */
     public void pickUpDrop() {
         ArrayList<Integer> helper = this.dropsNear();
         for(int id : helper) {
@@ -206,6 +233,9 @@ public class ModelGardener extends ModelUnit{
         }
     }
 
+    /**
+     * Améliore le jardinier s'il a suffisamment d'argent et n'a pas atteint le niveau de promotion maximum.
+     */
     public void upgrade() {
         if(this.game.getMoney() >= 25 && this.getPromoteState() < 5) {
             this.game.setMoney(this.game.getMoney() - 25);

@@ -2,15 +2,19 @@ package model;
 
 import java.awt.*;
 
+/**
+ * Classe abstraite représentant un objet "drop" dans le jeu. Les objets "drop" sont des éléments
+ * qui peuvent être récupérés par les joueurs ou les personnages du jeu.
+ */
 public abstract class ModelDrop {
     protected int id;
-    protected boolean hasPlayed1;
-    protected  boolean hasPlayed2;
-    protected final int dieTime;
-    protected  static final int DROP_SPEED = 6;
+    protected boolean hasPlayed1; // Indicateur si la première phase de l'animation de chute a été jouée.
+    protected  boolean hasPlayed2; // Indicateur si la seconde phase de l'animation de chute a été jouée.
+    protected  int dieTime; // Temps après lequel le drop disparaît.
+    protected  static final int DROP_SPEED = 6; // Vitesse de chute du drop.
     protected Point position;
-    protected Point height;
-    protected Point maxHeight;
+    protected Point height; // Hauteur actuelle du drop par rapport à sa position initiale.
+    protected Point maxHeight; // Hauteur maximale de la chute.
 
     public ModelDrop(int id, Point position) {
         this.id = id;
@@ -28,6 +32,9 @@ public abstract class ModelDrop {
 
     public int getDieTime() {
         return this.dieTime;
+    }
+    public void setDieTime(int dieTime) {
+        this.dieTime = dieTime;
     }
 
     public boolean getHasPlayed1() {
@@ -58,6 +65,9 @@ public abstract class ModelDrop {
         return maxHeight;
     }
 
+    /**
+     * Gère la chute du drop, modifiant sa hauteur actuelle et mettant à jour les indicateurs d'animation.
+     */
     public void drop() {
         if(!this.hasPlayed1) {
             this.height.y -= DROP_SPEED;

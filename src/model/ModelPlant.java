@@ -2,7 +2,15 @@ package model;
 
 import java.awt.*;
 
+/**
+ * Représente une plante dans le jeu. Chaque plante a un type, des étapes de croissance,
+ * une santé (HP) et est associée à une partie du jeu.
+ */
 public class ModelPlant extends ModelUnit{
+    /**
+     * Énumère les types de plantes disponibles dans le jeu, avec leur nom,
+     * santé maximale, nombre d'étapes de croissance, et vitesse de croissance.
+     */
     public enum PlantType {
         WHEAT("wheat" ,500, 4, 500),
         SUNFLOWER("soliel", 300, 4, 300),
@@ -46,10 +54,10 @@ public class ModelPlant extends ModelUnit{
         }
     }
     private final PlantType type;
-    private int stage;
-    private int currentStage;
+    private int stage; // L'étape actuelle de croissance de la plante.
+    private int currentStage; // Compteur pour le passage à l'étape suivante.
     private int hp;
-    private int growspeed;
+    private int growspeed; // La vitesse à laquelle la plante grandit.
     private ModelGame game;
     public ModelPlant(int id, Point position, PlantType type, ModelGame game) {
         super(id, position, position);
@@ -61,6 +69,9 @@ public class ModelPlant extends ModelUnit{
         this.game = game;
     }
 
+    /**
+     * Fait croître la plante d'une étape, éventuellement en augmentant son stade de croissance.
+     */
     public void grow() {
         this.currentStage++;
         if(this.currentStage >= this.growspeed) {
@@ -100,6 +111,10 @@ public class ModelPlant extends ModelUnit{
     public boolean canBeHarvested() {
         return this.stage == this.type.getStageCount() - 1;
     }
+    /**
+     * Vérifie si la plante est dans le rayon de récolter d'un jardinier.
+     * @return Vrai si au moins un jardinier peut récolter la plante, faux sinon.
+     */
     public boolean isWithinLineOfSight() {
         for(ModelGardener gardener : this.game.getGardeners().values()) {
             if(this.position.distance(gardener.getPosition()) <= gardener.getRadius()) {

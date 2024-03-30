@@ -2,12 +2,16 @@ package model;
 
 import java.awt.*;
 
+/**
+ * Classe abstraite représentant une unité de modèle dans le jeu.
+ * Elle sert de base pour différents éléments mobiles ou les obstacles.
+ */
 public abstract class ModelUnit {
     protected int id;
-    protected Point position;
-    protected Point dest;
+    protected Point position; // Position actuelle de l'unité sur le terrain.
+    protected Point dest; // Destination vers laquelle l'unité se dirige.
 
-    protected boolean isSelected;
+    protected boolean isSelected; // Indique si l'unité est actuellement sélectionnée par l'utilisateur.
 
     public ModelUnit(int id, Point position, Point dest) {
         this.id = id;

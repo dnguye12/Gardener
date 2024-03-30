@@ -9,10 +9,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+/**
+ * Classe représentant le modèle de jeu principal. Elle contient toutes les entités du jeu
+ * telles que les jardiniers, les plantes, les lapins, les obstacles et les objets récupérables.
+ * Elle gère également l'état du jeu comme l'unité sélectionnée, l'achat en cours, le score,
+ * le temps restant et la monnaie.
+ */
 public class ModelGame {
     private VueMainGame vueMainGame;
-    private ModelUnit selected;
-    private String isBuying;
+    private ModelUnit selected; // Unité actuellement sélectionnée dans le jeu.
+    private String isBuying; // État d'achat actuel
     private HashMap<Integer, ModelGardener> gardeners;
     private HashMap<Integer, ModelPlant> plants;
     private ArrayList<Integer> plantsToHarvest;
@@ -21,8 +27,8 @@ public class ModelGame {
     private HashMap<Integer, ModelDrop> drops;
     private int money;
     private int score;
-    private int timeLeft;
-    private AStarPathfinder pathfinder;
+    private int timeLeft; // Temps restant dans le jeu.
+    private AStarPathfinder pathfinder; // Le chercheur de chemin utilisant l'algorithme A* pour la navigation.
 
     public ModelGame(VueMainGame vueMainGame) {
         this.vueMainGame = vueMainGame;
@@ -53,6 +59,9 @@ public class ModelGame {
         this.gardeners.put(0, new ModelGardener(0, new Point(helperx, helpery), new Point(helperx, helpery), this));
     }
 
+    /**
+     * Initialise les obstacles du jeu de manière aléatoire.
+     */
     private void initObstacles() {
         Random rand = new Random();
         int helperx = this.vueMainGame.getLeft_width() / GridSystem.OBSTACLE_SIZE - 2;
@@ -67,15 +76,6 @@ public class ModelGame {
                 }
             }
             this.obstacles.put(i, new ModelObstacle(i, new Point(x * GridSystem.OBSTACLE_SIZE, y * GridSystem.OBSTACLE_SIZE)));
-        }
-    }
-
-    private void initObstacles2() {
-        int helperx = (this.vueMainGame.getLeft_width() - 50) / 2;
-        int helpery = (this.vueMainGame.getScreen_height() - 50) / 2 - 150;
-
-        for(int i = 1; i <= 10; i++) {
-            this.obstacles.put(i, new ModelObstacle(i, new Point(helperx + 50, helpery + i * 30)));
         }
     }
 
@@ -162,6 +162,11 @@ public class ModelGame {
     public HashMap<Integer, ModelRabbit> getRabbits() {
         return this.rabbits;
     }
+    /**
+     * Ajoute un nouveau lapin dans le jeu à une position aléatoire.
+     * La direction initiale du lapin est également déterminée aléatoirement parmi quatre directions possibles.
+     * Joue le son associé à l'apparition d'un lapin.
+     */
     public void addRabbit() {
         Random rand = new Random();
         int helperx = this.vueMainGame.getLeft_width() - 50;
@@ -206,6 +211,11 @@ public class ModelGame {
         this.drops.remove(id);
     }
 
+    /**
+     * Réinitialise le jeu en effaçant toutes les entités (jardiniers, plantes, lapins, obstacles, objets récupérables),
+     * en réinitialisant l'unité sélectionnée, l'état d'achat, la monnaie, le score, et le temps restant.
+     * Ajoute un jardinier par défaut au centre de l'écran pour commencer le jeu.
+     */
     public void reset() {
         this.gardeners.clear();
         this.plants.clear();

@@ -9,22 +9,29 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+/**
+ * Représente un lapin dans le jeu, héritant de ModelUnit. Chaque lapin a un statut,
+ * une vitesse, une vision et peut interagir avec les plantes du jeu.
+ */
 public class ModelRabbit extends ModelUnit{
     private VueMainGame vueMainGame;
     private final int SPEED = 5;
-    private final int MEMSPAN = 3000;
+    private final int MEMSPAN = 3000; // Temps pendant lequel le lapin se souvient de sa dernière action.
     private ModelGame game;
-    private Status status;
+    private Status status; // Statut actuel du lapin (IDLE, MOVING, etc.).
 
-    private long lastStateChangeTime;
-    private long lastMoveTime;
-    private int dieTime;
-    private boolean foundPlant;
-    private ModelPlant eatingPlant;
-    private Direction direction;
+    private long lastStateChangeTime; // Dernier moment où le statut a changé.
+    private long lastMoveTime; // Dernier moment où le lapin s'est déplacé.
+    private int dieTime; // Temps avant que le lapin sortir de faim.
+    private boolean foundPlant; // Indique si le lapin a trouvé une plante à manger.
+    private ModelPlant eatingPlant; // Plante que le lapin est en train de manger.
+    private Direction direction; // Direction du lapin.
     private int animationState;
-    private AStarPathfinder pathfinder;
-    private ArrayList<Point> currentPath;
+    private AStarPathfinder pathfinder; // Algorithme de recherche de chemin pour le déplacement.
+    private ArrayList<Point> currentPath; // Chemin actuel suivi par le lapin.
+    /**
+     * Énumération des différents statuts possibles pour un lapin.
+     */
     public enum Status {
         IDLING("Idling"),
         MOVING("Moving"),
@@ -97,6 +104,10 @@ public class ModelRabbit extends ModelUnit{
         this.animationState = 1 - this.animationState;
     }
 
+    /**
+     * Détermine et définit la destination du lapin, en prenant en compte les obstacles.
+     * @param dest Nouvelle destination du lapin.
+     */
     @Override
     public void setDest(Point dest) {
         HashMap<Integer, ModelObstacle> obs = this.game.getObstacles();
@@ -121,6 +132,10 @@ public class ModelRabbit extends ModelUnit{
         }
     }
 
+    /**
+     * Trouve la plante la plus proche que le lapin peut manger (eviler les jardiniers).
+     * @return La plante la plus proche ou null si aucune plante n'est trouvée.
+     */
     private ModelPlant findNearestPlant() {
         ModelPlant res = null;
         double minDistance = Double.MAX_VALUE;
@@ -137,6 +152,10 @@ public class ModelRabbit extends ModelUnit{
         return res;
     }
 
+    /**
+     * Trouve le coin le plus proche pour que le lapin puisse s'enfuir.
+     * @return Le point représentant le coin le plus proche.
+     */
     private Point findNearestCorner() {
         int helperx = this.vueMainGame.getLeft_width() - 50;
         int helpery = this.vueMainGame.getScreen_height() - 50;
@@ -159,6 +178,10 @@ public class ModelRabbit extends ModelUnit{
         return res;
     }
 
+    /**
+     * Vérifie si le lapin est dans le champ de vision d'un jardinier.
+     * @return Vrai si le lapin est visible par au moins un jardinier, faux sinon.
+     */
     private boolean isWithinLineOfSight() {
         for(ModelGardener gardener : this.game.getGardeners().values()) {
             if(position.distance(gardener.getPosition()) <= gardener.getRadius()) {
@@ -168,6 +191,9 @@ public class ModelRabbit extends ModelUnit{
         return false;
     }
 
+    /**
+     * Déplace le lapin selon son statut actuel et met à jour sa position.
+     */
     public void move() {
         long currentTime = System.currentTimeMillis();
         if (this.dieTime > 0 && this.status != Status.QUITING) {

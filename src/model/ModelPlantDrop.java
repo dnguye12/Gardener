@@ -2,6 +2,7 @@ package model;
 
 import java.awt.*;
 
+// Classe pour les drops de plantes
 public class ModelPlantDrop extends ModelDrop{
     private ModelPlant.PlantType type;
 

@@ -2,6 +2,7 @@ package model;
 
 import java.awt.*;
 
+//Class direction pour gérer la direction des objets pour animation
 public class Direction {
     private int direction; // -1 left, 1 right
     public Direction(int direction) {
