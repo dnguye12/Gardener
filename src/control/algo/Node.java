@@ -2,6 +2,9 @@ package control.algo;
 
 import java.awt.*;
 
+/**
+ * Node classe pour A* algorithm
+ */
 public class Node {
     Point position;
     Node parent;

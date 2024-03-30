@@ -7,6 +7,9 @@ import view.VueMainGame;
 import java.util.Arrays;
 import java.util.HashMap;
 
+/**
+ * Crée une représentation de grille de jeu pour l'algo A*, permettant de déterminer les cases franchissables et les obstacles.
+ */
 public class GridSystem {
     private VueMainGame vueMainGame;
     public static final int CELL_SIZE = 30;
@@ -29,7 +32,7 @@ public class GridSystem {
         for(ModelObstacle obstacle : obstacles.values()) {
             x = obstacle.getPosition().x / CELL_SIZE;
             y = obstacle.getPosition().y / CELL_SIZE;
-                        walkable[x][y] = false;
+            walkable[x][y] = false;
             }
 
     }

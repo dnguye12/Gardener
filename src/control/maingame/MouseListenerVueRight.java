@@ -8,6 +8,11 @@ import model.MusicPlayer;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+/**
+ * Écouteur de souris pour la vue droite du jeu,
+ * gérant les interactions telles que planter, récolter et promouvoir les jardiniers,
+ * ainsi que l'achat de nouveaux jardiniers.
+ */
 public class MouseListenerVueRight implements MouseListener {
     public enum GardenerAction {
         PLANTER,

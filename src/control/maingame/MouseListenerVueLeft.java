@@ -7,6 +7,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.HashMap;
 
+/**
+ * Gère les clics de souris sur le côté gauche de l'écran de jeu,
+ * permettant la sélection et l'interaction avec les éléments du jeu tels que les jardiniers, les plantes et les lapins.
+ */
 public class MouseListenerVueLeft implements MouseListener {
     private ModelGame game;
     public MouseListenerVueLeft(ModelGame game) {
@@ -21,6 +25,11 @@ public class MouseListenerVueLeft implements MouseListener {
 
     }
 
+    /**
+     * Gère l'événement de relâchement de la souris, permettant la sélection d'unités ou l'exécution d'actions spécifiques.
+     *
+     * @param e L'événement de souris contenant les informations du clic.
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
         ModelUnit selected = this.game.getSelected();

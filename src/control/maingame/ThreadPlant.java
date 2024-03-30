@@ -6,6 +6,7 @@ import model.ModelPlant;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
 public class ThreadPlant extends Thread{
     private ModelGame game;
     private HashMap<Integer, ModelPlant> plants;

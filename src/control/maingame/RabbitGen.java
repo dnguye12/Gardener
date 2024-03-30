@@ -2,6 +2,7 @@ package control.maingame;
 
 import model.ModelGame;
 
+// Ajouter un lapin chaque 8 secondes
 public class RabbitGen extends Thread{
     private ModelGame game;
     private static final int DELAY = 8000;

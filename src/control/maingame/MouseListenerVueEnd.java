@@ -9,6 +9,9 @@ import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+/**
+ * Gère les clics de souris dans l'écran de fin de jeu, permettant au joueur de redémarrer le jeu ou de revenir au menu principal.
+ */
 public class MouseListenerVueEnd implements MouseListener {
     private JFrame endFrame;
     private ModelGame game;
@@ -27,6 +30,11 @@ public class MouseListenerVueEnd implements MouseListener {
 
     }
 
+    /**
+     * Gère l'action de relâchement de la souris pour détecter les clics sur les boutons de l'écran de fin.
+     *
+     * @param e L'événement de souris capturé.
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
         int x = e.getX();

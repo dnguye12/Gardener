@@ -5,6 +5,7 @@ import model.ModelGame;
 
 import java.util.HashMap;
 
+// Thread pour l'animation de faire tomber les drops
 public class ThreadDrop extends Thread {
     private ModelGame game;
     private static final int DELAY = 1000 / 60;

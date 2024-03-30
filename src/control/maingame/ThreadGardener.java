@@ -4,6 +4,7 @@ import model.ModelGardener;
 
 import java.util.HashMap;
 
+// Thread pour faire bouger les jardiniers
 public class ThreadGardener extends Thread {
     private HashMap<Integer, ModelGardener> gardeners;
     private static final int DELAY = 1000 / 60;
