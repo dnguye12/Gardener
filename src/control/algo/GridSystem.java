@@ -12,7 +12,7 @@ import java.util.HashMap;
  */
 public class GridSystem {
     private VueMainGame vueMainGame;
-    public static final int CELL_SIZE = 30;
+    public static final int CELL_SIZE = 10; // Une cellule plus petite est plus précise mais prend plus de temps à calculer
     public static final int OBSTACLE_SIZE = 30;
     private int width;
     private int height;
@@ -29,10 +29,27 @@ public class GridSystem {
 
         HashMap<Integer, ModelObstacle> obstacles = game.getObstacles();
         int x,y;
+        int diff = OBSTACLE_SIZE / CELL_SIZE;
         for(ModelObstacle obstacle : obstacles.values()) {
             x = obstacle.getPosition().x / CELL_SIZE;
             y = obstacle.getPosition().y / CELL_SIZE;
-            walkable[x][y] = false;
+            if(diff % 2 == 0) {
+                for(int i = x - diff + 1; i < x + diff; i++) {
+                    for(int j = y - diff + 1; j < y + diff; j++) {
+                        if(i >= 0 && i < width && j >= 0 && j < height) {
+                            walkable[i][j] = false;
+                        }
+                    }
+                }
+                }else {
+                for(int i = x - diff; i < x + diff; i++) {
+                    for(int j = y - diff; j < y + diff; j++) {
+                        if(i >= 0 && i < width && j >= 0 && j < height) {
+                            walkable[i][j] = false;
+                        }
+                    }
+                }
+            }
             }
 
     }

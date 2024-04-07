@@ -61,7 +61,7 @@ public class VueMainGame {
         ThreadTime threadTime = new ThreadTime(this.game);
         this.initTimer();
 
-        ThreadDrop threadDrop = new ThreadDrop(this.game.getDrops());
+        ThreadDrop threadDrop = new ThreadDrop(this.game);
 
         this.frame.pack();
         this.frame.setLocationRelativeTo(null);
