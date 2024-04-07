@@ -275,8 +275,8 @@ public class VueRight extends JPanel {
 
             int xHelper = (this.getWidth() - this.IMGBar0.getWidth(this) * 10 - 2 * 10 - this.IMGCowHappy.getWidth(this) * 2) /2;
             int yHelper = y + (this.IMGPlantButton.getHeight(this) - this.IMGCowHappy.getHeight(this)) / 2;
-            g.drawImage(this.IMGCowHappy, xHelper, yHelper, this);
-            g.drawImage(this.IMGCowSad, xHelper + this.IMGCowHappy.getWidth(this) + 2 + this.IMGBar0.getWidth(this) * 10 + 2 * 10, yHelper, this);
+            g.drawImage(this.IMGCowSad, xHelper, yHelper, this);
+            g.drawImage(this.IMGCowHappy, xHelper + this.IMGCowHappy.getWidth(this) + 2 + this.IMGBar0.getWidth(this) * 10 + 2 * 10, yHelper, this);
 
             xHelper += this.IMGCowHappy.getWidth(this) + 2;
             yHelper = y + (this.IMGPlantButton.getHeight(this) - this.IMGBar0.getHeight(this)) / 2;
