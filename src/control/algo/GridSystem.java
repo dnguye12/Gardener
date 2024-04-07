@@ -33,25 +33,28 @@ public class GridSystem {
         for(ModelObstacle obstacle : obstacles.values()) {
             x = obstacle.getPosition().x / CELL_SIZE;
             y = obstacle.getPosition().y / CELL_SIZE;
-            if(diff % 2 == 0) {
-                for(int i = x - diff + 1; i < x + diff; i++) {
-                    for(int j = y - diff + 1; j < y + diff; j++) {
-                        if(i >= 0 && i < width && j >= 0 && j < height) {
-                            walkable[i][j] = false;
+            if(diff == 0) {
+                walkable[x][y] = false;
+            }else {
+                if (diff % 2 == 0) {
+                    for (int i = x - diff + 1; i < x + diff; i++) {
+                        for (int j = y - diff + 1; j < y + diff; j++) {
+                            if (i >= 0 && i < width && j >= 0 && j < height) {
+                                walkable[i][j] = false;
+                            }
                         }
                     }
-                }
-                }else {
-                for(int i = x - diff; i < x + diff; i++) {
-                    for(int j = y - diff; j < y + diff; j++) {
-                        if(i >= 0 && i < width && j >= 0 && j < height) {
-                            walkable[i][j] = false;
+                } else {
+                    for (int i = x - diff; i < x + diff; i++) {
+                        for (int j = y - diff; j < y + diff; j++) {
+                            if (i >= 0 && i < width && j >= 0 && j < height) {
+                                walkable[i][j] = false;
+                            }
                         }
                     }
                 }
             }
             }
-
     }
 
     public boolean[][] getWalkable() {

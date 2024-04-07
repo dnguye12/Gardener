@@ -15,26 +15,15 @@ public class VueRight extends JPanel {
     private final Toolkit toolkit;
     private ModelGame game;
     private Image IMGbg;
-    private Image IMGshopTalk;
-    private Image IMGshop1;
-    private Image IMGshopoff1;
+    private Image IMGshopTalk, IMGCowTalk, IMGPlantTalk;
+    private Image IMGshop1, IMGshopoff1;
     private Image IMGGar;
-    private Image IMGGarAction0;
-    private Image IMGGarAction1;
-    private Image IMGGarAction2;
-    private Image IMGGarAction3;
-    private Image IMGGarActionOff1;
-    private Image IMGGarActionOff2;
-    private Image IMGGarActionOff3;
-    private Image IMGCowTalk;
-    private Image IMGPlantTalk;
+    private Image IMGGarAction0, IMGGarAction1, IMGGarAction2, IMGGarAction3, IMGGarActionOff1, IMGGarActionOff2, IMGGarActionOff3;
     private Image IMGPlantButton;
-    private Image IMGHearth0;
-    private Image IMGHearth1;
-    private Image IMGBar0;
-    private Image IMGBar1;
-    private Image IMGBar2;
+    private Image IMGHearth0, IMGHearth1;
+    private Image IMGBar0, IMGBar1, IMGBar2;
     private Image cursorNormal;
+    private Image IMGCowHappy, IMGCowSad;
     public VueRight(VueMainGame vueMainGame ,ModelGame game) {
         this.vueMainGame = vueMainGame;
         this.toolkit = Toolkit.getDefaultToolkit();
@@ -82,6 +71,9 @@ public class VueRight extends JPanel {
         this.IMGBar1 = this.toolkit.getImage("src/assets/maingame/plant/bar1.png");
         this.IMGBar2 = this.toolkit.getImage("src/assets/maingame/plant/bar2.png");
         this.cursorNormal = this.toolkit.getImage("src/assets/cursor/normal.png");
+
+        this.IMGCowHappy = this.toolkit.getImage("src/assets/maingame/cow/state1.png");
+        this.IMGCowSad = this.toolkit.getImage("src/assets/maingame/cow/state0.png");
     }
 
     @Override
@@ -134,11 +126,13 @@ public class VueRight extends JPanel {
 
         ModelGardener gardener = (ModelGardener)this.game.getSelected();
 
+        //Affichage de l'image du jardinier
         x = (this.getWidth() - this.IMGGar.getWidth(this)) / 2;
         y = 50;
         g.drawImage(this.IMGGar, x, y, this);
         y += this.IMGGar.getHeight(this) + 50;
 
+        //Affichage de l'état du jardinier
         x = (this.getWidth() - this.IMGGarAction0.getWidth(this)) / 2;
         g.drawImage(this.IMGGarAction0, x, y, this);
         g.setFont(font);
@@ -150,6 +144,8 @@ public class VueRight extends JPanel {
         g.drawString(status, numberX, numberY);
         y += this.IMGGarAction0.getHeight(this) + 10;
 
+        //Affichage des actions disponibles pour le jardinier
+        //Planter
         if(this.game.getMoney() >= 10) {
             g.drawImage(this.IMGGarAction1, x, y, this);
         }else {
@@ -157,6 +153,7 @@ public class VueRight extends JPanel {
         }
         y += this.IMGGarAction1.getHeight(this) + 10;
 
+        //Récolter
         if(((ModelGardener) this.game.getSelected()).plantsNear().size() > 0) {
             g.drawImage(this.IMGGarAction2, x, y, this);
         } else {
@@ -164,6 +161,7 @@ public class VueRight extends JPanel {
         }
         y += this.IMGGarAction2.getHeight(this) + 10;
 
+        //Promouvoir
         if(this.game.getMoney() >= 25 && gardener.getPromoteState() < 5) {
             g.drawImage(this.IMGGarAction3, x, y, this);
         }else {
@@ -180,11 +178,14 @@ public class VueRight extends JPanel {
         ModelPlant plant = (ModelPlant)this.game.getSelected();
         Font font = FontGetter.getFont().deriveFont(28f);
 
+        //Affichage de l'image de la plante
         x = (this.getWidth() - this.IMGPlantTalk.getWidth(this)) / 2;
         y = 50;
         g.drawImage(this.IMGPlantTalk, x, y, this);
         Image IMGPlant = this.toolkit.getImage(plant.getType().getPlantImage(plant.getStage()));
         g.drawImage(IMGPlant, x + 29, y + 27, this);
+
+        //Affichage du nom de la plante
         g.setFont(font);
         g.setColor(new Color(107,75,91));
         String name = plant.getType().getName().toUpperCase();
@@ -250,11 +251,13 @@ public class VueRight extends JPanel {
             ModelRabbit rabbit = (ModelRabbit)this.game.getSelected();
             Font font = FontGetter.getFont().deriveFont(28f);
 
+            //Affichage de l'image du lapin
             x = (this.getWidth() - this.IMGCowTalk.getWidth(this)) / 2;
             y = 50;
             g.drawImage(this.IMGCowTalk, x, y, this);
             y += this.IMGCowTalk.getHeight(this) + 50;
 
+            //Affichage de l'état du lapin
             x = (this.getWidth() - this.IMGGarAction0.getWidth(this)) / 2;
             g.drawImage(this.IMGGarAction0, x, y, this);
             g.setFont(font);
@@ -265,7 +268,26 @@ public class VueRight extends JPanel {
             int numberY = y + ((this.IMGGarAction0.getHeight(this) - fm.getHeight()) / 2) + fm.getAscent() + 5;
             g.drawString(status, numberX, numberY);
             y += this.IMGGarAction0.getHeight(this) + 10;
-            y += this.IMGCowTalk.getHeight(this) + 50;
+
+            //Rabbit quit time
+            int time = rabbit.getDieTime();
+            g.drawImage(this.IMGPlantButton, x , y , this);
+
+            int xHelper = (this.getWidth() - this.IMGBar0.getWidth(this) * 10 - 2 * 10 - this.IMGCowHappy.getWidth(this) * 2) /2;
+            int yHelper = y + (this.IMGPlantButton.getHeight(this) - this.IMGCowHappy.getHeight(this)) / 2;
+            g.drawImage(this.IMGCowHappy, xHelper, yHelper, this);
+            g.drawImage(this.IMGCowSad, xHelper + this.IMGCowHappy.getWidth(this) + 2 + this.IMGBar0.getWidth(this) * 10 + 2 * 10, yHelper, this);
+
+            xHelper += this.IMGCowHappy.getWidth(this) + 2;
+            yHelper = y + (this.IMGPlantButton.getHeight(this) - this.IMGBar0.getHeight(this)) / 2;
+            for(int i = 1; i <= 10; i++) {
+                if (i <= time / 1500) {
+                    g.drawImage(this.IMGBar1, xHelper, yHelper, this);
+                }else {
+                    g.drawImage(this.IMGBar0, xHelper, yHelper, this);
+                }
+                xHelper += this.IMGBar0.getWidth(this) + 2;
+            }
 
         }
 }
