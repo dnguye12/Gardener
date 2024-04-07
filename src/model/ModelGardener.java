@@ -154,10 +154,24 @@ public class ModelGardener extends ModelUnit{
     }
 
     public void plant() {
-        if(this.game.getMoney() >= 10) {
+        if(this.canPlant()) {
             this.game.setMoney(this.game.getMoney() - 10);
             this.game.addPlant(new ModelPlant(IdGen.generatePlantId(), this.position, ModelPlant.PlantType.randomType(), this.game));
         }
+    }
+
+    // Vérifie si le jardinier peut planter des plantes à proximité.
+    public boolean canPlant() {
+        if(this.game.getMoney() < 10) {
+            return false;
+        }
+        for(Integer id : this.game.getPlants().keySet()) {
+            ModelPlant plant = this.game.getPlants().get(id);
+            if(plant != null && this.position.distance(plant.getPosition()) <= 30) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

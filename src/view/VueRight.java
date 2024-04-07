@@ -146,7 +146,7 @@ public class VueRight extends JPanel {
 
         //Affichage des actions disponibles pour le jardinier
         //Planter
-        if(this.game.getMoney() >= 10) {
+        if(gardener.canPlant()) {
             g.drawImage(this.IMGGarAction1, x, y, this);
         }else {
             g.drawImage(this.IMGGarActionOff1, x, y, this);
@@ -154,7 +154,7 @@ public class VueRight extends JPanel {
         y += this.IMGGarAction1.getHeight(this) + 10;
 
         //Récolter
-        if(((ModelGardener) this.game.getSelected()).plantsNear().size() > 0) {
+        if(gardener.plantsNear().size() > 0) {
             g.drawImage(this.IMGGarAction2, x, y, this);
         } else {
             g.drawImage(this.IMGGarActionOff2, x, y, this);
