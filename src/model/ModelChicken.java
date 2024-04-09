@@ -40,8 +40,8 @@ public class ModelChicken extends ModelUnit{
             return name;
         }
     }
-    public ModelChicken(int id, Point position, Point dest, ModelGame game) {
-        super(id, position, dest);
+    public ModelChicken(int id, Point position, ModelGame game) {
+        super(id, position, position);
         this.game = game;
         this.status = Status.IDLING;
 

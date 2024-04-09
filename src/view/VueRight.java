@@ -16,7 +16,7 @@ public class VueRight extends JPanel {
     private ModelGame game;
     private Image IMGbg;
     private Image IMGshopTalk, IMGCowTalk, IMGPlantTalk;
-    private Image IMGshop1, IMGshopoff1;
+    private Image IMGshop1, IMGshopoff1, IMGshop2, IMGshopoff2;
     private Image IMGGar;
     private Image IMGGarAction0, IMGGarAction1, IMGGarAction2, IMGGarAction3, IMGGarActionOff0, IMGGarActionOff1, IMGGarActionOff2, IMGGarActionOff3;
     private Image IMGPlantButton;
@@ -49,6 +49,8 @@ public class VueRight extends JPanel {
         this.IMGshopTalk = this.toolkit.getImage("src/assets/maingame/shop/talk.png");
         this.IMGshop1 = this.toolkit.getImage("src/assets/maingame/shop/shop1.png");
         this.IMGshopoff1 = this.toolkit.getImage("src/assets/maingame/shop/shopoff1.png");
+        this.IMGshop2 = this.toolkit.getImage("src/assets/maingame/shop/shop2.png");
+        this.IMGshopoff2 = this.toolkit.getImage("src/assets/maingame/shop/shopoff2.png");
 
         this.IMGGar = this.toolkit.getImage("src/assets/maingame/right/gardener.png");
         this.IMGGarAction0 = this.toolkit.getImage("src/assets/maingame/right/gardeneraction0.png");
@@ -111,12 +113,19 @@ public class VueRight extends JPanel {
         y += this.IMGshopTalk.getHeight(this) + 50;
 
         int money = this.game.getMoney();
-        if(money >= 100) {
+        if(money >= 200) {
             g.drawImage(this.IMGshop1, x, y, this);
         }else {
             g.drawImage(this.IMGshopoff1, x, y , this);
         }
         y += this.IMGshop1.getHeight(this) + 10;
+
+        if(money >= 100 && !this.game.getHasChickenHouse()) {
+            g.drawImage(this.IMGshop2, x, y, this);
+        }else {
+            g.drawImage(this.IMGshopoff2, x, y , this);
+        }
+        y += this.IMGshop2.getHeight(this) + 10;
     }
 
     /**

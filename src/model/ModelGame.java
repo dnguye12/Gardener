@@ -26,6 +26,8 @@ public class ModelGame {
     private HashMap<Integer, ModelObstacle> obstacles;
     private HashMap<Integer, ModelDrop> drops;
     private HashMap<Integer, ModelChicken> chickens;
+    private boolean hasChickenHouse;
+    private ModelChickenHouse chickenHouse;
     private int money;
     private int score;
     private int timeLeft; // Temps restant dans le jeu.
@@ -47,11 +49,13 @@ public class ModelGame {
         this.drops = new HashMap<>();
 
         this.chickens = new HashMap<>();
+        this.hasChickenHouse = false;
+        this.chickenHouse = null;
 
         this.selected = null;
         this.isBuying = "";
 
-        this.money = 10;
+        this.money = 200;
         this.score = 0;
         this.timeLeft = 300;
 
@@ -62,7 +66,7 @@ public class ModelGame {
         int helpery = (this.vueMainGame.getScreen_height() - 50) / 2;
         this.gardeners.put(0, new ModelGardener(0, new Point(helperx, helpery), new Point(helperx, helpery), this));
 
-        this.chickens.put(0, new ModelChicken(0, new Point(100, 100), new Point(100, 100), this));
+        this.chickens.put(0, new ModelChicken(0, new Point(100, 100), this));
     }
 
     /**
@@ -100,8 +104,10 @@ public class ModelGame {
     public void setIsBuying(String isBuying) {
         if(isBuying.equals("")) {
             this.isBuying = "";
-        }else if(isBuying.equals("Gardener") &&  this.money >= 100)  {
-            this.isBuying = isBuying;
+        }else if(isBuying.equals("Gardener") &&  this.money >= 200)  {
+            this.isBuying = "Gardener";
+        }else if(isBuying.equals("ChickenHouse") && this.money >= 100) {
+            this.isBuying = "ChickenHouse";
         }
     }
 
@@ -223,7 +229,20 @@ public class ModelGame {
     public HashMap<Integer, ModelChicken> getChickens() {
         return this.chickens;
     }
+    public void addChicken(ModelChicken chicken) {
+        this.chickens.put(chicken.getId(), chicken);
+    }
+    public boolean getHasChickenHouse() {
+        return this.hasChickenHouse;
+    }
 
+    public ModelChickenHouse getChickenHouse() {
+        return this.chickenHouse;
+    }
+    public void setChickenHouse(ModelChickenHouse chickenHouse) {
+        this.chickenHouse = chickenHouse;
+        this.hasChickenHouse = true;
+    }
     /**
      * Réinitialise le jeu en effaçant toutes les entités (jardiniers, plantes, lapins, obstacles, objets récupérables),
      * en réinitialisant l'unité sélectionnée, l'état d'achat, la monnaie, le score, et le temps restant.

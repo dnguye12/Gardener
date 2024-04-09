@@ -106,11 +106,19 @@ public class MouseListenerVueLeft implements MouseListener {
             }else {
                 if(isBuying.equals("Gardener")) {
                     int money = this.game.getMoney();
+                    if(money >= 200) {
+                        MusicPlayer.playClick();
+                        this.game.setMoney(money - 200);
+                        this.game.setIsBuying("");
+                        this.game.addGardener(new ModelGardener(IdGen.generateGardenerId(), e.getPoint(), e.getPoint(), this.game));
+                    }
+                }else if(isBuying.equals("ChickenHouse")) {
+                    int money = this.game.getMoney();
                     if(money >= 100) {
                         MusicPlayer.playClick();
                         this.game.setMoney(money - 100);
                         this.game.setIsBuying("");
-                        this.game.addGardener(new ModelGardener(IdGen.generateGardenerId(), e.getPoint(), e.getPoint(), this.game));
+                        this.game.setChickenHouse(new ModelChickenHouse(0, e.getPoint(), this.game));
                     }
                 }
             }

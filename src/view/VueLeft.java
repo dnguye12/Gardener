@@ -22,7 +22,8 @@ public class VueLeft extends JPanel {
     private Image IMGCoinSign;
     private Image IMGScoreSign;
     private Image IMGTimeSign;
-    private Image i1;
+    private Image IMGHoverGardener;
+    private Image IMGHoverChickenHouse;
     private Image cursorNormal;
     private Image cursorHover;
     private Cursor c;
@@ -30,6 +31,7 @@ public class VueLeft extends JPanel {
     private Image dropTomato;
     private Image dropSoleil;
     private Image dropEgg;
+    private Image IMGChickenHouse;
     public VueLeft(VueMainGame vueMainGame, ModelGame game) {
         this.vueMainGame = vueMainGame;
         this.toolkit = Toolkit.getDefaultToolkit();
@@ -53,7 +55,9 @@ public class VueLeft extends JPanel {
         this.IMGCoinSign = this.toolkit.getImage("src/assets/maingame/left/coin sign.png");
         this.IMGScoreSign = this.toolkit.getImage("src/assets/maingame/left/score sign.png");
         this.IMGTimeSign = this.toolkit.getImage("src/assets/maingame/left/time sign.png");
-        this.i1 = this.toolkit.getImage("src/assets/maingame/shop/gardener.png");
+
+        this.IMGHoverGardener = this.toolkit.getImage("src/assets/maingame/shop/gardener.png");
+        this.IMGHoverChickenHouse = this.toolkit.getImage("src/assets/maingame/chicken/house.png");
 
         this.cursorNormal = this.toolkit.getImage("src/assets/cursor/normal.png");
         this.cursorHover = this.toolkit.getImage("src/assets/cursor/hover.png");
@@ -63,6 +67,7 @@ public class VueLeft extends JPanel {
         this.dropSoleil = this.toolkit.getImage("src/assets/maingame/drop/soleil.png");
 
         this.dropEgg = this.toolkit.getImage("src/assets/maingame/drop/egg.png");
+        this.IMGChickenHouse = this.toolkit.getImage("src/assets/maingame/chicken/house.png");
     }
 
     @Override
@@ -70,6 +75,10 @@ public class VueLeft extends JPanel {
         super.paintComponent(g);
 
         g.drawImage(this.bgImage, 0,0, this);
+
+        if(this.game.getHasChickenHouse()) {
+            this.drawChickenHouse(g);
+        }
 
         this.drawPlants(g);
         this.drawDrop(g);
@@ -205,9 +214,19 @@ public class VueLeft extends JPanel {
      * @param g L'objet Graphics utilisé pour le dessin.
      */
     public void drawHover(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g.create();
+
+        float opacity = 0.5f;
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
+
         int x = this.vueLeftMouseMotion.getX();
         int y = this.vueLeftMouseMotion.getY();
-        g.drawImage(this.i1, x, y, this);
+        if(this.game.getIsBuying().equals("Gardener")) {
+            g2d.drawImage(this.IMGHoverGardener, x, y, this);
+        }else if(this.game.getIsBuying().equals("ChickenHouse")) {
+            g2d.drawImage(this.IMGHoverChickenHouse, x, y, this);
+        }
+        g2d.dispose();
     }
 
     /**
@@ -259,5 +278,10 @@ public class VueLeft extends JPanel {
             Point position = chicken.getPosition();
             g.drawImage(helper, position.x, position.y, this);
         }
+    }
+
+    public void drawChickenHouse(Graphics g) {
+        ModelChickenHouse chickenHouse = this.game.getChickenHouse();
+        g.drawImage(this.IMGChickenHouse, chickenHouse.getPosition().x, chickenHouse.getPosition().y, this);
     }
 }
