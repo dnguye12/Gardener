@@ -25,10 +25,12 @@ public class ModelGame {
     private HashMap<Integer, ModelRabbit> rabbits;
     private HashMap<Integer, ModelObstacle> obstacles;
     private HashMap<Integer, ModelDrop> drops;
+    private HashMap<Integer, ModelChicken> chickens;
     private int money;
     private int score;
     private int timeLeft; // Temps restant dans le jeu.
     private AStarPathfinder pathfinder; // Le chercheur de chemin utilisant l'algorithme A* pour la navigation.
+    private GridSystem gridSystem;
 
     public ModelGame(VueMainGame vueMainGame) {
         this.vueMainGame = vueMainGame;
@@ -44,19 +46,23 @@ public class ModelGame {
 
         this.drops = new HashMap<>();
 
+        this.chickens = new HashMap<>();
+
         this.selected = null;
         this.isBuying = "";
 
-        this.money = 200;
+        this.money = 10;
         this.score = 0;
         this.timeLeft = 300;
 
-        GridSystem grid = new GridSystem(this, this.vueMainGame);
-        this.pathfinder = new AStarPathfinder(grid.getWidth(), grid.getHeight(), grid.getWalkable());
+        this.gridSystem = new GridSystem(this, this.vueMainGame);
+        this.pathfinder = new AStarPathfinder(this.gridSystem.getWidth(), this.gridSystem.getHeight(), this.gridSystem.getWalkable());
 
         int helperx = (this.vueMainGame.getLeft_width() - 50) / 2;
         int helpery = (this.vueMainGame.getScreen_height() - 50) / 2;
         this.gardeners.put(0, new ModelGardener(0, new Point(helperx, helpery), new Point(helperx, helpery), this));
+
+        this.chickens.put(0, new ModelChicken(0, new Point(100, 100), new Point(100, 100), this));
     }
 
     /**
@@ -119,6 +125,9 @@ public class ModelGame {
     }
     public void setTimeLeft(int timeLeft) {
         this.timeLeft = timeLeft;
+    }
+    public GridSystem getGridSystem() {
+        return this.gridSystem;
     }
 
     public AStarPathfinder getPathfinder() {
@@ -209,6 +218,10 @@ public class ModelGame {
     }
     public void removeDrop(int id) {
         this.drops.remove(id);
+    }
+
+    public HashMap<Integer, ModelChicken> getChickens() {
+        return this.chickens;
     }
 
     /**

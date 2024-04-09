@@ -1,5 +1,6 @@
 package view;
 
+import control.animation.AnimationChicken;
 import control.animation.AnimationGardener;
 import control.animation.AnimationRabbit;
 import control.maingame.*;
@@ -63,6 +64,9 @@ public class VueMainGame {
 
         ThreadDrop threadDrop = new ThreadDrop(this.game);
 
+        ThreadChicken threadChicken = new ThreadChicken(this.game);
+        AnimationChicken animationChicken = new AnimationChicken(this.game);
+
         this.frame.pack();
         this.frame.setLocationRelativeTo(null);
         this.frame.setVisible(true);
@@ -72,9 +76,14 @@ public class VueMainGame {
         threadGardener.start();
 
         threadPlant.start();
+
         rabbitGen.start();
         animationRabbit.start();
         threadRabbit.start();
+
+        threadChicken.start();
+        animationChicken.start();
+
         threadTime.start();
 
         threadDrop.start();

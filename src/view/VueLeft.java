@@ -1,5 +1,6 @@
 package view;
 
+import control.algo.GridSystem;
 import control.maingame.MouseListenerVueLeft;
 import control.maingame.MouseMotionVueLeft;
 import model.*;
@@ -69,6 +70,7 @@ public class VueLeft extends JPanel {
 
         this.drawPlants(g);
         this.drawDrop(g);
+        this.drawChicken(g);
         this.drawGardeners(g);
         this.drawRabbit(g);
 
@@ -240,6 +242,16 @@ public class VueLeft extends JPanel {
                         break;
                 }
             }
+        }
+    }
+
+    public void drawChicken(Graphics g) {
+        Image helper;
+        HashMap<Integer, ModelChicken> chickens = this.game.getChickens();
+        for(ModelChicken chicken : chickens.values()) {
+            helper = this.toolkit.getImage(chicken.getAnimation());
+            Point position = chicken.getPosition();
+            g.drawImage(helper, position.x, position.y, this);
         }
     }
 }

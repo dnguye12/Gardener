@@ -83,6 +83,21 @@ public class MouseListenerVueLeft implements MouseListener {
                     }
                 }
 
+                HashMap<Integer, ModelChicken> chickens = this.game.getChickens();
+                for(ModelChicken chicken : chickens.values()) {
+                    Point center = chicken.getPosition();
+                    double dx = Math.abs(center.x - e.getPoint().x);
+                    double dy = Math.abs(center.y - e.getPoint().y);
+                    if(dx * dx + dy * dy <= 42 * 42) {
+                        if(selected != null) {
+                            selected.setSelected(false);
+                        }
+                        chicken.setSelected(true);
+                        this.game.setSelected(chicken);
+                        return;
+                    }
+                }
+
                 if (selected != null) {
                     MusicPlayer.playClick();
                     selected.setSelected(false);

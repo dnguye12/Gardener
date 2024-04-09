@@ -8,6 +8,7 @@ public class IdGen {
     private static int plantId = 0;
     private static int rabbitId = 0;
     private static int dropId = 0;
+    private static int chickenId = 0;
 
     public static int generateGardenerId() {
         return gardenerId++;
@@ -23,5 +24,9 @@ public class IdGen {
 
     public static int generateDropId() {
         return dropId++;
+    }
+
+    public static int generateChickenId() {
+        return chickenId++;
     }
 }

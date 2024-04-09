@@ -110,13 +110,9 @@ public class ModelRabbit extends ModelUnit{
      */
     @Override
     public void setDest(Point dest) {
-        HashMap<Integer, ModelObstacle> obs = this.game.getObstacles();
-        for(ModelObstacle ob : obs.values()) {
-            if(ob.getPosition().distance(dest) <= GridSystem.OBSTACLE_SIZE) {
-                return;
-            }
+        if(!this.game.getGridSystem().getPoint(dest)) {
+            return;
         }
-
         this.dest = dest;
         this.pathfinder.findPathAsync(this.position, dest).thenAccept(path -> {
             this.currentPath = path;

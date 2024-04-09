@@ -4,6 +4,7 @@ import model.ModelGame;
 import model.ModelObstacle;
 import view.VueMainGame;
 
+import java.awt.*;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -67,5 +68,16 @@ public class GridSystem {
 
     public int getHeight() {
         return height;
+    }
+
+    public void setCell(int lig, int col, boolean bool) {
+        this.walkable[lig][col] = bool;
+    }
+
+    public boolean getPoint(Point point) {
+        int x = point.x / CELL_SIZE;
+        int y = point.y / CELL_SIZE;
+
+        return this.walkable[x][y];
     }
 }

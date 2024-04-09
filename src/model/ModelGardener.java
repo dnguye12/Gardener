@@ -92,17 +92,12 @@ public class ModelGardener extends ModelUnit{
      */
     @Override
     public void setDest(Point dest) {
-        HashMap<Integer, ModelObstacle> obs = this.game.getObstacles();
-        for(ModelObstacle ob : obs.values()) {
-            if(ob.getPosition().distance(dest) <= GridSystem.OBSTACLE_SIZE) {
-                return; // Vérifie si la destination est un obstacle, faire rien.
-            }
+        if(!this.game.getGridSystem().getPoint(dest)) {
+            return;
         }
         this.dest = dest;
         MusicPlayer.playMove();
-        this.pathfinder.findPathAsync(this.position, this.dest).thenAccept(path -> {
-            this.currentPath = path;
-        });
+        this.pathfinder.findPathAsync(this.position, this.dest).thenAccept(path -> this.currentPath = path);
     }
 
     public String getAnimation() {
@@ -202,7 +197,7 @@ public class ModelGardener extends ModelUnit{
 
         for(ModelDrop drop : drops.values()) {
             if(drop instanceof ModelPlantDrop plantDrop) {
-                if(this.position.distance(plantDrop.getPosition()) <= 10) {
+                if(this.position.distance(plantDrop.getPosition()) <= 30) {
                     helper.add(plantDrop.getId());
                 }
             }

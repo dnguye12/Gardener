@@ -18,7 +18,7 @@ public class VueRight extends JPanel {
     private Image IMGshopTalk, IMGCowTalk, IMGPlantTalk;
     private Image IMGshop1, IMGshopoff1;
     private Image IMGGar;
-    private Image IMGGarAction0, IMGGarAction1, IMGGarAction2, IMGGarAction3, IMGGarActionOff1, IMGGarActionOff2, IMGGarActionOff3;
+    private Image IMGGarAction0, IMGGarAction1, IMGGarAction2, IMGGarAction3, IMGGarActionOff0, IMGGarActionOff1, IMGGarActionOff2, IMGGarActionOff3;
     private Image IMGPlantButton;
     private Image IMGHearth0, IMGHearth1;
     private Image IMGBar0, IMGBar1, IMGBar2;
@@ -55,6 +55,7 @@ public class VueRight extends JPanel {
         this.IMGGarAction1 = this.toolkit.getImage("src/assets/maingame/right/gardeneraction1.png");
         this.IMGGarAction2 = this.toolkit.getImage("src/assets/maingame/right/gardeneraction2.png");
         this.IMGGarAction3 = this.toolkit.getImage("src/assets/maingame/right/gardeneraction3.png");
+        this.IMGGarActionOff0 = this.toolkit.getImage("src/assets/maingame/right/gardeneroff0.png");
         this.IMGGarActionOff1 = this.toolkit.getImage("src/assets/maingame/right/gardeneroff1.png");
         this.IMGGarActionOff2 = this.toolkit.getImage("src/assets/maingame/right/gardeneroff2.png");
         this.IMGGarActionOff3 = this.toolkit.getImage("src/assets/maingame/right/gardeneroff3.png");
@@ -90,6 +91,8 @@ public class VueRight extends JPanel {
                 this.drawPlants(g);
             }else if(selected instanceof ModelRabbit) {
                 this.drawRabbit(g);
+            }else if(selected instanceof  ModelChicken) {
+                this.drawChicken(g);
             }
         }else {
             this.drawShop(g);
@@ -133,16 +136,16 @@ public class VueRight extends JPanel {
         y += this.IMGGar.getHeight(this) + 50;
 
         //Affichage de l'état du jardinier
-        x = (this.getWidth() - this.IMGGarAction0.getWidth(this)) / 2;
-        g.drawImage(this.IMGGarAction0, x, y, this);
+        x = (this.getWidth() - this.IMGGarActionOff0.getWidth(this)) / 2;
+        g.drawImage(this.IMGGarActionOff0, x, y, this);
         g.setFont(font);
         g.setColor(new Color(107,75,91));
         String status = gardener.getStatus().getName().toUpperCase();
         FontMetrics fm = g.getFontMetrics(font);
-        int numberX = x + (this.IMGGarAction0.getWidth(this) - fm.stringWidth(status)) / 2;
-        int numberY = y + ((this.IMGGarAction0.getHeight(this) - fm.getHeight()) / 2) + fm.getAscent() + 5;
+        int numberX = x + (this.IMGGarActionOff0.getWidth(this) - fm.stringWidth(status)) / 2;
+        int numberY = y + ((this.IMGGarActionOff0.getHeight(this) - fm.getHeight()) / 2) + fm.getAscent() + 10;
         g.drawString(status, numberX, numberY);
-        y += this.IMGGarAction0.getHeight(this) + 10;
+        y += this.IMGGarActionOff0.getHeight(this) + 10;
 
         //Affichage des actions disponibles pour le jardinier
         //Planter
@@ -258,16 +261,16 @@ public class VueRight extends JPanel {
             y += this.IMGCowTalk.getHeight(this) + 50;
 
             //Affichage de l'état du lapin
-            x = (this.getWidth() - this.IMGGarAction0.getWidth(this)) / 2;
-            g.drawImage(this.IMGGarAction0, x, y, this);
+            x = (this.getWidth() - this.IMGGarActionOff0.getWidth(this)) / 2;
+            g.drawImage(this.IMGGarActionOff0, x, y, this);
             g.setFont(font);
             g.setColor(new Color(107,75,91));
             String status = rabbit.getStatus().getName().toUpperCase();
             FontMetrics fm = g.getFontMetrics(font);
-            int numberX = x + (this.IMGGarAction0.getWidth(this) - fm.stringWidth(status)) / 2;
-            int numberY = y + ((this.IMGGarAction0.getHeight(this) - fm.getHeight()) / 2) + fm.getAscent() + 5;
+            int numberX = x + (this.IMGGarActionOff0.getWidth(this) - fm.stringWidth(status)) / 2;
+            int numberY = y + ((this.IMGGarActionOff0.getHeight(this) - fm.getHeight()) / 2) + fm.getAscent() + 10;
             g.drawString(status, numberX, numberY);
-            y += this.IMGGarAction0.getHeight(this) + 10;
+            y += this.IMGGarActionOff0.getHeight(this) + 10;
 
             //Rabbit quit time
             int time = rabbit.getDieTime();
@@ -288,7 +291,29 @@ public class VueRight extends JPanel {
                 }
                 xHelper += this.IMGBar0.getWidth(this) + 2;
             }
-
         }
+
+    public void drawChicken(Graphics g) {
+        int x, y;
+        ModelChicken chicken = (ModelChicken) this.game.getSelected();
+        Font font = FontGetter.getFont().deriveFont(28f);
+
+        //Affichage de l'image du lapin
+        x = (this.getWidth() - this.IMGCowTalk.getWidth(this)) / 2;
+        y = 50;
+        g.drawImage(this.IMGCowTalk, x, y, this);
+        y += this.IMGCowTalk.getHeight(this) + 50;
+
+        //Affichage de l'état du lapin
+        x = (this.getWidth() - this.IMGGarActionOff0.getWidth(this)) / 2;
+        g.drawImage(this.IMGGarActionOff0, x, y, this);
+        g.setFont(font);
+        g.setColor(new Color(107,75,91));
+        String status = chicken.getStatus().getName().toUpperCase();
+        FontMetrics fm = g.getFontMetrics(font);
+        int numberX = x + (this.IMGGarActionOff0.getWidth(this) - fm.stringWidth(status)) / 2;
+        int numberY = y + ((this.IMGGarActionOff0.getHeight(this) - fm.getHeight()) / 2) + fm.getAscent() + 10;
+        g.drawString(status, numberX, numberY);
+    }
 }
 
