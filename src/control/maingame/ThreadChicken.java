@@ -21,10 +21,8 @@ public class ThreadChicken extends Thread {
             for (ModelChicken chicken : this.chickens.values()) {
                 chicken.move();
                 chicken.layEgg();
-                if(chicken.getStatus() == ModelChicken.Status.EATING) {
-                    chicken.eat();
-                }
             }
+            this.game.removeChicken();
             try {
                 Thread.sleep(DELAY);
             } catch (InterruptedException e) {

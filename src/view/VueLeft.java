@@ -31,6 +31,7 @@ public class VueLeft extends JPanel {
     private Image dropTomato;
     private Image dropSoleil;
     private Image dropEgg;
+    private Image dropChicken;
     private Image IMGChickenHouse;
     public VueLeft(VueMainGame vueMainGame, ModelGame game) {
         this.vueMainGame = vueMainGame;
@@ -67,6 +68,7 @@ public class VueLeft extends JPanel {
         this.dropSoleil = this.toolkit.getImage("src/assets/maingame/drop/soleil.png");
 
         this.dropEgg = this.toolkit.getImage("src/assets/maingame/drop/egg.png");
+        this.dropChicken = this.toolkit.getImage("src/assets/maingame/drop/chicken.png");
         this.IMGChickenHouse = this.toolkit.getImage("src/assets/maingame/chicken/house.png");
     }
 
@@ -81,8 +83,8 @@ public class VueLeft extends JPanel {
         }
 
         this.drawPlants(g);
-        this.drawDrop(g);
         this.drawChicken(g);
+        this.drawDrop(g);
         this.drawGardeners(g);
         this.drawRabbit(g);
 
@@ -250,22 +252,16 @@ public class VueLeft extends JPanel {
         for(ModelDrop drop : drops.values()) {
             Point position = drop.getPosition();
             Point height = drop.getHeight();
-            if(drop instanceof ModelPlantDrop) {
-                ModelPlantDrop helper = (ModelPlantDrop) drop;
+            if(drop instanceof ModelPlantDrop helper) {
                 switch (helper.getType()) {
-                    case WHEAT:
-                        g.drawImage(this.dropWheat, position.x, height.y, this);
-                        break;
-                    case TOMATO:
-                        g.drawImage(this.dropTomato, position.x, height.y, this);
-                        break;
-                    case SUNFLOWER:
-                        g.drawImage(this.dropSoleil, position.x, height.y, this);
-                        break;
+                    case WHEAT -> g.drawImage(this.dropWheat, position.x, height.y, this);
+                    case TOMATO -> g.drawImage(this.dropTomato, position.x, height.y, this);
+                    case SUNFLOWER -> g.drawImage(this.dropSoleil, position.x, height.y, this);
                 }
             }else if(drop instanceof  ModelEggDrop) {
-                ModelEggDrop helper = (ModelEggDrop) drop;
                 g.drawImage(this.dropEgg, position.x, height.y, this);
+            }else if(drop instanceof  ModelChickenDrop) {
+                g.drawImage(this.dropChicken, position.x, height.y, this);
             }
         }
     }

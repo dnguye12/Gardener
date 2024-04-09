@@ -15,10 +15,11 @@ public class VueRight extends JPanel {
     private final Toolkit toolkit;
     private ModelGame game;
     private Image IMGbg;
-    private Image IMGshopTalk, IMGCowTalk, IMGPlantTalk;
+    private Image IMGshopTalk, IMGCowTalk, IMGPlantTalk, IMGHouseTalk;
     private Image IMGshop1, IMGshopoff1, IMGshop2, IMGshopoff2;
     private Image IMGGar;
     private Image IMGGarAction0, IMGGarAction1, IMGGarAction2, IMGGarAction3, IMGGarActionOff0, IMGGarActionOff1, IMGGarActionOff2, IMGGarActionOff3;
+    private Image IMGHouseAction1, IMGHouseActionOff1;
     private Image IMGPlantButton;
     private Image IMGHearth0, IMGHearth1;
     private Image IMGBar0, IMGBar1, IMGBar2;
@@ -77,6 +78,10 @@ public class VueRight extends JPanel {
 
         this.IMGCowHappy = this.toolkit.getImage("src/assets/maingame/cow/state1.png");
         this.IMGCowSad = this.toolkit.getImage("src/assets/maingame/cow/state0.png");
+
+        this.IMGHouseTalk = this.toolkit.getImage("src/assets/maingame/chicken/houseTalk.png");
+        this.IMGHouseAction1 = this.toolkit.getImage("src/assets/maingame/right/house1.png");
+        this.IMGHouseActionOff1 = this.toolkit.getImage("src/assets/maingame/right/houseoff1.png");
     }
 
     @Override
@@ -95,6 +100,8 @@ public class VueRight extends JPanel {
                 this.drawRabbit(g);
             }else if(selected instanceof  ModelChicken) {
                 this.drawChicken(g);
+            }else if(selected instanceof ModelChickenHouse) {
+                this.drawChickenHouse(g);
             }
         }else {
             this.drawShop(g);
@@ -323,6 +330,36 @@ public class VueRight extends JPanel {
         int numberX = x + (this.IMGGarActionOff0.getWidth(this) - fm.stringWidth(status)) / 2;
         int numberY = y + ((this.IMGGarActionOff0.getHeight(this) - fm.getHeight()) / 2) + fm.getAscent() + 10;
         g.drawString(status, numberX, numberY);
+    }
+
+    public void drawChickenHouse(Graphics g) {
+        int x, y;
+        Font font = FontGetter.getFont();
+
+        ModelChickenHouse chickenHouse = this.game.getChickenHouse();
+
+        //Affichage de l'image du jardinier
+        x = (this.getWidth() - this.IMGHouseTalk.getWidth(this)) / 2;
+        y = 50;
+        g.drawImage(this.IMGHouseTalk, x, y, this);
+        y += this.IMGHouseTalk.getHeight(this) + 50;
+
+        x = (this.getWidth() - this.IMGGarActionOff0.getWidth(this)) / 2;
+        g.drawImage(this.IMGGarActionOff0, x, y, this);
+        g.setFont(font);
+        g.setColor(new Color(107,75,91));
+        String chickenCount = "POULETS : " + chickenHouse.getChickenCount();
+        FontMetrics fm = g.getFontMetrics(font);
+        int numberX = x + (this.IMGGarActionOff0.getWidth(this) - fm.stringWidth(chickenCount)) / 2;
+        int numberY = y + ((this.IMGGarActionOff0.getHeight(this) - fm.getHeight()) / 2) + fm.getAscent() + 10;
+        g.drawString(chickenCount, numberX, numberY);
+        y += this.IMGGarActionOff0.getHeight(this) + 10;
+
+        if(this.game.getMoney() >= 50) {
+            g.drawImage(this.IMGHouseAction1, x, y, this);
+        }else {
+            g.drawImage(this.IMGHouseActionOff1, x, y, this);
+        }
     }
 }
 

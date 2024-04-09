@@ -26,6 +26,7 @@ public class ModelGame {
     private HashMap<Integer, ModelObstacle> obstacles;
     private HashMap<Integer, ModelDrop> drops;
     private HashMap<Integer, ModelChicken> chickens;
+    private ArrayList<Integer> chickensToDie;
     private boolean hasChickenHouse;
     private ModelChickenHouse chickenHouse;
     private int money;
@@ -51,6 +52,7 @@ public class ModelGame {
         this.chickens = new HashMap<>();
         this.hasChickenHouse = false;
         this.chickenHouse = null;
+        this.chickensToDie = new ArrayList<>();
 
         this.selected = null;
         this.isBuying = "";
@@ -65,8 +67,6 @@ public class ModelGame {
         int helperx = (this.vueMainGame.getLeft_width() - 50) / 2;
         int helpery = (this.vueMainGame.getScreen_height() - 50) / 2;
         this.gardeners.put(0, new ModelGardener(0, new Point(helperx, helpery), new Point(helperx, helpery), this));
-
-        this.chickens.put(0, new ModelChicken(0, new Point(100, 100), this));
     }
 
     /**
@@ -231,6 +231,15 @@ public class ModelGame {
     }
     public void addChicken(ModelChicken chicken) {
         this.chickens.put(chicken.getId(), chicken);
+    }
+    public void addChickenToDie(int id) {
+        this.chickensToDie.add(id);
+    }
+    public void removeChicken() {
+        for(Integer id : this.chickensToDie) {
+            this.chickens.remove(id);
+        }
+        this.chickensToDie.clear();
     }
     public boolean getHasChickenHouse() {
         return this.hasChickenHouse;

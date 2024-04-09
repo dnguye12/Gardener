@@ -29,6 +29,16 @@ public class GridSystem {
         }
 
         HashMap<Integer, ModelObstacle> obstacles = game.getObstacles();
+        for(ModelObstacle obstacle : obstacles.values()) {
+            int x = obstacle.getPosition().x;
+            int y = obstacle.getPosition().y;
+            for(int i = x - OBSTACLE_SIZE ; i < x + OBSTACLE_SIZE ; i += CELL_SIZE) {
+                for(int j = y - OBSTACLE_SIZE; j < y + OBSTACLE_SIZE; j += CELL_SIZE) {
+                        this.setPoint(new Point(i, j), false);
+                }
+            }
+        }
+        /*
         int x,y;
         int diff = OBSTACLE_SIZE / CELL_SIZE;
         for(ModelObstacle obstacle : obstacles.values()) {
@@ -55,7 +65,11 @@ public class GridSystem {
                     }
                 }
             }
-            }
+            }*/
+    }
+
+    public void initWalkable() {
+
     }
 
     public boolean[][] getWalkable() {
@@ -79,5 +93,12 @@ public class GridSystem {
         int y = point.y / CELL_SIZE;
 
         return this.walkable[x][y];
+    }
+
+    public void setPoint(Point point, boolean bool) {
+        int x = point.x / CELL_SIZE;
+        int y = point.y / CELL_SIZE;
+
+        this.walkable[x + 2][y + 2] = bool;
     }
 }

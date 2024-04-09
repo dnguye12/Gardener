@@ -237,9 +237,14 @@ public class ModelGardener extends ModelUnit{
                     MusicPlayer.playPickup();
                 }else if(drop instanceof  ModelEggDrop) {
                     this.game.removeDrop(id);
+                    this.game.setMoney(this.game.getMoney() + 15);
+                    this.game.setScore(this.game.getScore() + 15);
+                    MusicPlayer.playEgg();
+                }else if(drop instanceof  ModelChickenDrop) {
+                    this.game.removeDrop(id);
                     this.game.setMoney(this.game.getMoney() + 25);
                     this.game.setScore(this.game.getScore() + 25);
-                    MusicPlayer.playPickup();
+                    MusicPlayer.playChicken();
                 }
             }
         }

@@ -51,6 +51,20 @@ public class MouseListenerVueLeft implements MouseListener {
                         return;
                     }
                 }
+                if(this.game.getChickenHouse() != null) {
+                    Point center2 = this.game.getChickenHouse().getPosition();
+                    double dx2 = Math.abs(center2.x - e.getPoint().x);
+                    double dy2 = Math.abs(center2.y - e.getPoint().y);
+                    if (dx2 * dx2 + dy2 * dy2 <= 80 * 80) {
+                        if (selected != null) {
+                            selected.setSelected(false);
+                            MusicPlayer.playClick();
+                        }
+                        this.game.getChickenHouse().setSelected(true);
+                        this.game.setSelected(this.game.getChickenHouse());
+                        return;
+                    }
+                }
                 HashMap<Integer, ModelPlant> plants = this.game.getPlants();
                 for (ModelPlant plant : plants.values()) {
                     Point center = plant.getPosition();
@@ -66,6 +80,7 @@ public class MouseListenerVueLeft implements MouseListener {
                         return;
                     }
                 }
+
 
                 HashMap<Integer, ModelRabbit> rabbits = this.game.getRabbits();
                 for (ModelRabbit rabbit : rabbits.values()) {

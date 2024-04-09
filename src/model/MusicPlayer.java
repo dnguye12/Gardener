@@ -21,6 +21,7 @@ import java.util.Random;
             loadSound("music", "src/assets/sound/music.wav");
             loadSound("click", "src/assets/sound/click.wav");
             loadSound("plant", "src/assets/sound/plant.wav");
+            loadSound("egg", "src/assets/sound/egg.wav");
             for (int i = 0; i <= 1; i++) {
                 loadSound("upgrade" + i, "src/assets/sound/upgrade" + i + ".wav");
                 loadSound("cow" + i, "src/assets/sound/cow" + i + ".wav");
@@ -28,7 +29,11 @@ import java.util.Random;
             for (int i = 0; i <= 3; i++) {
                 loadSound("move" + i, "src/assets/sound/move" + i + ".wav");
             }
+            for(int i = 0; i <= 2; i++) {
+                loadSound("chicken" + i, "src/assets/sound/chicken" + i + ".wav");
+            }
             loadSound("pickup", "src/assets/sound/pickup.wav");
+            loadSound("chickendie", "src/assets/sound/chickendie.wav");
         }
 
     /**
@@ -87,5 +92,14 @@ import java.util.Random;
         }
         public static void playPickup() {
             playSound("pickup");
+        }
+        public static void playChicken() {
+            playSound("chicken" + rand.nextInt(3));
+        }
+        public static void playEgg() {
+            playSound("egg");
+        }
+        public static void playChickenDie() {
+            playSound("chickendie");
         }
     }
