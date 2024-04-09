@@ -20,6 +20,10 @@ public class ThreadChicken extends Thread {
         while (true) {
             for (ModelChicken chicken : this.chickens.values()) {
                 chicken.move();
+                chicken.layEgg();
+                if(chicken.getStatus() == ModelChicken.Status.EATING) {
+                    chicken.eat();
+                }
             }
             try {
                 Thread.sleep(DELAY);

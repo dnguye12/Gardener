@@ -196,10 +196,8 @@ public class ModelGardener extends ModelUnit{
         ArrayList<Integer> helper = new ArrayList<Integer>();
 
         for(ModelDrop drop : drops.values()) {
-            if(drop instanceof ModelPlantDrop plantDrop) {
-                if(this.position.distance(plantDrop.getPosition()) <= 30) {
-                    helper.add(plantDrop.getId());
-                }
+            if(this.position.distance(drop.getPosition()) <= 30) {
+                helper.add(drop.getId());
             }
         }
         return helper;
@@ -236,6 +234,11 @@ public class ModelGardener extends ModelUnit{
                     this.game.setMoney(this.game.getMoney() + money);
                     this.game.setScore(this.game.getScore() + money);
                     this.game.removeDrop(id);
+                    MusicPlayer.playPickup();
+                }else if(drop instanceof  ModelEggDrop) {
+                    this.game.removeDrop(id);
+                    this.game.setMoney(this.game.getMoney() + 25);
+                    this.game.setScore(this.game.getScore() + 25);
                     MusicPlayer.playPickup();
                 }
             }

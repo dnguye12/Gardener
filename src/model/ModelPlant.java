@@ -46,7 +46,7 @@ public class ModelPlant extends ModelUnit{
         }
 
         public int getMoney() {
-            return this.stageCount * 10;
+            return this.stageCount * 5;
         }
 
         public static PlantType randomType() {

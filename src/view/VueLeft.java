@@ -29,6 +29,7 @@ public class VueLeft extends JPanel {
     private Image dropWheat;
     private Image dropTomato;
     private Image dropSoleil;
+    private Image dropEgg;
     public VueLeft(VueMainGame vueMainGame, ModelGame game) {
         this.vueMainGame = vueMainGame;
         this.toolkit = Toolkit.getDefaultToolkit();
@@ -60,6 +61,8 @@ public class VueLeft extends JPanel {
         this.dropWheat = this.toolkit.getImage("src/assets/maingame/drop/wheat.png");
         this.dropTomato = this.toolkit.getImage("src/assets/maingame/drop/tomato.png");
         this.dropSoleil = this.toolkit.getImage("src/assets/maingame/drop/soleil.png");
+
+        this.dropEgg = this.toolkit.getImage("src/assets/maingame/drop/egg.png");
     }
 
     @Override
@@ -241,6 +244,9 @@ public class VueLeft extends JPanel {
                         g.drawImage(this.dropSoleil, position.x, height.y, this);
                         break;
                 }
+            }else if(drop instanceof  ModelEggDrop) {
+                ModelEggDrop helper = (ModelEggDrop) drop;
+                g.drawImage(this.dropEgg, position.x, height.y, this);
             }
         }
     }

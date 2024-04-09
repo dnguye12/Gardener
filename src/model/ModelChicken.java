@@ -23,6 +23,8 @@ public class ModelChicken extends ModelUnit{
     private AStarPathfinder pathfinder;
     private ArrayList<Point> currentPath;
     private Status status;
+    private boolean hasEgg;
+    private long lastLayEggTime;
     public enum Status {
         IDLING("Idling"),
         MOVING("Moving"),
@@ -45,6 +47,7 @@ public class ModelChicken extends ModelUnit{
 
         this.lastMoveTime = System.currentTimeMillis();
         this.lastStateChangeTime = System.currentTimeMillis();
+        this.lastLayEggTime = System.currentTimeMillis();
 
         this.foundPlant = false;
         this.eatingPlant = null;
@@ -56,6 +59,8 @@ public class ModelChicken extends ModelUnit{
 
         this.pathfinder = this.game.getPathfinder();
         this.currentPath = new ArrayList<>();
+
+        this.hasEgg = false;
     }
     public void nextAnimationState() {
         if(this.status == Status.IDLING) {
@@ -122,8 +127,16 @@ public class ModelChicken extends ModelUnit{
             this.lastStateChangeTime = currentTime;
             this.currentPath.clear();
         }else if(status == Status.IDLING && currentTime - this.lastStateChangeTime > this.MEMSPAN) {
-            Random rand = new Random();
-            this.setDest(new Point(rand.nextInt(1150), rand.nextInt(850)));
+            ModelPlant nearestPlant = this.findNearestPlant();
+            if(nearestPlant != null) {
+                this.setDest(nearestPlant.getPosition());
+                this.foundPlant = true;
+                this.eatingPlant = nearestPlant;
+            }else {
+                Random rand = new Random();
+                this.setDest(new Point(rand.nextInt(1150), rand.nextInt(850)));
+                this.foundPlant = false;
+            }
             this.status = Status.MOVING;
             this.lastStateChangeTime = currentTime;
         }
@@ -147,7 +160,12 @@ public class ModelChicken extends ModelUnit{
                     this.currentPath.remove(0);
                 }else {
                     this.position = new Point(this.dest);
-                    this.status = Status.IDLING;
+                    if(this.foundPlant) {
+                        this.status = Status.EATING;
+                    }else {
+                        this.status = Status.IDLING;
+                    }
+                    this.lastStateChangeTime = currentTime;
                 }
             }else {
                 double stepX = (dx / dist) * this.SPEED;
@@ -155,6 +173,33 @@ public class ModelChicken extends ModelUnit{
                 position = new Point((int) (position.x + stepX), (int) (position.y + stepY));
                 this.direction.setDirection(this.position, this.dest);
             }
+        }
+    }
+    public void eat() {
+        if(this.eatingPlant == null) {
+            this.status = Status.IDLING;
+            this.lastStateChangeTime = System.currentTimeMillis();
+            this.eatingPlant = null;
+            this.foundPlant = false;
+        }else if(this.status == Status.EATING) {
+            this.eatingPlant.setHP(this.eatingPlant.getHP() - 1);
+            if(!this.eatingPlant.isAlive()) {
+                this.status = Status.IDLING;
+                this.lastStateChangeTime = System.currentTimeMillis();
+                this.eatingPlant = null;
+                this.foundPlant = false;
+                this.hasEgg = true;
+                this.lastLayEggTime = System.currentTimeMillis();
+            }
+        }
+    }
+
+    public void layEgg() {
+        if(this.hasEgg && System.currentTimeMillis() -  this.lastLayEggTime > 3000) {
+            this.hasEgg  = false;
+            this.lastLayEggTime = System.currentTimeMillis();
+            ModelEggDrop egg = new ModelEggDrop(IdGen.generateDropId(), new Point(this.position));
+            this.game.addDrop(egg);
         }
     }
 }
