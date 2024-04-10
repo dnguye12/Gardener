@@ -129,7 +129,7 @@ public class ModelGardener extends ModelUnit{
             }
             this.status = Status.IDLING;
             this.currentPath.clear();
-        }else {
+        }else if(this.asyncPath){
             if(!this.initPath) {
                 this.initPath = true;
             }
@@ -144,7 +144,7 @@ public class ModelGardener extends ModelUnit{
             dx = helper.x - this.position.x;
             dy = helper.y - this.position.y;
             distance = Math.sqrt(dx * dx + dy * dy);
-            if(distance <= SPEED && this.asyncPath) {
+            if(distance <= SPEED) {
                 this.position = new Point(helper);
                 this.currentPath.remove(0);
             }else {

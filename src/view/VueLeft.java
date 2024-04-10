@@ -130,23 +130,23 @@ public class VueLeft extends JPanel {
         HashMap<Integer, ModelGardener> gardeners = this.game.getGardeners();
         for(ModelGardener gardener : gardeners.values()) {
             Point position = gardener.getPosition();
+            helper = this.toolkit.getImage(gardener.getAnimation());
             if(gardener.isSelected()) {
                 g2.setStroke(new BasicStroke(1));
                 g2.setColor(Color.BLUE);
 
                 int lineOfSightRadius = gardener.getRadius();
 
-                g2.drawOval(position.x + 25 - lineOfSightRadius, position.y + 25 - lineOfSightRadius,
+                g2.drawOval(position.x + 25 - lineOfSightRadius - helper.getWidth(this) / 2, position.y + 25 - lineOfSightRadius - helper.getHeight(this) / 2,
                         lineOfSightRadius * 2, lineOfSightRadius * 2);
 
                 Color transparentColor = new Color(0, 0, 0, 33); // Semi-transparent black
                 g2.setColor(transparentColor);
 
-                g2.fillOval(position.x + 25 - lineOfSightRadius, position.y + 25 - lineOfSightRadius,
+                g2.fillOval(position.x + 25 - lineOfSightRadius - helper.getWidth(this) / 2, position.y + 25 - lineOfSightRadius - helper.getHeight(this) / 2,
                         lineOfSightRadius * 2, lineOfSightRadius * 2);
             }
-            helper = this.toolkit.getImage(gardener.getAnimation());
-            g2.drawImage(helper, position.x - 21, position.y - 24, this);
+            g2.drawImage(helper, position.x - helper.getWidth(this) / 2, position.y - helper.getHeight(this) / 2, this);
         }
     }
 

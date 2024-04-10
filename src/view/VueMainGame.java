@@ -67,6 +67,8 @@ public class VueMainGame {
         ThreadChicken threadChicken = new ThreadChicken(this.game);
         AnimationChicken animationChicken = new AnimationChicken(this.game);
 
+        ThreadField threadField = new ThreadField(this.game);
+
         this.frame.pack();
         this.frame.setLocationRelativeTo(null);
         this.frame.setVisible(true);
@@ -87,6 +89,8 @@ public class VueMainGame {
         threadTime.start();
 
         threadDrop.start();
+
+        threadField.start();
     }
 
     /**

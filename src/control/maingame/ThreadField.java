@@ -1,20 +1,23 @@
 package control.maingame;
 
+import model.ModelField;
+import model.ModelFieldCell;
 import model.ModelGame;
 
-// Ajouter un lapin chaque 8 secondes
-public class RabbitGen extends Thread{
+public class ThreadField extends Thread{
     private ModelGame game;
-    private static final int DELAY = 4000;
+    private ModelField field;
+    private static final int DELAY = 30000;
 
-    public RabbitGen(ModelGame game) {
+    public ThreadField(ModelGame game) {
         this.game = game;
+        this.field = this.game.getField();
     }
 
     @Override
     public void run() {
         while (true) {
-            this.game.addRabbit();
+            this.field.growGrass();
             try {
                 Thread.sleep(DELAY);
             } catch (InterruptedException e) {

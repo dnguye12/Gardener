@@ -180,7 +180,9 @@ public class ModelRabbit extends ModelUnit{
      */
     private boolean isWithinLineOfSight() {
         for(ModelGardener gardener : this.game.getGardeners().values()) {
-            if(position.distance(gardener.getPosition()) <= gardener.getRadius()) {
+            Point gardenerPos = gardener.getPosition();
+            gardenerPos = new Point(gardenerPos.x - 21, gardenerPos.y - 24);
+            if(position.distance(gardenerPos) <= gardener.getRadius()) {
                 return true;
             }
         }

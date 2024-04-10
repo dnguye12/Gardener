@@ -10,18 +10,30 @@ public class ModelFieldCell {
 
     public ModelFieldCell() {
         this.content = null;
-        this.hasGrass = true;
+        //this.hasGrass = true;
         Random rand = new Random();
         if(rand.nextInt(10) < 5) {
-            this.grassType = 12;
+            this.hasGrass = false;
         }else {
-            this.grassType = rand.nextInt(12);
+            this.hasGrass = true;
+
+            if (rand.nextInt(10) < 5) {
+                this.grassType = 12;
+            } else {
+                this.grassType = rand.nextInt(12);
+            }
         }
     }
 
     public ModelFieldCell(ModelUnit content) {
         this.content = content;
         this.hasGrass = false;
+        Random rand = new Random();
+        if(rand.nextInt(10) < 5) {
+            this.grassType = 12;
+        }else {
+            this.grassType = rand.nextInt(12);
+        }
     }
 
     public ModelUnit getContent() {

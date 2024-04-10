@@ -61,9 +61,9 @@ public class ModelGame {
         this.selected = null;
         this.isBuying = "";
 
-        this.money = 200;
+        this.money = 10;
         this.score = 0;
-        this.timeLeft = 300;
+        this.timeLeft = 600;
 
         this.gridSystem = new GridSystem(this, this.vueMainGame);
         this.pathfinder = new AStarPathfinder(this.gridSystem.getWidth(), this.gridSystem.getHeight(), this.gridSystem.getWalkable());
