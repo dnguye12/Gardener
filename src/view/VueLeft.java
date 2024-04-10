@@ -146,7 +146,7 @@ public class VueLeft extends JPanel {
                         lineOfSightRadius * 2, lineOfSightRadius * 2);
             }
             helper = this.toolkit.getImage(gardener.getAnimation());
-            g2.drawImage(helper, position.x, position.y, this);
+            g2.drawImage(helper, position.x - 21, position.y - 24, this);
         }
     }
 
@@ -159,7 +159,7 @@ public class VueLeft extends JPanel {
         for(ModelPlant plant : plants.values()) {
             Image img = this.toolkit.getImage(plant.getType().getPlantImage(plant.getStage()));
             Point position = plant.getPosition();
-            g.drawImage(img, position.x, position.y, this);
+            g.drawImage(img, position.x, position.y, 60,60, this);
         }
     }
 
@@ -327,7 +327,7 @@ public class VueLeft extends JPanel {
                     case 11 -> img = this.IMGGrass11;
                     case 12 -> img = this.IMGGrass12;
                 }
-                g.drawImage(img, i * 30, j * 30, this);
+                g.drawImage(img, i * 60, j * 60, 60,60,this);
             }
         }
     }

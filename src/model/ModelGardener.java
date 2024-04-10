@@ -22,6 +22,7 @@ public class ModelGardener extends ModelUnit{
     private AStarPathfinder pathfinder; // Calculateur de chemin A*.
     private ArrayList<Point> currentPath; // Chemin actuel calculé par A*
     private boolean initPath; // Indique si le chemin initial a été défini.
+    private boolean asyncPath; // Indique si le chemin est calculé de manière asynchrone.
     public enum Status {
         IDLING("Idling"),
         MOVING("Moving");
@@ -47,6 +48,7 @@ public class ModelGardener extends ModelUnit{
         this.pathfinder = game.getPathfinder();
         this.currentPath = new ArrayList<>();
         this.initPath = false;
+        this.asyncPath = true;
     }
     public Status getStatus() {
         return this.status;
@@ -96,8 +98,12 @@ public class ModelGardener extends ModelUnit{
             return;
         }
         this.dest = dest;
+        this.asyncPath = false;
         MusicPlayer.playMove();
-        this.pathfinder.findPathAsync(this.position, this.dest).thenAccept(path -> this.currentPath = path);
+        this.pathfinder.findPathAsync(this.position, this.dest).thenAccept(path ->  {
+            this.currentPath = path;
+            this.asyncPath = true;
+        });
     }
 
     public String getAnimation() {
@@ -117,23 +123,28 @@ public class ModelGardener extends ModelUnit{
         int dx = this.dest.x - this.position.x;
         int dy = this.dest.y - this.position.y;
         double distance = Math.sqrt(dx * dx + dy * dy);
-        if(distance <= SPEED || this.currentPath.size() == 0) {
+        if((distance < SPEED && this.asyncPath) || this.currentPath.size() == 0) {
             if(this.initPath) {
                 this.position = new Point(this.dest);
             }
             this.status = Status.IDLING;
             this.currentPath.clear();
         }else {
-            Point helper = this.currentPath.get(0);
             if(!this.initPath) {
                 this.initPath = true;
             }
-            helper = new Point(helper.x * GridSystem.CELL_SIZE, helper.y * GridSystem.CELL_SIZE);
+            Point helper;
+            if(this.currentPath.size() > 1) {
+                helper = this.currentPath.get(0);
+                helper = new Point(helper.x * GridSystem.CELL_SIZE, helper.y * GridSystem.CELL_SIZE);
+            }else {
+                helper = new Point(this.dest);
+            }
 
             dx = helper.x - this.position.x;
             dy = helper.y - this.position.y;
             distance = Math.sqrt(dx * dx + dy * dy);
-            if(distance <= SPEED) {
+            if(distance <= SPEED && this.asyncPath) {
                 this.position = new Point(helper);
                 this.currentPath.remove(0);
             }else {
@@ -151,8 +162,15 @@ public class ModelGardener extends ModelUnit{
     public void plant() {
         if(this.canPlant()) {
             this.game.setMoney(this.game.getMoney() - 10);
-            this.game.addPlant(new ModelPlant(IdGen.generatePlantId(), this.position, ModelPlant.PlantType.randomType(), this.game));
+            ModelFieldCell cell = this.game.getField().getCell(this.position);
+            cell.setGrass(false);
+
+            ModelPlant plant = new ModelPlant(IdGen.generatePlantId(), this.game.getField().getCellPosition(this.position), ModelPlant.PlantType.randomType(), this.game);
+            this.game.addPlant(plant);
+            cell.setContent(plant);
         }
+
+
     }
 
     // Vérifie si le jardinier peut planter des plantes à proximité.
@@ -160,11 +178,9 @@ public class ModelGardener extends ModelUnit{
         if(this.game.getMoney() < 10) {
             return false;
         }
-        for(Integer id : this.game.getPlants().keySet()) {
-            ModelPlant plant = this.game.getPlants().get(id);
-            if(plant != null && this.position.distance(plant.getPosition()) <= 30) {
-                return false;
-            }
+        ModelFieldCell cell = this.game.getField().getCell(this.position);
+        if(!cell.hasGrass()) {
+            return false;
         }
         return true;
     }
