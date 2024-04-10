@@ -33,6 +33,7 @@ public class VueLeft extends JPanel {
     private Image dropEgg;
     private Image dropChicken;
     private Image IMGChickenHouse;
+    private Image IMGGrass0, IMGGrass1, IMGGrass2, IMGGrass3, IMGGrass4, IMGGrass5, IMGGrass6, IMGGrass7, IMGGrass8, IMGGrass9, IMGGrass10, IMGGrass11, IMGGrass12;
     public VueLeft(VueMainGame vueMainGame, ModelGame game) {
         this.vueMainGame = vueMainGame;
         this.toolkit = Toolkit.getDefaultToolkit();
@@ -70,6 +71,20 @@ public class VueLeft extends JPanel {
         this.dropEgg = this.toolkit.getImage("src/assets/maingame/drop/egg.png");
         this.dropChicken = this.toolkit.getImage("src/assets/maingame/drop/chicken.png");
         this.IMGChickenHouse = this.toolkit.getImage("src/assets/maingame/chicken/house.png");
+
+        this.IMGGrass0 = this.toolkit.getImage("src/assets/maingame/grass/0.png");
+        this.IMGGrass1 = this.toolkit.getImage("src/assets/maingame/grass/1.png");
+        this.IMGGrass2 = this.toolkit.getImage("src/assets/maingame/grass/2.png");
+        this.IMGGrass3 = this.toolkit.getImage("src/assets/maingame/grass/3.png");
+        this.IMGGrass4 = this.toolkit.getImage("src/assets/maingame/grass/4.png");
+        this.IMGGrass5 = this.toolkit.getImage("src/assets/maingame/grass/5.png");
+        this.IMGGrass6 = this.toolkit.getImage("src/assets/maingame/grass/6.png");
+        this.IMGGrass7 = this.toolkit.getImage("src/assets/maingame/grass/7.png");
+        this.IMGGrass8 = this.toolkit.getImage("src/assets/maingame/grass/8.png");
+        this.IMGGrass9 = this.toolkit.getImage("src/assets/maingame/grass/9.png");
+        this.IMGGrass10 = this.toolkit.getImage("src/assets/maingame/grass/10.png");
+        this.IMGGrass11 = this.toolkit.getImage("src/assets/maingame/grass/11.png");
+        this.IMGGrass12 = this.toolkit.getImage("src/assets/maingame/grass/12.png");
     }
 
     @Override
@@ -77,6 +92,7 @@ public class VueLeft extends JPanel {
         super.paintComponent(g);
 
         g.drawImage(this.bgImage, 0,0, this);
+        this.drawGrass(g);
 
         if(this.game.getHasChickenHouse()) {
             this.drawChickenHouse(g);
@@ -95,6 +111,11 @@ public class VueLeft extends JPanel {
         this.drawCoin(g);
         this.drawScore(g);
         this.drawTimeLeft(g);
+
+        //this.drawTile(g);
+        this.drawWalkable(g);
+        //this.drawField(g);
+
         this.drawCursor();
     }
 
@@ -280,4 +301,74 @@ public class VueLeft extends JPanel {
         ModelChickenHouse chickenHouse = this.game.getChickenHouse();
         g.drawImage(this.IMGChickenHouse, chickenHouse.getPosition().x, chickenHouse.getPosition().y, this);
     }
+
+    public void drawGrass(Graphics g) {
+        ModelFieldCell[][] grid = this.game.getField().getGrid();
+
+        for(int i = 0; i < grid.length; i++) {
+            for(int j = 0; j < grid[i].length; j++) {
+                if(!grid[i][j].hasGrass()) {
+                    continue;
+                }
+                int helper = grid[i][j].getGrassType();
+                Image img = null;
+                switch (helper) {
+                    case 0 -> img = this.IMGGrass0;
+                    case 1 -> img = this.IMGGrass1;
+                    case 2 -> img = this.IMGGrass2;
+                    case 3 -> img = this.IMGGrass3;
+                    case 4 -> img = this.IMGGrass4;
+                    case 5 -> img = this.IMGGrass5;
+                    case 6 -> img = this.IMGGrass6;
+                    case 7 -> img = this.IMGGrass7;
+                    case 8 -> img = this.IMGGrass8;
+                    case 9 -> img = this.IMGGrass9;
+                    case 10 -> img = this.IMGGrass10;
+                    case 11 -> img = this.IMGGrass11;
+                    case 12 -> img = this.IMGGrass12;
+                }
+                g.drawImage(img, i * 30, j * 30, this);
+            }
+        }
+    }
+
+    public void drawTile(Graphics g) {
+        boolean[][] grid = this.game.getGridSystem().getWalkable();
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                // Check if the sum of row and column indices is even or odd
+                if ((i + j) % 2 == 0) {
+                    g.setColor(new Color(0, 255, 0, 30)); // Green for even
+                } else {
+                    g.setColor(new Color(255, 0, 0, 30)); // Red for odd
+                }
+                g.fillRect(i * GridSystem.CELL_SIZE, j * GridSystem.CELL_SIZE, GridSystem.CELL_SIZE, GridSystem.CELL_SIZE);
+            }
+        }
+    }
+
+    public void drawWalkable(Graphics g) {
+        boolean[][] grid = this.game.getGridSystem().getWalkable();
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                if(!grid[i][j]) {
+                    g.setColor(new Color(0, 255, 0, 30)); // Green for even
+                    g.fillRect(i * GridSystem.CELL_SIZE, j * GridSystem.CELL_SIZE, GridSystem.CELL_SIZE, GridSystem.CELL_SIZE);
+                }
+            }
+        }
+    }
+
+    public void drawField(Graphics g) {
+        ModelFieldCell[][] grid = this.game.getField().getGrid();
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                if(grid[i][j].getContent() != null) {
+                    g.setColor(new Color(0, 0, 255, 30)); // Green for even
+                    g.fillRect(i * 30, j * 30, 30, 30);
+                }
+            }
+        }
+    }
+
 }

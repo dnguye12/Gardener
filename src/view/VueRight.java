@@ -334,7 +334,7 @@ public class VueRight extends JPanel {
 
     public void drawChickenHouse(Graphics g) {
         int x, y;
-        Font font = FontGetter.getFont();
+        Font font = FontGetter.getFont().deriveFont(32f);
 
         ModelChickenHouse chickenHouse = this.game.getChickenHouse();
 

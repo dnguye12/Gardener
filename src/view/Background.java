@@ -44,8 +44,8 @@ public class Background {
             Random random = new Random();
 
             int helper;
-            for (int i = 0; i < this.vueMainGame.getLeft_width(); i += 32) {
-                for (int j = 0; j < this.vueMainGame.getScreen_height(); j += 32) {
+            for (int i = 0; i < this.vueMainGame.getLeft_width(); i += 30) {
+                for (int j = 0; j < this.vueMainGame.getScreen_height(); j += 30) {
                     helper = random.nextInt(30) + 1;
                     Image tile;
                     switch (helper) {
@@ -68,7 +68,7 @@ public class Background {
                             tile = tile0;
                             break;
                     }
-                    g2d.drawImage(tile, i, j, 32, 32, null);
+                    g2d.drawImage(tile, i, j, 30, 30, null);
                 }
             }
             HashMap<Integer, ModelObstacle> obstacles = this.game.getObstacles();
@@ -78,7 +78,7 @@ public class Background {
                 helper2 = ImageIO.read(new File(obstacle.getImgLink()));
                 x = obstacle.getPosition().x;
                 y = obstacle.getPosition().y;
-                g2d.drawImage(helper2, x, y, 48, 48, null);
+                g2d.drawImage(helper2, x, y, 60, 60, null);
             }
         }catch (IOException e) {
             e.printStackTrace();

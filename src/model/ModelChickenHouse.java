@@ -13,6 +13,9 @@ public class ModelChickenHouse extends ModelUnit{
     public int getChickenCount() {
         return this.chickenCount;
     }
+    public void setChickenCount(int chickenCount) {
+        this.chickenCount = chickenCount;
+    }
 
     public void spawnChicken() {
         int money = this.game.getMoney();

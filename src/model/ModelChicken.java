@@ -22,6 +22,7 @@ public class ModelChicken extends ModelUnit{
     private long lastLayEggTime;
     private int eggCount;
     public static final int EGG_MAX = 5;
+    public ModelChickenHouse chickenHouse;
     public enum Status {
         IDLING("Idling"),
         MOVING("Moving"),
@@ -40,6 +41,7 @@ public class ModelChicken extends ModelUnit{
     public ModelChicken(int id, Point position, ModelGame game) {
         super(id, position, position);
         this.game = game;
+        this.chickenHouse = this.game.getChickenHouse();
         this.status = Status.IDLING;
 
         this.lastStateChangeTime = System.currentTimeMillis();
@@ -154,6 +156,7 @@ public class ModelChicken extends ModelUnit{
                 this.game.addDrop(chickenDrop);
                 this.game.addChickenToDie(this.id);
                 MusicPlayer.playChickenDie();
+                this.chickenHouse.setChickenCount(this.chickenHouse.getChickenCount() - 1);
             }
         }
     }

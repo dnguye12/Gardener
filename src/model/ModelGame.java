@@ -7,6 +7,7 @@ import view.VueMainGame;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Random;
 
 /**
@@ -29,6 +30,7 @@ public class ModelGame {
     private ArrayList<Integer> chickensToDie;
     private boolean hasChickenHouse;
     private ModelChickenHouse chickenHouse;
+    private ModelField field;
     private int money;
     private int score;
     private int timeLeft; // Temps restant dans le jeu.
@@ -54,6 +56,8 @@ public class ModelGame {
         this.chickenHouse = null;
         this.chickensToDie = new ArrayList<>();
 
+        this.field = new ModelField(this, this.vueMainGame);
+
         this.selected = null;
         this.isBuying = "";
 
@@ -73,6 +77,7 @@ public class ModelGame {
      * Initialise les obstacles du jeu de manière aléatoire.
      */
     private void initObstacles() {
+        HashSet<Point> already = new HashSet<>();
         Random rand = new Random();
         int helperx = this.vueMainGame.getLeft_width() / GridSystem.OBSTACLE_SIZE - 2;
         int helpery = this.vueMainGame.getScreen_height() / GridSystem.OBSTACLE_SIZE - 2;
@@ -81,9 +86,12 @@ public class ModelGame {
             while(true) {
                 x = rand.nextInt(helperx) + 1;
                 y = rand.nextInt(helpery) + 1;
-                if(Math.abs(x - (this.vueMainGame.getLeft_width() / GridSystem.OBSTACLE_SIZE) / 2) >= 5 && Math.abs(y - (this.vueMainGame.getLeft_width() / GridSystem.OBSTACLE_SIZE) / 2) >= 5) {
-                    break;
+                Point helper = new Point(x, y);
+                if(already.contains(helper)) {
+                    continue;
                 }
+                already.add(helper);
+                break;
             }
             this.obstacles.put(i, new ModelObstacle(i, new Point(x * GridSystem.OBSTACLE_SIZE, y * GridSystem.OBSTACLE_SIZE)));
         }
@@ -251,6 +259,9 @@ public class ModelGame {
     public void setChickenHouse(ModelChickenHouse chickenHouse) {
         this.chickenHouse = chickenHouse;
         this.hasChickenHouse = true;
+    }
+    public ModelField getField() {
+        return this.field;
     }
     /**
      * Réinitialise le jeu en effaçant toutes les entités (jardiniers, plantes, lapins, obstacles, objets récupérables),
