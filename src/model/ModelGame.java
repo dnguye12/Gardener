@@ -23,6 +23,7 @@ public class ModelGame {
     private HashMap<Integer, ModelGardener> gardeners;
     private HashMap<Integer, ModelPlant> plants;
     private ArrayList<Integer> plantsToHarvest;
+    private SeedSystem seedSystem;
     private HashMap<Integer, ModelRabbit> rabbits;
     private HashMap<Integer, ModelObstacle> obstacles;
     private HashMap<Integer, ModelDrop> drops;
@@ -44,6 +45,8 @@ public class ModelGame {
 
         this.plants = new HashMap<>();
         this.plantsToHarvest = new ArrayList<Integer>();
+        this.seedSystem = new SeedSystem();
+        this.seedSystem.findSeed(ModelPlant.PlantType.MUSHROOM);
 
         this.rabbits = new HashMap<>();
 
@@ -183,6 +186,9 @@ public class ModelGame {
 
     public void addPlant(ModelPlant plant) {
         this.plants.putIfAbsent(plant.getId(), plant);
+    }
+    public SeedSystem getSeedSystem() {
+        return this.seedSystem;
     }
 
     public HashMap<Integer, ModelRabbit> getRabbits() {

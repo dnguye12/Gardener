@@ -32,6 +32,8 @@ public class VueLeft extends JPanel {
     private Image dropChicken;
     private Image IMGChickenHouse;
     private Image IMGGrass0, IMGGrass1, IMGGrass2, IMGGrass3, IMGGrass4, IMGGrass5, IMGGrass6, IMGGrass7, IMGGrass8, IMGGrass9, IMGGrass10, IMGGrass11, IMGGrass12;
+    private Image dropMilk, dropPoop;
+    private Image seedMushroom, seedWheat, seedTomato, seedSoleil;
     public VueLeft(VueMainGame vueMainGame, ModelGame game) {
         this.vueMainGame = vueMainGame;
         this.toolkit = Toolkit.getDefaultToolkit();
@@ -84,6 +86,14 @@ public class VueLeft extends JPanel {
         this.IMGGrass10 = this.toolkit.getImage("src/assets/maingame/grass/10.png");
         this.IMGGrass11 = this.toolkit.getImage("src/assets/maingame/grass/11.png");
         this.IMGGrass12 = this.toolkit.getImage("src/assets/maingame/grass/12.png");
+
+        this.dropMilk = this.toolkit.getImage("src/assets/maingame/drop/milk.png");
+        this.dropPoop = this.toolkit.getImage("src/assets/maingame/drop/poop.png");
+
+        this.seedMushroom = this.toolkit.getImage("src/assets/maingame/seed/mushroom.png");
+        this.seedWheat = this.toolkit.getImage("src/assets/maingame/seed/wheat.png");
+        this.seedTomato = this.toolkit.getImage("src/assets/maingame/seed/tomato.png");
+        this.seedSoleil = this.toolkit.getImage("src/assets/maingame/seed/soleil.png");
     }
 
     @Override
@@ -113,7 +123,7 @@ public class VueLeft extends JPanel {
         this.drawTimeLeft(g);
 
         //this.drawTile(g);
-        this.drawWalkable(g);
+        //this.drawWalkable(g);
         //this.drawField(g);
 
         this.drawCursor();
@@ -284,6 +294,17 @@ public class VueLeft extends JPanel {
                 g.drawImage(this.dropEgg, position.x, height.y, this);
             }else if(drop instanceof  ModelChickenDrop) {
                 g.drawImage(this.dropChicken, position.x, height.y, this);
+            }else if(drop instanceof  ModelMilkDrop) {
+                g.drawImage(this.dropMilk, position.x, height.y, this);
+            }else if(drop instanceof  ModelPoopDrop) {
+                g.drawImage(this.dropPoop, position.x, height.y, this);
+            }else if(drop instanceof  ModelSeedDrop) {
+                switch (((ModelSeedDrop) drop).getType()) {
+                    case WHEAT -> g.drawImage(this.seedWheat, position.x, height.y, this);
+                    case TOMATO -> g.drawImage(this.seedTomato, position.x, height.y, this);
+                    case SUNFLOWER -> g.drawImage(this.seedSoleil, position.x, height.y, this);
+                    case MUSHROOM -> g.drawImage(this.seedMushroom, position.x, height.y, this);
+                }
             }
         }
     }

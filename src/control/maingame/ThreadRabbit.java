@@ -22,6 +22,7 @@ public class ThreadRabbit extends Thread{
             ArrayList<Integer> toRemove = new ArrayList<>();
             for (ModelRabbit rabbit : this.rabbits.values()) {
                 rabbit.move();
+                rabbit.drop();
                 if(rabbit.getStatus() == ModelRabbit.Status.EATING) {
                     rabbit.eat();
                 }else {

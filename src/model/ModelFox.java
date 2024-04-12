@@ -133,6 +133,9 @@ public class ModelFox extends ModelUnit{
 
         boolean helper = false;
         for(ModelDrop d : this.game.getDrops().values()) {
+            if(!(d instanceof ModelEggDrop ||d instanceof  ModelChickenDrop)) {
+                continue;
+            }
             for(ModelGardener gardener : this.game.getGardeners().values()) {
                 if(d.getPosition().distance(gardener.getPosition()) <= gardener.getRadius()) {
                     helper = true;

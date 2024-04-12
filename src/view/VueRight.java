@@ -5,6 +5,7 @@ import model.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
 
 /**
  * Classe VueRight représentant le panneau droit de l'interface utilisateur du jeu.
@@ -27,6 +28,7 @@ public class VueRight extends JPanel {
     private Image IMGCowHappy, IMGCowSad;
     private Image IMGChickenTalk, IMGChickenButton;
     private Image IMGFoxTalk;
+    private Image seedEmpty, seedMushroom, seedWheat, seedTomato, seedSoleil;
     public VueRight(VueMainGame vueMainGame ,ModelGame game) {
         this.vueMainGame = vueMainGame;
         this.toolkit = Toolkit.getDefaultToolkit();
@@ -89,6 +91,12 @@ public class VueRight extends JPanel {
         this.IMGChickenButton = this.toolkit.getImage("src/assets/maingame/chicken/button.png");
 
         this.IMGFoxTalk = this.toolkit.getImage("src/assets/maingame/fox/foxTalk.png");
+
+        this.seedEmpty = this.toolkit.getImage("src/assets/maingame/seed/empty.png");
+        this.seedMushroom = this.toolkit.getImage("src/assets/maingame/seed/mushroom.png");
+        this.seedWheat = this.toolkit.getImage("src/assets/maingame/seed/wheat.png");
+        this.seedTomato = this.toolkit.getImage("src/assets/maingame/seed/tomato.png");
+        this.seedSoleil = this.toolkit.getImage("src/assets/maingame/seed/soleil.png");
     }
 
     @Override
@@ -128,6 +136,37 @@ public class VueRight extends JPanel {
         g.drawImage(this.IMGshopTalk, x, y, this);
         y += this.IMGshopTalk.getHeight(this) + 50;
 
+        HashMap<ModelPlant.PlantType, Boolean> seeds = this.game.getSeedSystem().getFoundSeed();
+        g.drawImage(this.IMGGarActionOff0, x, y, this);
+        x += (this.IMGGarActionOff0.getWidth(this) - this.seedEmpty.getWidth(this) * 4 - 10 * 3) / 2;
+        y += (this.IMGGarActionOff0.getHeight(this) - this.seedEmpty.getHeight(this)) / 2;
+        for(ModelPlant.PlantType type : seeds.keySet()) {
+            Image seed = null;
+            switch (type) {
+                case MUSHROOM:
+                    seed = this.seedMushroom;
+                    break;
+                case WHEAT:
+                    seed = this.seedWheat;
+                    break;
+                case TOMATO:
+                    seed = this.seedTomato;
+                    break;
+                case SUNFLOWER:
+                    seed = this.seedSoleil;
+                    break;
+            }
+            if(seeds.get(type)) {
+                g.drawImage(seed, x, y, this);
+            }else {
+                g.drawImage(this.seedEmpty, x, y, this);
+            }
+            x += this.seedEmpty.getWidth(this) + 10;
+        }
+        y += this.seedEmpty.getHeight(this) + (this.IMGGarActionOff0.getHeight(this) - this.seedEmpty.getHeight(this)) / 2;
+        y += 10;
+
+        x = (this.getWidth() - this.IMGshopTalk.getWidth(this)) / 2;
         int money = this.game.getMoney();
         if(money >= 200) {
             g.drawImage(this.IMGshop1, x, y, this);

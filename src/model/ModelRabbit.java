@@ -25,10 +25,13 @@ public class ModelRabbit extends ModelUnit{
     private int dieTime; // Temps avant que le lapin sortir de faim.
     private boolean foundPlant; // Indique si le lapin a trouvé une plante à manger.
     private ModelPlant eatingPlant; // Plante que le lapin est en train de manger.
+    private boolean hasEaten; // Indique si le lapin a mangé une plante.
     private Direction direction; // Direction du lapin.
     private int animationState;
     private AStarPathfinder pathfinder; // Algorithme de recherche de chemin pour le déplacement.
     private ArrayList<Point> currentPath; // Chemin actuel suivi par le lapin.
+    private final int MILK_RATE = 0;
+    private final int SEED_RATE = 10;
     /**
      * Énumération des différents statuts possibles pour un lapin.
      */
@@ -288,7 +291,32 @@ public class ModelRabbit extends ModelUnit{
                     this.lastStateChangeTime = System.currentTimeMillis();
                     this.eatingPlant = null;
                     this.foundPlant = false;
+                    this.hasEaten = true;
                 }
         }
     }
+
+    public void drop() {
+        Random random = new Random();
+        if(random.nextInt(10) < 5 ) {
+            if (this.hasEaten) {
+                Random rand = new Random();
+                int drop = rand.nextInt(10) + 1;
+                ModelDrop dr0p;
+                if (drop < this.MILK_RATE) {
+                    dr0p = new ModelMilkDrop(IdGen.generateDropId(), this.position);
+                } else {
+                    ModelPlant.PlantType helper = this.game.getSeedSystem().getRandomNotFound();
+                    if (helper != null && drop < this.MILK_RATE + this.SEED_RATE) {
+                        dr0p = new ModelSeedDrop(IdGen.generateDropId(), this.position, helper);
+                    } else {
+                        dr0p = new ModelPoopDrop(IdGen.generateDropId(), this.position);
+                    }
+                }
+                this.game.addDrop(dr0p);
+            }
+        }
+        this.hasEaten = false;
+    }
+
 }

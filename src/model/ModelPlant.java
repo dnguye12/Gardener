@@ -49,10 +49,6 @@ public class ModelPlant extends ModelUnit{
         public int getMoney() {
             return this.stageCount * 5;
         }
-
-        public static PlantType randomType() {
-            return PlantType.values()[(int) (Math.random() * PlantType.values().length)];
-        }
     }
     private final PlantType type;
     private int stage; // L'étape actuelle de croissance de la plante.

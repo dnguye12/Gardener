@@ -168,7 +168,7 @@ public class ModelGardener extends ModelUnit{
             ModelFieldCell cell = this.game.getField().getCell(this.position);
             cell.setGrass(false);
 
-            ModelPlant plant = new ModelPlant(IdGen.generatePlantId(), this.game.getField().getCellPosition(this.position), ModelPlant.PlantType.randomType(), this.game);
+            ModelPlant plant = new ModelPlant(IdGen.generatePlantId(), this.game.getField().getCellPosition(this.position), this.game.getSeedSystem().getRandomFound(), this.game);
             this.game.addPlant(plant);
             cell.setContent(plant);
         }
@@ -264,6 +264,17 @@ public class ModelGardener extends ModelUnit{
                     this.game.setMoney(this.game.getMoney() + 25);
                     this.game.setScore(this.game.getScore() + 25);
                     MusicPlayer.playChicken();
+                }else if(drop instanceof ModelMilkDrop) {
+                    this.game.removeDrop(id);
+                    this.game.setMoney(this.game.getMoney() + 20);
+                    this.game.setScore(this.game.getScore() + 20);
+                    MusicPlayer.playPickup();
+                }else if(drop instanceof ModelPoopDrop) {
+                    this.game.removeDrop(id);
+                }else if(drop instanceof ModelSeedDrop) {
+                    this.game.removeDrop(id);
+                    this.game.getSeedSystem().findSeed(((ModelSeedDrop) drop).getType());
+                    MusicPlayer.playPickup();
                 }
             }
         }
