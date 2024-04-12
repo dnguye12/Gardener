@@ -12,6 +12,7 @@ public class ModelPlant extends ModelUnit{
      * santé maximale, nombre d'étapes de croissance, et vitesse de croissance.
      */
     public enum PlantType {
+        MUSHROOM("mushroom", 200, 2, 300),
         WHEAT("wheat" ,500, 4, 500),
         SUNFLOWER("soliel", 300, 4, 300),
         TOMATO("tomato", 300, 4, 300);

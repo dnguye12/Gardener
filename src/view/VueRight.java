@@ -25,6 +25,8 @@ public class VueRight extends JPanel {
     private Image IMGBar0, IMGBar1, IMGBar2;
     private Image cursorNormal;
     private Image IMGCowHappy, IMGCowSad;
+    private Image IMGChickenTalk, IMGChickenButton;
+    private Image IMGFoxTalk;
     public VueRight(VueMainGame vueMainGame ,ModelGame game) {
         this.vueMainGame = vueMainGame;
         this.toolkit = Toolkit.getDefaultToolkit();
@@ -82,6 +84,11 @@ public class VueRight extends JPanel {
         this.IMGHouseTalk = this.toolkit.getImage("src/assets/maingame/chicken/houseTalk.png");
         this.IMGHouseAction1 = this.toolkit.getImage("src/assets/maingame/right/house1.png");
         this.IMGHouseActionOff1 = this.toolkit.getImage("src/assets/maingame/right/houseoff1.png");
+
+        this.IMGChickenTalk = this.toolkit.getImage("src/assets/maingame/chicken/chickenTalk.png");
+        this.IMGChickenButton = this.toolkit.getImage("src/assets/maingame/chicken/button.png");
+
+        this.IMGFoxTalk = this.toolkit.getImage("src/assets/maingame/fox/foxTalk.png");
     }
 
     @Override
@@ -102,6 +109,8 @@ public class VueRight extends JPanel {
                 this.drawChicken(g);
             }else if(selected instanceof ModelChickenHouse) {
                 this.drawChickenHouse(g);
+            }else if(selected instanceof  ModelFox) {
+                this.drawFox(g);
             }
         }else {
             this.drawShop(g);
@@ -202,7 +211,7 @@ public class VueRight extends JPanel {
         y = 50;
         g.drawImage(this.IMGPlantTalk, x, y, this);
         Image IMGPlant = this.toolkit.getImage(plant.getType().getPlantImage(plant.getStage()));
-        g.drawImage(IMGPlant, x + 29, y + 27, this);
+        g.drawImage(IMGPlant, x + 29, y + 27, 50, 50, this);
 
         //Affichage du nom de la plante
         g.setFont(font);
@@ -315,10 +324,10 @@ public class VueRight extends JPanel {
         Font font = FontGetter.getFont().deriveFont(28f);
 
         //Affichage de l'image du lapin
-        x = (this.getWidth() - this.IMGCowTalk.getWidth(this)) / 2;
+        x = (this.getWidth() - this.IMGChickenTalk.getWidth(this)) / 2;
         y = 50;
-        g.drawImage(this.IMGCowTalk, x, y, this);
-        y += this.IMGCowTalk.getHeight(this) + 50;
+        g.drawImage(this.IMGChickenTalk, x, y, this);
+        y += this.IMGChickenTalk.getHeight(this) + 50;
 
         //Affichage de l'état du lapin
         x = (this.getWidth() - this.IMGGarActionOff0.getWidth(this)) / 2;
@@ -330,6 +339,25 @@ public class VueRight extends JPanel {
         int numberX = x + (this.IMGGarActionOff0.getWidth(this) - fm.stringWidth(status)) / 2;
         int numberY = y + ((this.IMGGarActionOff0.getHeight(this) - fm.getHeight()) / 2) + fm.getAscent() + 10;
         g.drawString(status, numberX, numberY);
+        y += this.IMGGarActionOff0.getHeight(this) + 10;
+
+        //Plant hp
+        int hp = chicken.getEggCount();
+        int maxHP = chicken.getEggMax();
+        hp = maxHP - hp;
+        g.drawImage(this.IMGChickenButton, x , y , this);
+        int xHeart = (this.getWidth() - IMGHearth0.getWidth(this) * maxHP - 5 * maxHP) /2;
+        int yHeart = y + (this.IMGChickenButton.getHeight(this) - IMGHearth0.getHeight(this)) / 2;
+        for(int i = 1; i <= maxHP; i++) {
+            if(i <= hp) {
+                g.drawImage(this.IMGHearth1, xHeart, yHeart, this);
+
+            }else {
+                g.drawImage(this.IMGHearth0, xHeart, yHeart, this);
+            }
+            xHeart += this.IMGHearth1.getWidth(this) + 5;
+        }
+        y += this.IMGChickenButton.getHeight(this) + 10;
     }
 
     public void drawChickenHouse(Graphics g) {
@@ -359,6 +387,50 @@ public class VueRight extends JPanel {
             g.drawImage(this.IMGHouseAction1, x, y, this);
         }else {
             g.drawImage(this.IMGHouseActionOff1, x, y, this);
+        }
+    }
+
+    public void drawFox(Graphics g) {
+        int x, y;
+        ModelFox fox = (ModelFox)this.game.getSelected();
+        Font font = FontGetter.getFont().deriveFont(28f);
+
+        //Affichage de l'image du lapin
+        x = (this.getWidth() - this.IMGFoxTalk.getWidth(this)) / 2;
+        y = 50;
+        g.drawImage(this.IMGFoxTalk, x, y, this);
+        y += this.IMGFoxTalk.getHeight(this) + 50;
+
+        //Affichage de l'état du lapin
+        x = (this.getWidth() - this.IMGGarActionOff0.getWidth(this)) / 2;
+        g.drawImage(this.IMGGarActionOff0, x, y, this);
+        g.setFont(font);
+        g.setColor(new Color(107,75,91));
+        String status = fox.getStatus().getName().toUpperCase();
+        FontMetrics fm = g.getFontMetrics(font);
+        int numberX = x + (this.IMGGarActionOff0.getWidth(this) - fm.stringWidth(status)) / 2;
+        int numberY = y + ((this.IMGGarActionOff0.getHeight(this) - fm.getHeight()) / 2) + fm.getAscent() + 10;
+        g.drawString(status, numberX, numberY);
+        y += this.IMGGarActionOff0.getHeight(this) + 10;
+
+        //Rabbit quit time
+        int time = fox.getDieTime();
+        g.drawImage(this.IMGPlantButton, x , y , this);
+
+        int xHelper = (this.getWidth() - this.IMGBar0.getWidth(this) * 10 - 2 * 10 - this.IMGCowHappy.getWidth(this) * 2) /2;
+        int yHelper = y + (this.IMGPlantButton.getHeight(this) - this.IMGCowHappy.getHeight(this)) / 2;
+        g.drawImage(this.IMGCowSad, xHelper, yHelper, this);
+        g.drawImage(this.IMGCowHappy, xHelper + this.IMGCowHappy.getWidth(this) + 2 + this.IMGBar0.getWidth(this) * 10 + 2 * 10, yHelper, this);
+
+        xHelper += this.IMGCowHappy.getWidth(this) + 2;
+        yHelper = y + (this.IMGPlantButton.getHeight(this) - this.IMGBar0.getHeight(this)) / 2;
+        for(int i = 1; i <= 10; i++) {
+            if (i <= time / 1500) {
+                g.drawImage(this.IMGBar1, xHelper, yHelper, this);
+            }else {
+                g.drawImage(this.IMGBar0, xHelper, yHelper, this);
+            }
+            xHelper += this.IMGBar0.getWidth(this) + 2;
         }
     }
 }

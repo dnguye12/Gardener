@@ -15,7 +15,7 @@ public class ThreadDrop extends Thread {
     }
 
     @Override
-    public void run() {
+    public synchronized void run() {
         while (true) {
             HashMap<Integer, ModelDrop> drops = game.getDrops();
             for (ModelDrop drop : drops.values()) {

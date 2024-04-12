@@ -1,6 +1,7 @@
 package view;
 
 import control.animation.AnimationChicken;
+import control.animation.AnimationFox;
 import control.animation.AnimationGardener;
 import control.animation.AnimationRabbit;
 import control.maingame.*;
@@ -67,6 +68,10 @@ public class VueMainGame {
         ThreadChicken threadChicken = new ThreadChicken(this.game);
         AnimationChicken animationChicken = new AnimationChicken(this.game);
 
+        FoxGen foxGen = new FoxGen(this.game);
+        ThreadFox threadFox = new ThreadFox(this.game);
+        AnimationFox animationFox = new AnimationFox(this.game);
+
         ThreadField threadField = new ThreadField(this.game);
 
         this.frame.pack();
@@ -85,6 +90,10 @@ public class VueMainGame {
 
         threadChicken.start();
         animationChicken.start();
+
+        foxGen.start();
+        threadFox.start();
+        animationFox.start();
 
         threadTime.start();
 

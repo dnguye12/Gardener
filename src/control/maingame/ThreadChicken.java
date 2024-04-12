@@ -16,7 +16,7 @@ public class ThreadChicken extends Thread {
     }
 
     @Override
-    public synchronized  void run() {
+    public synchronized void run() {
         while (true) {
             for (ModelChicken chicken : this.chickens.values()) {
                 chicken.move();

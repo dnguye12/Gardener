@@ -51,6 +51,22 @@ public class MouseListenerVueLeft implements MouseListener {
                         return;
                     }
                 }
+                HashMap<Integer, ModelChicken> chickens = this.game.getChickens();
+                for(ModelChicken chicken : chickens.values()) {
+                    Point center = chicken.getPosition();
+                    double dx = Math.abs(center.x - e.getPoint().x);
+                    double dy = Math.abs(center.y - e.getPoint().y);
+                    if(dx * dx + dy * dy <= 42 * 42) {
+                        if(selected != null) {
+                            selected.setSelected(false);
+                            MusicPlayer.playChicken();
+                        }
+                        chicken.setSelected(true);
+                        this.game.setSelected(chicken);
+                        return;
+                    }
+                }
+
                 if(this.game.getChickenHouse() != null) {
                     Point center2 = this.game.getChickenHouse().getPosition();
                     double dx2 = Math.abs(center2.x - e.getPoint().x);
@@ -81,6 +97,21 @@ public class MouseListenerVueLeft implements MouseListener {
                     }
                 }
 
+                HashMap<Integer, ModelFox> foxes = this.game.getFoxes();
+                for(ModelFox fox : foxes.values()) {
+                    Point center = fox.getPosition();
+                    double dx = Math.abs(center.x - e.getPoint().x);
+                    double dy = Math.abs(center.y - e.getPoint().y);
+                    if (dx * dx + dy * dy <= 50 * 50) {
+                        if (selected != null) {
+                            selected.setSelected(false);
+                            MusicPlayer.playFox();
+                        }
+                        fox.setSelected(true);
+                        this.game.setSelected(fox);
+                        return;
+                    }
+                }
 
                 HashMap<Integer, ModelRabbit> rabbits = this.game.getRabbits();
                 for (ModelRabbit rabbit : rabbits.values()) {
@@ -94,21 +125,6 @@ public class MouseListenerVueLeft implements MouseListener {
                         }
                         rabbit.setSelected(true);
                         this.game.setSelected(rabbit);
-                        return;
-                    }
-                }
-
-                HashMap<Integer, ModelChicken> chickens = this.game.getChickens();
-                for(ModelChicken chicken : chickens.values()) {
-                    Point center = chicken.getPosition();
-                    double dx = Math.abs(center.x - e.getPoint().x);
-                    double dy = Math.abs(center.y - e.getPoint().y);
-                    if(dx * dx + dy * dy <= 42 * 42) {
-                        if(selected != null) {
-                            selected.setSelected(false);
-                        }
-                        chicken.setSelected(true);
-                        this.game.setSelected(chicken);
                         return;
                     }
                 }

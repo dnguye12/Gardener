@@ -28,6 +28,7 @@ import java.util.Random;
             }
             for (int i = 0; i <= 3; i++) {
                 loadSound("move" + i, "src/assets/sound/move" + i + ".wav");
+                loadSound("fox" + i, "src/assets/sound/fox" + i + ".wav");
             }
             for(int i = 0; i <= 2; i++) {
                 loadSound("chicken" + i, "src/assets/sound/chicken" + i + ".wav");
@@ -101,5 +102,8 @@ import java.util.Random;
         }
         public static void playChickenDie() {
             playSound("chickendie");
+        }
+        public static void playFox() {
+            playSound("fox" + rand.nextInt(4));
         }
     }

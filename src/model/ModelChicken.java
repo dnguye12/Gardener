@@ -22,6 +22,8 @@ public class ModelChicken extends ModelUnit{
     private long lastLayEggTime;
     private int eggCount;
     public static final int EGG_MAX = 5;
+    private int HP = 500;
+    private int MAX_HP = 500;
     public ModelChickenHouse chickenHouse;
     public enum Status {
         IDLING("Idling"),
@@ -97,6 +99,16 @@ public class ModelChicken extends ModelUnit{
     public ArrayList<Point> getCurrentPath() {
         return currentPath;
     }
+    public int getEggCount() {
+        return eggCount;
+    }
+    public int getEggMax() {
+        return EGG_MAX;
+    }
+
+    public boolean isAlive() {
+        return this.HP > 0 && this.eggCount <= EGG_MAX;
+    }
 
     public void move() {
         long currentTime = System.currentTimeMillis();
@@ -159,5 +171,14 @@ public class ModelChicken extends ModelUnit{
                 this.chickenHouse.setChickenCount(this.chickenHouse.getChickenCount() - 1);
             }
         }
+    }
+
+    public boolean isWithinLineOfSight() {
+        for(ModelGardener gardener : this.game.getGardeners().values()) {
+            if(this.position.distance(gardener.getPosition()) <= gardener.getRadius()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

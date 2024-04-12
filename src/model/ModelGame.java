@@ -28,6 +28,7 @@ public class ModelGame {
     private HashMap<Integer, ModelDrop> drops;
     private HashMap<Integer, ModelChicken> chickens;
     private ArrayList<Integer> chickensToDie;
+    private HashMap<Integer, ModelFox> foxes;
     private boolean hasChickenHouse;
     private ModelChickenHouse chickenHouse;
     private ModelField field;
@@ -56,12 +57,14 @@ public class ModelGame {
         this.chickenHouse = null;
         this.chickensToDie = new ArrayList<>();
 
+        this.foxes = new HashMap<>();
+
         this.field = new ModelField(this, this.vueMainGame);
 
         this.selected = null;
         this.isBuying = "";
 
-        this.money = 10;
+        this.money = 200;
         this.score = 0;
         this.timeLeft = 600;
 
@@ -260,6 +263,37 @@ public class ModelGame {
         this.chickenHouse = chickenHouse;
         this.hasChickenHouse = true;
     }
+    public HashMap<Integer, ModelFox> getFoxes() {
+        return this.foxes;
+    }
+    public void addFox() {
+        Random rand = new Random();
+        int helperx = this.vueMainGame.getLeft_width() - 50;
+        int helpery = this.vueMainGame.getScreen_height() - 50;
+
+        // 0 = up, 1 = right, 2 = down, 3 = left
+        int dir = rand.nextInt(4);
+
+        int x,y;
+        if(dir == 0) {
+            x = rand.nextInt(helperx);
+            y = 0;
+        }else if(dir == 1) {
+            x = helperx;
+            y = rand.nextInt(helpery);
+        }else if(dir == 2) {
+            x = rand.nextInt(helperx);
+            y = helpery;
+        }else {
+            x = 0;
+            y = rand.nextInt(helpery);
+        }
+        Point point = new Point(x, y);
+        int helper =  x <= 600 ? -1 : 1;
+        int idf = IdGen.generateFoxId();
+        this.foxes.put(idf, new ModelFox(idf, point, point, this, helper, this.vueMainGame));
+        MusicPlayer.playFox();
+    }
     public ModelField getField() {
         return this.field;
     }
@@ -275,6 +309,9 @@ public class ModelGame {
         this.rabbits.clear();
         this.obstacles.clear();
         this.drops.clear();
+        this.chickens.clear();
+        this.chickensToDie.clear();
+        this.foxes.clear();
 
         this.selected = null;
         this.isBuying = "";

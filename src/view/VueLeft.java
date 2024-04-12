@@ -27,9 +27,7 @@ public class VueLeft extends JPanel {
     private Image cursorNormal;
     private Image cursorHover;
     private Cursor c;
-    private Image dropWheat;
-    private Image dropTomato;
-    private Image dropSoleil;
+    private Image dropMushroom, dropWheat, dropTomato, dropSoleil;
     private Image dropEgg;
     private Image dropChicken;
     private Image IMGChickenHouse;
@@ -67,6 +65,7 @@ public class VueLeft extends JPanel {
         this.dropWheat = this.toolkit.getImage("src/assets/maingame/drop/wheat.png");
         this.dropTomato = this.toolkit.getImage("src/assets/maingame/drop/tomato.png");
         this.dropSoleil = this.toolkit.getImage("src/assets/maingame/drop/soleil.png");
+        this.dropMushroom = this.toolkit.getImage("src/assets/maingame/drop/mushroom.png");
 
         this.dropEgg = this.toolkit.getImage("src/assets/maingame/drop/egg.png");
         this.dropChicken = this.toolkit.getImage("src/assets/maingame/drop/chicken.png");
@@ -103,6 +102,7 @@ public class VueLeft extends JPanel {
         this.drawDrop(g);
         this.drawGardeners(g);
         this.drawRabbit(g);
+        this.drawFox(g);
 
         if(this.game.getIsBuying().length() > 0) {
             this.drawHover(g);
@@ -278,6 +278,7 @@ public class VueLeft extends JPanel {
                     case WHEAT -> g.drawImage(this.dropWheat, position.x, height.y, this);
                     case TOMATO -> g.drawImage(this.dropTomato, position.x, height.y, this);
                     case SUNFLOWER -> g.drawImage(this.dropSoleil, position.x, height.y, this);
+                    case MUSHROOM -> g.drawImage(this.dropMushroom, position.x, height.y, this);
                 }
             }else if(drop instanceof  ModelEggDrop) {
                 g.drawImage(this.dropEgg, position.x, height.y, this);
@@ -329,6 +330,17 @@ public class VueLeft extends JPanel {
                 }
                 g.drawImage(img, i * 60, j * 60, 60,60,this);
             }
+        }
+    }
+
+    public void drawFox(Graphics g) {
+        Image helper;
+        HashMap<Integer, ModelFox> foxes = this.game.getFoxes();
+
+        for(ModelFox fox : foxes.values()) {
+            helper = this.toolkit.getImage(fox.getAnimation());
+            Point position = fox.getPosition();
+            g.drawImage(helper, position.x, position.y, this);
         }
     }
 

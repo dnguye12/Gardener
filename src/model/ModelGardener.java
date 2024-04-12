@@ -120,6 +120,9 @@ public class ModelGardener extends ModelUnit{
      * Gère également l'initialisation du chemin et son nettoyage une fois atteint.
      */
     public void move() {
+        if(!asyncPath) {
+            return;
+        }
         int dx = this.dest.x - this.position.x;
         int dy = this.dest.y - this.position.y;
         double distance = Math.sqrt(dx * dx + dy * dy);
@@ -129,7 +132,7 @@ public class ModelGardener extends ModelUnit{
             }
             this.status = Status.IDLING;
             this.currentPath.clear();
-        }else if(this.asyncPath){
+        }else {
             if(!this.initPath) {
                 this.initPath = true;
             }
@@ -210,9 +213,9 @@ public class ModelGardener extends ModelUnit{
     public ArrayList<Integer> dropsNear() {
         HashMap<Integer, ModelDrop> drops = this.game.getDrops();
         ArrayList<Integer> helper = new ArrayList<Integer>();
-
+        Point helperPos = new Point(this.position.x - 21, this.position.y - 24);
         for(ModelDrop drop : drops.values()) {
-            if(this.position.distance(drop.getPosition()) <= 30) {
+            if(helperPos.distance(drop.getPosition()) <= 30) {
                 helper.add(drop.getId());
             }
         }
