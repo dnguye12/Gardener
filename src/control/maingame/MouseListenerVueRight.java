@@ -59,13 +59,17 @@ public class MouseListenerVueRight implements MouseListener {
                 }
             }
         }else {
+            System.out.println(e.getY());
             if(e.getX() >= 55 && e.getX() <= 345) {
-                if(e.getY() >= 225 && e.getY() <= 315) {
+                if(e.getY() >= 315 && e.getY() <= 405) {
                     MusicPlayer.playClick();
                     this.game.setIsBuying("Gardener");
-                }else if(e.getY() >= 330 && e.getY() <= 420 && !this.game.getHasChickenHouse()) {
+                }else if(e.getY() >= 420 && e.getY() <= 510 && !this.game.getHasChickenHouse()) {
                     MusicPlayer.playClick();
                     this.game.setIsBuying("ChickenHouse");
+                }else if(e.getY() >= 535 && e.getY() <= 625) {
+                    MusicPlayer.playClick();
+                    this.game.quit();
                 }
             }
         }

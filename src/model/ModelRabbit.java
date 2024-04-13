@@ -30,8 +30,8 @@ public class ModelRabbit extends ModelUnit{
     private int animationState;
     private AStarPathfinder pathfinder; // Algorithme de recherche de chemin pour le déplacement.
     private ArrayList<Point> currentPath; // Chemin actuel suivi par le lapin.
-    private final int MILK_RATE = 0;
-    private final int SEED_RATE = 10;
+    private final int MILK_RATE = 2;
+    private final int SEED_RATE = 1;
     /**
      * Énumération des différents statuts possibles pour un lapin.
      */

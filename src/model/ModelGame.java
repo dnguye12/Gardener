@@ -67,7 +67,7 @@ public class ModelGame {
         this.selected = null;
         this.isBuying = "";
 
-        this.money = 200;
+        this.money = 10;
         this.score = 0;
         this.timeLeft = 600;
 
@@ -302,6 +302,10 @@ public class ModelGame {
     }
     public ModelField getField() {
         return this.field;
+    }
+
+    public void quit() {
+        this.vueMainGame.quit();
     }
     /**
      * Réinitialise le jeu en effaçant toutes les entités (jardiniers, plantes, lapins, obstacles, objets récupérables),

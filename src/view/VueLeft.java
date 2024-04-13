@@ -13,27 +13,24 @@ import java.util.HashMap;
  * Classe représentant la vue gauche du jeu, affichant les éléments de jeu tels que les plantes, les jardiniers, et les objets collectables.
  */
 public class VueLeft extends JPanel {
-    private final VueMainGame vueMainGame;
+    private final VueMainGame vueMainGame; // Référence à la vue principale du jeu.
     private final Toolkit toolkit;
     ModelGame game;
-    private Image bgImage;
-    private Image obstacleImage;
-    private MouseMotionVueLeft vueLeftMouseMotion;
-    private Image IMGCoinSign;
-    private Image IMGScoreSign;
-    private Image IMGTimeSign;
-    private Image IMGHoverGardener;
-    private Image IMGHoverChickenHouse;
-    private Image cursorNormal;
-    private Image cursorHover;
+    private Image bgImage; // Image de fond de la vue gauche.
+    private Image obstacleImage; // Image des obstacles.
+    private MouseMotionVueLeft vueLeftMouseMotion; // Objet MouseMotionVueLeft pour gérer les événements de souris.
+    private Image IMGCoinSign; // Image de l'indicateur de monie.
+    private Image IMGScoreSign; // Image de l'indicateur de score.
+    private Image IMGTimeSign; // Image de l'indicateur de temps restant.
+    private Image IMGHoverGardener; // Image de l'indicateur de survol pour l'achat de jardinier.
+    private Image IMGHoverChickenHouse; // Image de l'indicateur de survol pour l'achat de poulailler.
+    private Image cursorNormal; // Image du curseur normal.
+    private Image cursorHover; // Image du curseur en mode survol.
     private Cursor c;
-    private Image dropMushroom, dropWheat, dropTomato, dropSoleil;
-    private Image dropEgg;
-    private Image dropChicken;
-    private Image IMGChickenHouse;
-    private Image IMGGrass0, IMGGrass1, IMGGrass2, IMGGrass3, IMGGrass4, IMGGrass5, IMGGrass6, IMGGrass7, IMGGrass8, IMGGrass9, IMGGrass10, IMGGrass11, IMGGrass12;
-    private Image dropMilk, dropPoop;
-    private Image seedMushroom, seedWheat, seedTomato, seedSoleil;
+    private Image dropMushroom, dropWheat, dropTomato, dropSoleil, dropEgg, dropChicken, dropMilk, dropPoop; // Images des objets collectables.
+    private Image IMGChickenHouse; // Image du poulailler.
+    private Image IMGGrass0, IMGGrass1, IMGGrass2, IMGGrass3, IMGGrass4, IMGGrass5, IMGGrass6, IMGGrass7, IMGGrass8, IMGGrass9, IMGGrass10, IMGGrass11, IMGGrass12; // Images des différents types de gazon.
+    private Image seedMushroom, seedWheat, seedTomato, seedSoleil; // Images des graines.
     public VueLeft(VueMainGame vueMainGame, ModelGame game) {
         this.vueMainGame = vueMainGame;
         this.toolkit = Toolkit.getDefaultToolkit();
@@ -100,9 +97,11 @@ public class VueLeft extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        //Dessin du fond
         g.drawImage(this.bgImage, 0,0, this);
         this.drawGrass(g);
 
+        //Dessin des objets
         if(this.game.getHasChickenHouse()) {
             this.drawChickenHouse(g);
         }
@@ -114,14 +113,17 @@ public class VueLeft extends JPanel {
         this.drawRabbit(g);
         this.drawFox(g);
 
+        //Affichage de l'indicateur de survol si l'utilisateur est en mode achat
         if(this.game.getIsBuying().length() > 0) {
             this.drawHover(g);
         }
 
+        //Indicateurs de monies, score et temps restant
         this.drawCoin(g);
         this.drawScore(g);
         this.drawTimeLeft(g);
 
+        //Test
         //this.drawTile(g);
         //this.drawWalkable(g);
         //this.drawField(g);
@@ -141,6 +143,7 @@ public class VueLeft extends JPanel {
         for(ModelGardener gardener : gardeners.values()) {
             Point position = gardener.getPosition();
             helper = this.toolkit.getImage(gardener.getAnimation());
+            //Dessin du rayon de récolte
             if(gardener.isSelected()) {
                 g2.setStroke(new BasicStroke(1));
                 g2.setColor(Color.BLUE);
@@ -156,6 +159,7 @@ public class VueLeft extends JPanel {
                 g2.fillOval(position.x + 25 - lineOfSightRadius - helper.getWidth(this) / 2, position.y + 25 - lineOfSightRadius - helper.getHeight(this) / 2,
                         lineOfSightRadius * 2, lineOfSightRadius * 2);
             }
+            //Dessin du jardinier
             g2.drawImage(helper, position.x - helper.getWidth(this) / 2, position.y - helper.getHeight(this) / 2, this);
         }
     }
@@ -249,6 +253,7 @@ public class VueLeft extends JPanel {
     public void drawHover(Graphics g) {
         Graphics2D g2d = (Graphics2D) g.create();
 
+        // Definir l'opacité
         float opacity = 0.5f;
         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
 
@@ -309,6 +314,10 @@ public class VueLeft extends JPanel {
         }
     }
 
+    /**
+     * Dessine les poules sur le panel.
+     * @param g L'objet Graphics utilisé pour le dessin.
+     */
     public void drawChicken(Graphics g) {
         Image helper;
         HashMap<Integer, ModelChicken> chickens = this.game.getChickens();
@@ -319,11 +328,19 @@ public class VueLeft extends JPanel {
         }
     }
 
+    /**
+     * Dessine le poulailler sur le panel.
+     * @param g L'objet Graphics utilisé pour le dessin.
+     */
     public void drawChickenHouse(Graphics g) {
         ModelChickenHouse chickenHouse = this.game.getChickenHouse();
         g.drawImage(this.IMGChickenHouse, chickenHouse.getPosition().x, chickenHouse.getPosition().y, this);
     }
 
+    /**
+     * Dessine les différentes textures de gazon sur le panel.
+     * @param g L'objet Graphics utilisé pour le dessin.
+     */
     public void drawGrass(Graphics g) {
         ModelFieldCell[][] grid = this.game.getField().getGrid();
 
@@ -334,6 +351,7 @@ public class VueLeft extends JPanel {
                 }
                 int helper = grid[i][j].getGrassType();
                 Image img = null;
+                //Dessin du gazon, chaque type de gazon a une texture différente pour plus de variété
                 switch (helper) {
                     case 0 -> img = this.IMGGrass0;
                     case 1 -> img = this.IMGGrass1;
@@ -354,6 +372,10 @@ public class VueLeft extends JPanel {
         }
     }
 
+    /**
+     * Dessine les renards sur le panel.
+     * @param g L'objet Graphics utilisé pour le dessin.
+     */
     public void drawFox(Graphics g) {
         Image helper;
         HashMap<Integer, ModelFox> foxes = this.game.getFoxes();
@@ -365,6 +387,7 @@ public class VueLeft extends JPanel {
         }
     }
 
+    // Fonctions de test
     public void drawTile(Graphics g) {
         boolean[][] grid = this.game.getGridSystem().getWalkable();
         for (int i = 0; i < grid.length; i++) {

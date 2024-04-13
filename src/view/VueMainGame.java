@@ -119,6 +119,11 @@ public class VueMainGame {
         }
     }
 
+    public void quit() {
+        this.frame.dispose();
+        new VueEnd(this ,this.game);
+    }
+
     // Getters pour les dimensions de la vue
     public int getLeft_width() {
         return left_width;

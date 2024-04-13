@@ -12,23 +12,22 @@ import java.util.HashMap;
  * Affiche des informations détaillées et permet des interactions spécifiques en fonction de l'entité sélectionnée dans le jeu.
  */
 public class VueRight extends JPanel {
-    private VueMainGame vueMainGame;
+    private VueMainGame vueMainGame; // Référence à la vue principale du jeu
     private final Toolkit toolkit;
     private ModelGame game;
-    private Image IMGbg;
-    private Image IMGshopTalk, IMGCowTalk, IMGPlantTalk, IMGHouseTalk;
-    private Image IMGshop1, IMGshopoff1, IMGshop2, IMGshopoff2;
+    private Image IMGbg; // Image de fond du panneau droit
+    private Image IMGshopTalk, IMGCowTalk, IMGPlantTalk, IMGHouseTalk, IMGChickenTalk, IMGFoxTalk; // Images d'avatar pour les différentes entités
+    private Image IMGshop1, IMGshopoff1, IMGshop2, IMGshopoff2, IMGQuit; // Images pour les actions du magasin
     private Image IMGGar;
-    private Image IMGGarAction0, IMGGarAction1, IMGGarAction2, IMGGarAction3, IMGGarActionOff0, IMGGarActionOff1, IMGGarActionOff2, IMGGarActionOff3;
-    private Image IMGHouseAction1, IMGHouseActionOff1;
+    private Image IMGGarAction0, IMGGarAction1, IMGGarAction2, IMGGarAction3, IMGGarActionOff0, IMGGarActionOff1, IMGGarActionOff2, IMGGarActionOff3; // Images pour les actions du jardinier
+    private Image IMGHouseAction1, IMGHouseActionOff1; // Images pour les actions de poulailler
     private Image IMGPlantButton;
-    private Image IMGHearth0, IMGHearth1;
-    private Image IMGBar0, IMGBar1, IMGBar2;
+    private Image IMGHearth0, IMGHearth1; // Images pour les points de vie des objets
+    private Image IMGBar0, IMGBar1, IMGBar2; // Images pour les barres de progression
     private Image cursorNormal;
     private Image IMGCowHappy, IMGCowSad;
-    private Image IMGChickenTalk, IMGChickenButton;
-    private Image IMGFoxTalk;
-    private Image seedEmpty, seedMushroom, seedWheat, seedTomato, seedSoleil;
+    private Image IMGChickenButton;
+    private Image seedEmpty, seedMushroom, seedWheat, seedTomato, seedSoleil; // Images pour les graines
     public VueRight(VueMainGame vueMainGame ,ModelGame game) {
         this.vueMainGame = vueMainGame;
         this.toolkit = Toolkit.getDefaultToolkit();
@@ -56,6 +55,7 @@ public class VueRight extends JPanel {
         this.IMGshopoff1 = this.toolkit.getImage("src/assets/maingame/shop/shopoff1.png");
         this.IMGshop2 = this.toolkit.getImage("src/assets/maingame/shop/shop2.png");
         this.IMGshopoff2 = this.toolkit.getImage("src/assets/maingame/shop/shopoff2.png");
+        this.IMGQuit = this.toolkit.getImage("src/assets/maingame/shop/quit.png");
 
         this.IMGGar = this.toolkit.getImage("src/assets/maingame/right/gardener.png");
         this.IMGGarAction0 = this.toolkit.getImage("src/assets/maingame/right/gardeneraction0.png");
@@ -136,6 +136,7 @@ public class VueRight extends JPanel {
         g.drawImage(this.IMGshopTalk, x, y, this);
         y += this.IMGshopTalk.getHeight(this) + 50;
 
+        //Affichage des graines deja trouvées
         HashMap<ModelPlant.PlantType, Boolean> seeds = this.game.getSeedSystem().getFoundSeed();
         g.drawImage(this.IMGGarActionOff0, x, y, this);
         x += (this.IMGGarActionOff0.getWidth(this) - this.seedEmpty.getWidth(this) * 4 - 10 * 3) / 2;
@@ -166,6 +167,7 @@ public class VueRight extends JPanel {
         y += this.seedEmpty.getHeight(this) + (this.IMGGarActionOff0.getHeight(this) - this.seedEmpty.getHeight(this)) / 2;
         y += 10;
 
+        //Affichage des actions disponibles dans le magasin
         x = (this.getWidth() - this.IMGshopTalk.getWidth(this)) / 2;
         int money = this.game.getMoney();
         if(money >= 200) {
@@ -181,6 +183,8 @@ public class VueRight extends JPanel {
             g.drawImage(this.IMGshopoff2, x, y , this);
         }
         y += this.IMGshop2.getHeight(this) + 10;
+
+        g.drawImage(this.IMGQuit, x, y, this);
     }
 
     /**
@@ -357,18 +361,22 @@ public class VueRight extends JPanel {
             }
         }
 
+        /**
+         * Dessine les informations pour un poulet sélectionné.
+         * @param g L'objet Graphics pour le dessin.
+         */
     public void drawChicken(Graphics g) {
         int x, y;
         ModelChicken chicken = (ModelChicken) this.game.getSelected();
         Font font = FontGetter.getFont().deriveFont(28f);
 
-        //Affichage de l'image du lapin
+        //Affichage de l'image du poulet
         x = (this.getWidth() - this.IMGChickenTalk.getWidth(this)) / 2;
         y = 50;
         g.drawImage(this.IMGChickenTalk, x, y, this);
         y += this.IMGChickenTalk.getHeight(this) + 50;
 
-        //Affichage de l'état du lapin
+        //Affichage de l'état du poulet
         x = (this.getWidth() - this.IMGGarActionOff0.getWidth(this)) / 2;
         g.drawImage(this.IMGGarActionOff0, x, y, this);
         g.setFont(font);
@@ -380,7 +388,7 @@ public class VueRight extends JPanel {
         g.drawString(status, numberX, numberY);
         y += this.IMGGarActionOff0.getHeight(this) + 10;
 
-        //Plant hp
+        //Affichage des oeufs restants du poulet
         int hp = chicken.getEggCount();
         int maxHP = chicken.getEggMax();
         hp = maxHP - hp;
@@ -399,13 +407,16 @@ public class VueRight extends JPanel {
         y += this.IMGChickenButton.getHeight(this) + 10;
     }
 
+    /**
+     * Dessine les informations pour le poulailler s'il est sélectionné.
+     * @param g L'objet Graphics pour le dessin.
+     */
     public void drawChickenHouse(Graphics g) {
         int x, y;
         Font font = FontGetter.getFont().deriveFont(32f);
 
         ModelChickenHouse chickenHouse = this.game.getChickenHouse();
 
-        //Affichage de l'image du jardinier
         x = (this.getWidth() - this.IMGHouseTalk.getWidth(this)) / 2;
         y = 50;
         g.drawImage(this.IMGHouseTalk, x, y, this);
@@ -422,6 +433,7 @@ public class VueRight extends JPanel {
         g.drawString(chickenCount, numberX, numberY);
         y += this.IMGGarActionOff0.getHeight(this) + 10;
 
+        //Affichage le bouton pour acheter un poulet
         if(this.game.getMoney() >= 50) {
             g.drawImage(this.IMGHouseAction1, x, y, this);
         }else {
@@ -429,18 +441,22 @@ public class VueRight extends JPanel {
         }
     }
 
+    /**
+     * Dessine les informations pour un renard sélectionné.
+     * @param g L'objet Graphics pour le dessin.
+     */
     public void drawFox(Graphics g) {
         int x, y;
         ModelFox fox = (ModelFox)this.game.getSelected();
         Font font = FontGetter.getFont().deriveFont(28f);
 
-        //Affichage de l'image du lapin
+        //Affichage de l'image du renard
         x = (this.getWidth() - this.IMGFoxTalk.getWidth(this)) / 2;
         y = 50;
         g.drawImage(this.IMGFoxTalk, x, y, this);
         y += this.IMGFoxTalk.getHeight(this) + 50;
 
-        //Affichage de l'état du lapin
+        //Affichage de l'état du renard
         x = (this.getWidth() - this.IMGGarActionOff0.getWidth(this)) / 2;
         g.drawImage(this.IMGGarActionOff0, x, y, this);
         g.setFont(font);
@@ -452,7 +468,7 @@ public class VueRight extends JPanel {
         g.drawString(status, numberX, numberY);
         y += this.IMGGarActionOff0.getHeight(this) + 10;
 
-        //Rabbit quit time
+        //Renard quit time
         int time = fox.getDieTime();
         g.drawImage(this.IMGPlantButton, x , y , this);
 
