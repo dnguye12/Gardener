@@ -20,18 +20,18 @@ public class ModelGame {
     private VueMainGame vueMainGame;
     private ModelUnit selected; // Unité actuellement sélectionnée dans le jeu.
     private String isBuying; // État d'achat actuel
-    private HashMap<Integer, ModelGardener> gardeners;
-    private HashMap<Integer, ModelPlant> plants;
-    private ArrayList<Integer> plantsToHarvest;
-    private SeedSystem seedSystem;
-    private HashMap<Integer, ModelRabbit> rabbits;
-    private HashMap<Integer, ModelObstacle> obstacles;
-    private HashMap<Integer, ModelDrop> drops;
-    private HashMap<Integer, ModelChicken> chickens;
-    private ArrayList<Integer> chickensToDie;
-    private HashMap<Integer, ModelFox> foxes;
-    private boolean hasChickenHouse;
-    private ModelChickenHouse chickenHouse;
+    private HashMap<Integer, ModelGardener> gardeners; // Jardiniers du jeu.
+    private HashMap<Integer, ModelPlant> plants; // Plantes du jeu.
+    private ArrayList<Integer> plantsToHarvest; // Liste des plantes prêtes à être récoltées.
+    private SeedSystem seedSystem; // Système de graines pour les plantes.
+    private HashMap<Integer, ModelRabbit> rabbits; // Lapins du jeu.
+    private HashMap<Integer, ModelObstacle> obstacles; // Obstacles du jeu.
+    private HashMap<Integer, ModelDrop> drops; // Objets récupérables du jeu.
+    private HashMap<Integer, ModelChicken> chickens; // Poules du jeu.
+    private ArrayList<Integer> chickensToDie; // Liste des poules à supprimer.
+    private HashMap<Integer, ModelFox> foxes; // Renards du jeu.
+    private boolean hasChickenHouse; // Indique si le joueur a construit un poulailler.
+    private ModelChickenHouse chickenHouse; // Poulailler du jeu.
     private ModelField field;
     private int money;
     private int score;
@@ -46,12 +46,12 @@ public class ModelGame {
         this.plants = new HashMap<>();
         this.plantsToHarvest = new ArrayList<Integer>();
         this.seedSystem = new SeedSystem();
-        this.seedSystem.findSeed(ModelPlant.PlantType.MUSHROOM);
+        this.seedSystem.findSeed(ModelPlant.PlantType.MUSHROOM); // Le joueur commence avec la graine de champignon deja trouvée.
 
         this.rabbits = new HashMap<>();
 
         this.obstacles = new HashMap<>();
-        this.initObstacles();
+        this.initObstacles(); // Initialise les obstacles du jeu.
 
         this.drops = new HashMap<>();
 
@@ -76,7 +76,7 @@ public class ModelGame {
 
         int helperx = (this.vueMainGame.getLeft_width() - 50) / 2;
         int helpery = (this.vueMainGame.getScreen_height() - 50) / 2;
-        this.gardeners.put(0, new ModelGardener(0, new Point(helperx, helpery), new Point(helperx, helpery), this));
+        this.gardeners.put(0, new ModelGardener(0, new Point(helperx, helpery), new Point(helperx, helpery), this)); // Ajoute un jardinier par défaut au centre de l'écran.
     }
 
     /**
@@ -89,7 +89,7 @@ public class ModelGame {
         int helpery = this.vueMainGame.getScreen_height() / GridSystem.OBSTACLE_SIZE - 2;
         int x,y;
         for(int i = 1; i <= 20; i++) {
-            while(true) {
+            while(true) { // Trouve une position aléatoire pour l'obstacle, sans doublon.
                 x = rand.nextInt(helperx) + 1;
                 y = rand.nextInt(helpery) + 1;
                 Point helper = new Point(x, y);
@@ -115,6 +115,13 @@ public class ModelGame {
         return this.isBuying;
     }
 
+    /**
+     * Définit l'état d'achat actuel en fonction de la chaîne de caractères passée en paramètre.
+     * Si la chaîne est vide, l'état d'achat est réinitialisé.
+     * Si la chaîne est "Gardener" et que le joueur a suffisamment d'argent, l'état d'achat est défini à "Gardener".
+     * Si la chaîne est "ChickenHouse" et que le joueur a suffisamment d'argent, l'état d'achat est défini à "ChickenHouse".
+     * @param isBuying La chaîne de caractères représentant l'état d'achat.
+     */
     public void setIsBuying(String isBuying) {
         if(isBuying.equals("")) {
             this.isBuying = "";
@@ -125,6 +132,7 @@ public class ModelGame {
         }
     }
 
+    // getters et setters
     public int getMoney() {
         return this.money;
     }
@@ -272,6 +280,11 @@ public class ModelGame {
     public HashMap<Integer, ModelFox> getFoxes() {
         return this.foxes;
     }
+    /**
+     * Ajoute un nouveau renard dans le jeu à une position aléatoire.
+     * La direction initiale du renard est également déterminée aléatoirement parmi quatre directions possibles.
+     * Joue le son associé à l'apparition d'un renard.
+     */
     public void addFox() {
         Random rand = new Random();
         int helperx = this.vueMainGame.getLeft_width() - 50;

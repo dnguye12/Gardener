@@ -35,7 +35,10 @@ public class MouseListenerVueLeft implements MouseListener {
         ModelUnit selected = this.game.getSelected();
         String isBuying = this.game.getIsBuying();
         if(e.getButton() == MouseEvent.BUTTON1) {
+            // Si on n'est pas en train d'acheter
             if (isBuying.length() == 0) {
+                // On vérifie si on a cliqué sur un élément du jeu
+                // on boucle sur les éléments du jeu pour voir si on a cliqué dessus
                 HashMap<Integer, ModelGardener> gardeners = this.game.getGardeners();
                 for (ModelGardener gardener : gardeners.values()) {
                     Point center = gardener.getPosition();
@@ -129,6 +132,7 @@ public class MouseListenerVueLeft implements MouseListener {
                     }
                 }
 
+                // Si on a cliqué sur un élément vide, on désélectionne l'élément sélectionné
                 if (selected != null) {
                     MusicPlayer.playClick();
                     selected.setSelected(false);
@@ -153,10 +157,13 @@ public class MouseListenerVueLeft implements MouseListener {
                     }
                 }
             }
+            // Si on a fait un clic droit,
         }else if(e.getButton() == MouseEvent.BUTTON3) {
+            // Si on est en train d'acheter, on annule l'achat
             if(isBuying.length() > 0) {
                 this.game.setIsBuying("");
             }else {
+                // On déplace le jardinier si on a cliqué sur un jardinier
                 ModelUnit helper = this.game.getSelected();
                 if (helper != null) {
                     if (helper instanceof ModelGardener) {

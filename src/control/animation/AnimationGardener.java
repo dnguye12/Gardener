@@ -5,6 +5,9 @@ import model.ModelGardener;
 
 import java.util.HashMap;
 
+/**
+ * Gère l'animation des jardiniers.
+ */
 public class AnimationGardener extends Thread{
     private static final int DELAY = 500;
     private HashMap<Integer, ModelGardener> gardeners;

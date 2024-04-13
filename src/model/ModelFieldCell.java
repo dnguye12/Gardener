@@ -2,6 +2,9 @@ package model;
 
 import java.util.Random;
 
+/**
+ * Classe représentant une cellule du terrain de jeu.
+ */
 public class ModelFieldCell {
     private boolean hasGrass;
     private int grassType;
@@ -10,18 +13,13 @@ public class ModelFieldCell {
 
     public ModelFieldCell() {
         this.content = null;
-        //this.hasGrass = true;
         Random rand = new Random();
-        if(rand.nextInt(10) < 5) {
-            this.hasGrass = false;
-        }else {
             this.hasGrass = true;
-
-            if (rand.nextInt(10) < 5) {
-                this.grassType = 12;
-            } else {
-                this.grassType = rand.nextInt(12);
-            }
+        // Variety de l'herbe
+        if (rand.nextInt(10) < 5) {
+            this.grassType = 12;
+        } else {
+            this.grassType = rand.nextInt(12);
         }
     }
 

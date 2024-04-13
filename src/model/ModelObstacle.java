@@ -3,6 +3,10 @@ package model;
 import java.awt.*;
 import java.util.Random;
 
+/**
+ * ModelObstacle est une classe qui hérite de ModelUnit
+ * Elle représente un obstacle dans le jeu
+ */
 public class ModelObstacle extends ModelUnit {
     private String imgLink;
 

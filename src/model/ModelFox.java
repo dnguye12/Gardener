@@ -8,24 +8,26 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Modélise un renard dans le jeu.
+ */
 public class ModelFox extends ModelUnit{
     private VueMainGame vueMainGame;
     private final int SPEED = 5;
-    private final int MEMSPAN = 3000; // Temps pendant lequel le lapin se souvient de sa dernière action.
+    private final int MEMSPAN = 3000; // Temps pendant lequel le renard se souvient de sa dernière action.
     private ModelGame game;
-    private Status status; // Statut actuel du lapin (IDLE, MOVING, etc.).
-
+    private Status status; // Statut actuel du renard (IDLE, MOVING, etc.).
     private long lastStateChangeTime; // Dernier moment où le statut a changé.
-    private long lastMoveTime; // Dernier moment où le lapin s'est déplacé.
-    private int dieTime; // Temps avant que le lapin sortir de faim.
-    private boolean foundFood; // Indique si le lapin a trouvé une plante à manger.
+    private long lastMoveTime; // Dernier moment où le renard s'est déplacé.
+    private int dieTime; // Temps avant que le renard sortir de faim.
+    private boolean foundFood; // Indique si le renard a trouvé une plante à manger.
     private ModelDrop eatingDrop;
-    private Direction direction; // Direction du lapin.
+    private Direction direction; // Direction du renard.
     private int animationState;
     private AStarPathfinder pathfinder; // Algorithme de recherche de chemin pour le déplacement.
-    private ArrayList<Point> currentPath; // Chemin actuel suivi par le lapin.
+    private ArrayList<Point> currentPath; // Chemin actuel suivi par le renard.
     /**
-     * Énumération des différents statuts possibles pour un lapin.
+     * Énumération des différents statuts possibles pour un renard.
      */
     public enum Status {
         IDLING("Idling"),
@@ -100,8 +102,8 @@ public class ModelFox extends ModelUnit{
     }
 
     /**
-     * Détermine et définit la destination du lapin, en prenant en compte les obstacles.
-     * @param dest Nouvelle destination du lapin.
+     * Détermine et définit la destination du renard, en prenant en compte les obstacles.
+     * @param dest Nouvelle destination du renard.
      */
     @Override
     public void setDest(Point dest) {
@@ -124,8 +126,8 @@ public class ModelFox extends ModelUnit{
     }
 
     /**
-     * Trouve la plante la plus proche que le lapin peut manger (eviler les jardiniers).
-     * @return La plante la plus proche ou null si aucune plante n'est trouvée.
+     * Trouve l'objet la plus proche que le renard peut manger (eviler les jardiniers).
+     * @return l'objet la plus proche ou null si aucune n'est trouvée.
      */
     private ModelDrop findNearestFood() {
         ModelDrop res = null;
@@ -157,7 +159,7 @@ public class ModelFox extends ModelUnit{
     }
 
     /**
-     * Trouve le coin le plus proche pour que le lapin puisse s'enfuir.
+     * Trouve le coin le plus proche pour que le renard puisse s'enfuir.
      * @return Le point représentant le coin le plus proche.
      */
     private Point findNearestCorner() {
@@ -183,8 +185,8 @@ public class ModelFox extends ModelUnit{
     }
 
     /**
-     * Vérifie si le lapin est dans le champ de vision d'un jardinier.
-     * @return Vrai si le lapin est visible par au moins un jardinier, faux sinon.
+     * Vérifie si le renard est dans le champ de vision d'un jardinier.
+     * @return Vrai si le renard est visible par au moins un jardinier, faux sinon.
      */
     private boolean isWithinLineOfSight() {
         for(ModelGardener gardener : this.game.getGardeners().values()) {
@@ -198,25 +200,30 @@ public class ModelFox extends ModelUnit{
     }
 
     /**
-     * Déplace le lapin selon son statut actuel et met à jour sa position.
+     * Déplace le renard selon son statut actuel et met à jour sa position.
      */
     public void move() {
         long currentTime = System.currentTimeMillis();
+        // Si le renard n'est pas affamé, il peut se déplacer.
         if (this.dieTime > 0 && this.status != Status.QUITING) {
+            // Si le renard est visible par un jardinier, il doit fuir.
             if (isWithinLineOfSight() && this.status != Status.FLEEING) {
                 this.status = Status.FLEEING;
                 this.setDest(this.findNearestCorner());
                 this.lastStateChangeTime = currentTime;
             }
-            if (this.status == Status.FLEEING) {
+            // Si le renard est en train de fuir, il peut arrêter de fuir s'il a atteint sa destination ou si le temps de fuite est écoulé.
+            else if (this.status == Status.FLEEING) {
                 if (this.position.equals(this.dest) || currentTime - this.lastStateChangeTime > this.MEMSPAN) {
                     this.status = Status.IDLING;
                     this.lastStateChangeTime = currentTime;
                 }
-            } else if (status == Status.MOVING && currentTime - this.lastStateChangeTime > this.MEMSPAN) {
+            } // Si le renard est en train de se déplacer, il peut arrêter de se déplacer si le temps de déplacement est écoulé.
+            else if (status == Status.MOVING && currentTime - this.lastStateChangeTime > this.MEMSPAN) {
                 this.status = Status.IDLING;
                 this.lastStateChangeTime = currentTime;
-            } else if (status == Status.IDLING && currentTime - this.lastStateChangeTime > this.MEMSPAN) {
+            } // Si le renard est en train de se reposer, il peut soit deplacer vers la nourriture la plus proche, soit se déplacer aléatoirement.
+            else if (status == Status.IDLING && currentTime - this.lastStateChangeTime > this.MEMSPAN) {
                 ModelDrop nearestDrop = this.findNearestFood();
 
                 if(nearestDrop != null) {
@@ -230,14 +237,19 @@ public class ModelFox extends ModelUnit{
                 this.status = Status.MOVING;
                 this.lastStateChangeTime = currentTime;
             }
-        } else if (this.status != Status.QUITING) {
+        }
+        // Si le renard est trop faim, il doit quitter le jeu.
+        else if (this.status != Status.QUITING) {
             this.status = Status.QUITING;
             this.setDest(this.findNearestCorner());
         }
         if (this.status != Status.IDLING) {
+            // Calcul la distance entre la position actuelle et la destination.
             int dx = dest.x - position.x;
             int dy = dest.y - position.y;
             double dist = Math.sqrt(dx * dx + dy * dy);
+
+            // Si le renard est proche de sa destination, il peut teleporter à sa destination pour éviter les problèmes de collision.
             if(this.status == Status.MOVING && dist <= 25) {
                 this.currentPath.clear();
                 this.status = Status.EATING;
@@ -273,6 +285,10 @@ public class ModelFox extends ModelUnit{
         lastMoveTime = currentTime;
     }
 
+    /**
+     * Vérifie si le renard peut être retiré du jeu.
+     * @return Vrai si le renard peut être retiré, faux sinon.
+     */
     public boolean canBeRemoved() {
         if(this.status == Status.QUITING) {
             double dist = this.position.distance(this.dest);
@@ -281,6 +297,9 @@ public class ModelFox extends ModelUnit{
         return false;
     }
 
+    /**
+     * Fait manger le renard.
+     */
     public void eat() {
         if(this.eatingDrop == null) {
             this.status = Status.IDLING;

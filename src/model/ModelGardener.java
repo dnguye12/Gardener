@@ -58,6 +58,10 @@ public class ModelGardener extends ModelUnit{
         this.status = status;
     }
 
+    /**
+     * Retourne le rayon d'action du jardinier, augmenté en fonction de son niveau de promotion.
+     * @return Rayon d'action du jardinier.
+     */
     public int getRadius() {
         return this.RADIUS + this.promoteState * 25;
     }
@@ -120,13 +124,15 @@ public class ModelGardener extends ModelUnit{
      * Gère également l'initialisation du chemin et son nettoyage une fois atteint.
      */
     public void move() {
+        // Si le chemin n'est pas encore calculé, on ne fait rien.
         if(!asyncPath) {
             return;
         }
         int dx = this.dest.x - this.position.x;
         int dy = this.dest.y - this.position.y;
         double distance = Math.sqrt(dx * dx + dy * dy);
-        if((distance < SPEED && this.asyncPath) || this.currentPath.size() == 0) {
+        // Si la distance restante est inférieure à la vitesse du jardinier, on considère qu'il est arrivé.
+        if(distance < SPEED || this.currentPath.size() == 0) {
             if(this.initPath) {
                 this.position = new Point(this.dest);
             }
@@ -137,24 +143,30 @@ public class ModelGardener extends ModelUnit{
                 this.initPath = true;
             }
             Point helper;
+            // Si le chemin est plus long que 1, on prend le premier point du chemin.
             if(this.currentPath.size() > 1) {
                 helper = this.currentPath.get(0);
                 helper = new Point(helper.x * GridSystem.CELL_SIZE, helper.y * GridSystem.CELL_SIZE);
             }else {
+                // Sinon, on prend la destination.
                 helper = new Point(this.dest);
             }
 
+            // Calcul de la distance entre le jardinier et le point suivant.
             dx = helper.x - this.position.x;
             dy = helper.y - this.position.y;
             distance = Math.sqrt(dx * dx + dy * dy);
+            // Si la distance est inférieure à la vitesse, on considère que le jardinier est arrivé.
             if(distance <= SPEED) {
                 this.position = new Point(helper);
                 this.currentPath.remove(0);
             }else {
+                // Sinon, on calcule le pas à effectuer pour atteindre le point suivant.
                 double stepX = (dx / distance) * SPEED;
                 double stepY = (dy / distance) * SPEED;
                 this.direction.setDirection(this.position, helper);
 
+                // Déplacement du jardinier.
                 this.position = new Point((int) (this.position.x + stepX), (int) (this.position.y + stepY));
             }
             this.status = Status.MOVING;
@@ -162,9 +174,15 @@ public class ModelGardener extends ModelUnit{
         pickUpDrop();
     }
 
+    /**
+     * Plante une plante à proximité du jardinier si possible.
+     */
     public void plant() {
         if(this.canPlant()) {
+            // Déduit le coût de la plante du solde du joueur.
             this.game.setMoney(this.game.getMoney() - 10);
+
+            // Retire l'herbe de la cellule et plante une plante à sa place.
             ModelFieldCell cell = this.game.getField().getCell(this.position);
             cell.setGrass(false);
 
@@ -181,11 +199,10 @@ public class ModelGardener extends ModelUnit{
         if(this.game.getMoney() < 10) {
             return false;
         }
+
+        // Vérifie si la cellule contient de l'herbe.
         ModelFieldCell cell = this.game.getField().getCell(this.position);
-        if(!cell.hasGrass()) {
-            return false;
-        }
-        return true;
+        return cell.hasGrass();
     }
 
     /**

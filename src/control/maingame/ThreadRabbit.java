@@ -6,6 +6,9 @@ import model.ModelRabbit;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Thread pour gérer les lapins
+ */
 public class ThreadRabbit extends Thread{
     private ModelGame game;
     private HashMap<Integer, ModelRabbit> rabbits;

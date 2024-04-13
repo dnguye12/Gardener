@@ -30,8 +30,8 @@ public class ModelRabbit extends ModelUnit{
     private int animationState;
     private AStarPathfinder pathfinder; // Algorithme de recherche de chemin pour le déplacement.
     private ArrayList<Point> currentPath; // Chemin actuel suivi par le lapin.
-    private final int MILK_RATE = 2;
-    private final int SEED_RATE = 1;
+    private final int MILK_RATE = 2; // Taux de chance de laisser tomber du lait.
+    private final int SEED_RATE = 1; // Taux de chance de laisser tomber une graine.
     /**
      * Énumération des différents statuts possibles pour un lapin.
      */
@@ -197,12 +197,15 @@ public class ModelRabbit extends ModelUnit{
      */
     public void move() {
         long currentTime = System.currentTimeMillis();
+        // Si le lapin n'est pas affamé, il peut se déplacer.
         if (this.dieTime > 0 && this.status != Status.QUITING) {
+            // Si le lapin est visible par un jardinier, il doit s'enfuir.
             if (isWithinLineOfSight() && this.status != Status.FLEEING) {
                 this.status = Status.FLEEING;
                 this.setDest(this.findNearestCorner());
                 this.lastStateChangeTime = currentTime;
             }
+            // Si le lapin est en train de fuir, il doit arrêter de fuir s'il a atteint sa destination ou si le temps écoulé est supérieur à MEMSPAN.
             if (this.status == Status.FLEEING) {
                 if (this.position.equals(this.dest) || currentTime - this.lastStateChangeTime > this.MEMSPAN) {
                     this.status = Status.IDLING;
@@ -269,6 +272,10 @@ public class ModelRabbit extends ModelUnit{
         lastMoveTime = currentTime;
     }
 
+    /**
+     * Vérifie si le lapin peut être retiré du jeu.
+     * @return Vrai si le lapin peut être retiré, faux sinon.
+     */
     public boolean canBeRemoved() {
         if(this.status == Status.QUITING) {
             double dist = this.position.distance(this.dest);
@@ -277,6 +284,9 @@ public class ModelRabbit extends ModelUnit{
         return false;
     }
 
+    /**
+     * Fait manger le lapin, en diminuant la santé de la plante.
+     */
     public void eat() {
         if(this.eatingPlant == null) {
             this.status = Status.IDLING;
@@ -296,6 +306,9 @@ public class ModelRabbit extends ModelUnit{
         }
     }
 
+    /**
+     * Fait tomber un drop après que le lapin a mangé.
+     */
     public void drop() {
         Random random = new Random();
         if(random.nextInt(10) < 5 ) {

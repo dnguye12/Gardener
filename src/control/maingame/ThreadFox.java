@@ -6,6 +6,9 @@ import model.ModelGame;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Thread pour gérer les renards
+ */
 public class ThreadFox extends Thread{
     private ModelGame game;
     private HashMap<Integer, ModelFox> foxes;

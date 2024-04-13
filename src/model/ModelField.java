@@ -5,20 +5,23 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Random;
 
+/**
+ * Classe représentant le terrain de jeu.
+ */
 public class ModelField {
     private VueMainGame vueMainGame;
     private ModelGame game;
-    private final int CELL_SIZE = 60;
-    private ModelFieldCell[][] grid;
-    private int width;
-    private int height;
+    private final int CELL_SIZE = 60; // Taille d'une cellule
+    private ModelFieldCell[][] grid; // Grille de cellules
+    private int width; // Largeur de la grille
+    private int height; // Hauteur de la grille
 
     public ModelField(ModelGame game, VueMainGame vueMainGame ) {
         this.vueMainGame = vueMainGame;
         this.game = game;
 
-        this.width = this.vueMainGame.getLeft_width() / CELL_SIZE;
-        this.height = this.vueMainGame.getScreen_height() / CELL_SIZE;
+        this.width = this.vueMainGame.getLeft_width() / CELL_SIZE; // Largeur de la grille en nombre de cellules selon la largeur de l'écran
+        this.height = this.vueMainGame.getScreen_height() / CELL_SIZE;  // Hauteur de la grille en nombre de cellules selon la hauteur de l'écran
         this.grid = new ModelFieldCell[this.width][this.height];
 
         for(int i = 0; i < this.width; i++) {
@@ -29,6 +32,10 @@ public class ModelField {
         this.initObstacles();
     }
 
+    /**
+     * Initialise les obstacles sur le terrain.
+     * Les obstacles placés sur la grille rendre la case correspondante comme non herbeuse.
+     */
     private void initObstacles() {
         HashMap<Integer, ModelObstacle> obs = this.game.getObstacles();
         for(ModelObstacle o : obs.values()) {
@@ -43,6 +50,7 @@ public class ModelField {
         return this.grid;
     }
 
+    // Retourne une cellule de la grille selon une position donnée
     public ModelFieldCell getCell(Point point) {
         return this.grid[point.x / CELL_SIZE][point.y / CELL_SIZE];
     }
@@ -51,6 +59,10 @@ public class ModelField {
         return new Point((point.x / CELL_SIZE) * CELL_SIZE, (point.y / CELL_SIZE) * CELL_SIZE);
     }
 
+    /**
+     * Fait pousser de l'herbe sur le terrain.
+     * L'herbe pousse sur une case vide et non herbeuse avec un ratio selon le nombre de cases herbeuses voisines.
+     */
     public void growGrass() {
         Random rand = new Random();
         for(int i = 0; i < this.width; i++) {

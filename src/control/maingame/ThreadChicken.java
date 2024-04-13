@@ -5,6 +5,9 @@ import model.ModelGame;
 
 import java.util.HashMap;
 
+/**
+ * Gère les déplacements et les actions des poules.
+ */
 public class ThreadChicken extends Thread {
     private ModelGame game;
     private HashMap<Integer, ModelChicken> chickens;
@@ -19,8 +22,8 @@ public class ThreadChicken extends Thread {
     public synchronized void run() {
         while (true) {
             for (ModelChicken chicken : this.chickens.values()) {
-                chicken.move();
-                chicken.layEgg();
+                chicken.move(); // Déplacer la poule
+                chicken.layEgg(); // Pondre un oeuf si possible
             }
             this.game.removeChicken();
             try {

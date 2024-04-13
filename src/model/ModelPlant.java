@@ -47,7 +47,7 @@ public class ModelPlant extends ModelUnit{
         }
 
         public int getMoney() {
-            return this.stageCount * 5;
+            return this.stageCount * 5 + 10;
         }
     }
     private final PlantType type;

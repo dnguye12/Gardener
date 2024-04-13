@@ -5,6 +5,9 @@ import model.ModelRabbit;
 
 import java.util.HashMap;
 
+/**
+ * Gère l'animation des lapins.
+ */
 public class AnimationRabbit extends Thread {
     private static final int DELAY = 500;
     private HashMap<Integer, ModelRabbit> rabbits;

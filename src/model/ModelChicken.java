@@ -7,6 +7,9 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Classe représentant un poulet dans le jeu.
+ */
 public class ModelChicken extends ModelUnit{
     private final int SPEED = 3;
     private final int MEMSPAN = 3000;
@@ -20,8 +23,8 @@ public class ModelChicken extends ModelUnit{
     private ArrayList<Point> currentPath;
     private Status status;
     private long lastLayEggTime;
-    private int eggCount;
-    public static final int EGG_MAX = 5;
+    private int eggCount; // Le nombre d'œufs que le poulet a pondu
+    public static final int EGG_MAX = 5; // Le nombre maximum d'œufs qu'un poulet peut pondre avant de mourir
     private int HP = 500;
     private int MAX_HP = 500;
     public ModelChickenHouse chickenHouse;
@@ -58,6 +61,9 @@ public class ModelChicken extends ModelUnit{
         this.pathfinder = this.game.getPathfinder();
         this.currentPath = new ArrayList<>();
     }
+    /**
+     * Méthode pour mettre à jour l'état d'animation du poulet.
+     */
     public void nextAnimationState() {
         if(this.status == Status.IDLING) {
             this.idleState = 1 - this.idleState;
@@ -72,6 +78,9 @@ public class ModelChicken extends ModelUnit{
         }
     }
 
+    /**
+     * Méthode pour donner le lien de l'image d'animation du poulet selon son etat.
+     */
     public String getAnimation() {
         String helper = this.direction.getDirection() == 1 ? "right" : "left";
         if(this.status == Status.MOVING) {
@@ -110,6 +119,9 @@ public class ModelChicken extends ModelUnit{
         return this.HP > 0 && this.eggCount <= EGG_MAX;
     }
 
+    /**
+     * Méthode pour mettre à jour la position du poulet.
+     */
     public void move() {
         long currentTime = System.currentTimeMillis();
         if(status == Status.MOVING && currentTime - this.lastStateChangeTime > this.MEMSPAN) {
@@ -154,6 +166,9 @@ public class ModelChicken extends ModelUnit{
         }
     }
 
+    /**
+     * Méthode pour mettre à jour la santé du poulet.
+     */
     public void layEgg() {
         if(System.currentTimeMillis() -  this.lastLayEggTime > 10000) {
             if(this.eggCount < EGG_MAX) {
@@ -163,6 +178,7 @@ public class ModelChicken extends ModelUnit{
                 this.game.addDrop(egg);
                 MusicPlayer.playEgg();
             }else {
+                // Le poulet meurt si le nombre d'œufs pondus atteint le maximum
                 this.eggCount++;
                 ModelChickenDrop chickenDrop = new ModelChickenDrop(IdGen.generateDropId(), new Point(this.position));
                 this.game.addDrop(chickenDrop);

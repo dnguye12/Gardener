@@ -2,6 +2,9 @@ package model;
 
 import java.awt.*;
 
+/**
+ * Classe représentant un poulailler dans le jeu.
+ */
 public class ModelChickenHouse extends ModelUnit{
     private ModelGame game;
     private int chickenCount;
@@ -17,6 +20,7 @@ public class ModelChickenHouse extends ModelUnit{
         this.chickenCount = chickenCount;
     }
 
+    // Fonction pour faire apparaître un poulet
     public void spawnChicken() {
         int money = this.game.getMoney();
         if(money >= 50) {

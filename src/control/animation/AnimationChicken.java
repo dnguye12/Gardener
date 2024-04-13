@@ -5,6 +5,9 @@ import model.ModelGame;
 
 import java.util.HashMap;
 
+/**
+ * Gère l'animation des poules.
+ */
 public class AnimationChicken extends Thread{
     private static final int DELAY = 300;
     private HashMap<Integer, ModelChicken> chickens;

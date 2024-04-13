@@ -1,9 +1,11 @@
 package control.maingame;
 
 import model.ModelField;
-import model.ModelFieldCell;
 import model.ModelGame;
 
+/**
+ * Thread pour faire pousser l'herbe
+ */
 public class ThreadField extends Thread{
     private ModelGame game;
     private ModelField field;
@@ -17,7 +19,7 @@ public class ThreadField extends Thread{
     @Override
     public void run() {
         while (true) {
-            this.field.growGrass();
+            this.field.growGrass(); // Faire pousser l'herbe
             try {
                 Thread.sleep(DELAY);
             } catch (InterruptedException e) {

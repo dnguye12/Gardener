@@ -37,7 +37,9 @@ public class MouseListenerVueRight implements MouseListener {
     @Override
     public void mouseReleased(MouseEvent e) {
         ModelUnit selected = this.game.getSelected();
+        // Si on a déjà sélectionné un élément
         if(selected != null) {
+            // Si c'est un jardinier, on vérifie si on a cliqué sur un bouton d'action
             if (selected instanceof ModelGardener gardener) {
                 if (e.getX() >= 55 && e.getX() <= 345) {
                     if (e.getY() >= 307 && e.getY() <= 408) {
@@ -51,6 +53,7 @@ public class MouseListenerVueRight implements MouseListener {
                         gardener.upgrade();
                     }
                 }
+                // Si c'est un poulailler, on vérifie si on a cliqué sur le bouton de spawn
             }else if(selected instanceof ModelChickenHouse chickenHouse) {
                 if(e.getX() >= 55 && e.getX() <= 345) {
                     if(e.getY() >= 329 && e.getY() <= 430) {
@@ -59,7 +62,7 @@ public class MouseListenerVueRight implements MouseListener {
                 }
             }
         }else {
-            System.out.println(e.getY());
+            // Si on n'a pas sélectionné d'élément, on vérifie si on a cliqué sur un bouton d'achat 
             if(e.getX() >= 55 && e.getX() <= 345) {
                 if(e.getY() >= 315 && e.getY() <= 405) {
                     MusicPlayer.playClick();
